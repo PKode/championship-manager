@@ -8,18 +8,26 @@
         <version>0.0.1-SNAPSHOT</version>
     </parent>
 
-    <artifactId>championship-manager-infra</artifactId>
-    <name>championship-manager-infra</name>
-    <description>Infra for ChampionshipManager project</description>
+    <artifactId>championship-manager-app</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <name>championship-manager-app</name>
+    <description>Demo project for Spring Boot</description>
 
     <properties>
+        <java.version>11</java.version>
+        <kotlin.version>1.3.72</kotlin.version>
     </properties>
 
     <dependencies>
         <dependency>
             <groupId>fr.pk</groupId>
-            <artifactId>championship-manager-domain</artifactId>
-            <version>${domain.version}</version>
+            <artifactId>championship-manager-application</artifactId>
+            <version>${application.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>fr.pk</groupId>
+            <artifactId>championship-manager-infra</artifactId>
+            <version>${infra.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -52,6 +60,10 @@
         <testSourceDirectory>${project.basedir}/src/test/kotlin</testSourceDirectory>
         <plugins>
             <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+            <plugin>
                 <groupId>org.jetbrains.kotlin</groupId>
                 <artifactId>kotlin-maven-plugin</artifactId>
                 <configuration>
@@ -72,5 +84,4 @@
             </plugin>
         </plugins>
     </build>
-
 </project>
