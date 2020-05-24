@@ -18,11 +18,11 @@ class StaticChampionnatRepository : ChampionnatRepository {
 
     override fun findById(id: Long): Championnat {
         return championnats.firstOrNull { it.id == id }
-                ?: throw NoSuchElementException("Aucune championnat avec l'id :: $id")
+                ?: throw NoSuchElementException("Aucun championnat avec l'id :: $id")
     }
 
     override fun save(nom: String): Championnat {
-        val newChampionnat = Championnat(id = 2, nom = "Bundesliga")
+        val newChampionnat = Championnat(id = 2, nom = nom)
         championnats.add(newChampionnat)
         return newChampionnat
     }
@@ -30,6 +30,6 @@ class StaticChampionnatRepository : ChampionnatRepository {
     override fun remove(id: Long): Championnat {
         return championnats.firstOrNull { it.id == id }
                 .also { championnats.remove(it) }
-                ?: throw NoSuchElementException("Aucune championnat avec l'id :: $id à supprimer")
+                ?: throw NoSuchElementException("Aucun championnat avec l'id :: $id à supprimer")
     }
 }
