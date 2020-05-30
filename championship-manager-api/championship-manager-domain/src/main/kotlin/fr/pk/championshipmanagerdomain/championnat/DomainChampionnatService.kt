@@ -8,7 +8,7 @@ class DomainChampionnatService(private val championnatRepository: ChampionnatRep
         return championnatRepository.findAll()
     }
 
-    override fun getChampionnatById(id: Long): Championnat {
+    override fun getChampionnatById(id: Int): Championnat {
         return championnatRepository.findById(id)
     }
 
@@ -16,7 +16,7 @@ class DomainChampionnatService(private val championnatRepository: ChampionnatRep
         return championnatRepository.save(nom)
     }
 
-    override fun deleteChampionnat(id: Long): Championnat {
+    override fun deleteChampionnat(id: Int): Championnat {
         return championnatRepository.remove(id)
     }
 }

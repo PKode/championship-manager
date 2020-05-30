@@ -16,7 +16,7 @@ class StaticChampionnatRepository : ChampionnatRepository {
         return championnats
     }
 
-    override fun findById(id: Long): Championnat {
+    override fun findById(id: Int): Championnat {
         return championnats.firstOrNull { it.id == id }
                 ?: throw NoSuchElementException("Aucun championnat avec l'id :: $id")
     }
@@ -27,7 +27,7 @@ class StaticChampionnatRepository : ChampionnatRepository {
         return newChampionnat
     }
 
-    override fun remove(id: Long): Championnat {
+    override fun remove(id: Int): Championnat {
         return championnats.firstOrNull { it.id == id }
                 .also { championnats.remove(it) }
                 ?: throw NoSuchElementException("Aucun championnat avec l'id :: $id à supprimer")

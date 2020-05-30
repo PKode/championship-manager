@@ -12,7 +12,7 @@ interface ChampionnatRepository {
      * @param id à chercher.
      * @return le championnat correspondant.
      */
-    fun findById(id: Long) : Championnat
+    fun findById(id: Int) : Championnat
 
     /**
      * Créer un nouveau championnat.
@@ -25,5 +25,5 @@ interface ChampionnatRepository {
      * Supprime un championnat.
      * @param id du championnat à supprimer.
      */
-    fun remove(id: Long) : Championnat
+    fun remove(id: Int) : Championnat
 }

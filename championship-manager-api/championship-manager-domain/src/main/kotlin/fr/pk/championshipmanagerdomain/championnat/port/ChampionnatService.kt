@@ -12,7 +12,7 @@ interface ChampionnatService {
      * @param id à chercher.
      * @return le championnat correspondant à l'id.
      */
-    fun getChampionnatById(id: Long) : Championnat
+    fun getChampionnatById(id: Int) : Championnat
 
     /**
      * Créer un nouveau championnat.
@@ -23,5 +23,5 @@ interface ChampionnatService {
      * Supprime un championnat.
      * @param id du championnat à supprimer.
      */
-    fun deleteChampionnat(id: Long) : Championnat
+    fun deleteChampionnat(id: Int) : Championnat
 }

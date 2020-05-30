@@ -1,3 +1,3 @@
 package fr.pk.championshipmanagerdomain.championnat
 
-data class Championnat(val id : Long? = null, val nom: String)
+data class Championnat(val id : Int? = null, val nom: String)

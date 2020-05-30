@@ -38,10 +38,10 @@ internal class DomainChampionnatServiceTest {
 
         @Test
         fun `doit retourner le championnat correspondant a un id`() {
-            val expected = Championnat(id = 1L, nom = "Ligue 1")
-            `when`(repository.findById(1L)).thenReturn(expected)
+            val expected = Championnat(id = 1, nom = "Ligue 1")
+            `when`(repository.findById(1)).thenReturn(expected)
 
-            val championnat = service.getChampionnatById(1L)
+            val championnat = service.getChampionnatById(1)
 
             assertThat(championnat).isEqualTo(expected)
         }
@@ -66,11 +66,11 @@ internal class DomainChampionnatServiceTest {
 
         @Test
         fun `doit supprimer un championnat correspondant a un id`() {
-            val expected = Championnat(id = 1L, nom = "Ligue 1")
+            val expected = Championnat(id = 1, nom = "Ligue 1")
 
-            `when`(repository.remove(1L)).thenReturn(expected)
+            `when`(repository.remove(1)).thenReturn(expected)
 
-            val deleteChampionnat = service.deleteChampionnat(1L)
+            val deleteChampionnat = service.deleteChampionnat(1)
 
             assertThat(deleteChampionnat).isEqualTo(expected)
         }

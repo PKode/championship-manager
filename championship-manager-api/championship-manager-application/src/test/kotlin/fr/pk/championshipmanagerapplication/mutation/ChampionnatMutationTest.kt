@@ -23,11 +23,11 @@ internal class ChampionnatMutationTest {
 
             val nom = "Ligue 1"
 
-            `when`(championnatService.createChampionnat(nom)).thenReturn(Championnat(1L, nom))
+            `when`(championnatService.createChampionnat(nom)).thenReturn(Championnat(1, nom))
 
             val championnat = mutation.championnat(nom)
 
-            assertThat(championnat).isEqualTo(ChampionnatDto(1L, nom))
+            assertThat(championnat).isEqualTo(ChampionnatDto(1, nom))
             verify(championnatService, times(1)).createChampionnat(nom)
         }
     }
@@ -38,14 +38,14 @@ internal class ChampionnatMutationTest {
         @Test
         fun `doit supprimer un championnat`() {
 
-            val id = 1L
+            val id = 1
             val nom = "Ligue 1"
 
             `when`(championnatService.deleteChampionnat(id)).thenReturn(Championnat(id, nom ))
 
             val championnat = mutation.deleteChampionnat(id.toInt())
 
-            assertThat(championnat).isEqualTo(ChampionnatDto(1L, nom))
+            assertThat(championnat).isEqualTo(ChampionnatDto(1, nom))
             verify(championnatService, times(1)).deleteChampionnat(id)
         }
     }

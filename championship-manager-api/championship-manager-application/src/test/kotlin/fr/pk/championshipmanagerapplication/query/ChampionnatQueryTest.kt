@@ -22,8 +22,8 @@ internal class ChampionnatQueryTest {
         fun `doit retourner la liste des championnats`() {
             // Given
             val domainList = listOf(
-                    Championnat(1L, "Ligue 1"),
-                    Championnat(2L, "Ligue 2")
+                    Championnat(1, "Ligue 1"),
+                    Championnat(2, "Ligue 2")
             )
 
             // When
@@ -32,7 +32,7 @@ internal class ChampionnatQueryTest {
             val championnats = query.championnats()
 
             // Then
-            val dtoList = listOf(ChampionnatDto(1L, "Ligue 1"), ChampionnatDto(2L, "Ligue 2"))
+            val dtoList = listOf(ChampionnatDto(1, "Ligue 1"), ChampionnatDto(2, "Ligue 2"))
 
             assertThat(championnats).isEqualTo(dtoList)
             verify(championnatService, times(1)).getAllChampionnats()
@@ -41,18 +41,18 @@ internal class ChampionnatQueryTest {
         @Test
         fun `doit retourner le championnat correspondant a id`() {
             // Given
-            val domainChampionnat = Championnat(1L, "Ligue 1")
+            val domainChampionnat = Championnat(1, "Ligue 1")
 
             // When
-            `when`(championnatService.getChampionnatById(1L)).thenReturn(domainChampionnat)
+            `when`(championnatService.getChampionnatById(1)).thenReturn(domainChampionnat)
 
-            val championnat = query.championnat(1L)
+            val championnat = query.championnat(1)
 
             // Then
-            val expectedDto = ChampionnatDto(1L, "Ligue 1")
+            val expectedDto = ChampionnatDto(1, "Ligue 1")
 
             assertThat(championnat).isEqualTo(expectedDto)
-            verify(championnatService, times(1)).getChampionnatById(1L)
+            verify(championnatService, times(1)).getChampionnatById(1)
         }
     }
 

@@ -18,7 +18,7 @@ class ChampionnatQuery(private val championnatService: ChampionnatService) : Que
     /**
      * Query for getting championnat based on his id.
      */
-    fun championnat(id: Long): ChampionnatDto {
+    fun championnat(id: Int): ChampionnatDto {
         val championnat = championnatService.getChampionnatById(id)
         return ChampionnatDto(championnat.id, championnat.nom)
     }
