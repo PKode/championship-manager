@@ -1,0 +1,6 @@
+mutation championnat($nom: String!){
+  championnat(nom: $nom) {
+    id
+    nom
+  }
+}

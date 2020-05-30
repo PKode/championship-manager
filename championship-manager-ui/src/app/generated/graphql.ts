@@ -49,6 +49,19 @@ export type QueryChampionnatArgs = {
   id: Scalars['Long'];
 };
 
+export type ChampionnatMutationVariables = {
+  nom: Scalars['String'];
+};
+
+
+export type ChampionnatMutation = (
+  { readonly __typename?: 'Mutation' }
+  & { readonly championnat: (
+    { readonly __typename?: 'ChampionnatDto' }
+    & Pick<ChampionnatDto, 'id' | 'nom'>
+  ) }
+);
+
 export type ChampionnatsQueryVariables = {};
 
 
@@ -60,6 +73,22 @@ export type ChampionnatsQuery = (
   )> }
 );
 
+export const ChampionnatDocument = gql`
+    mutation championnat($nom: String!) {
+  championnat(nom: $nom) {
+    id
+    nom
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class ChampionnatGQL extends Apollo.Mutation<ChampionnatMutation, ChampionnatMutationVariables> {
+    document = ChampionnatDocument;
+    
+  }
 export const ChampionnatsDocument = gql`
     query championnats {
   championnats {
