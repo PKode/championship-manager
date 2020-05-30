@@ -23,8 +23,8 @@ class ChampionnatMutation(private val championnatService: ChampionnatService) : 
      * @param id of the championnat to delete.
      * @return championnat freshly deleted.
      */
-    fun deleteChampionnat(id: Long): ChampionnatDto {
-        val deleteChampionnat = championnatService.deleteChampionnat(id)
+    fun deleteChampionnat(id: Int): ChampionnatDto {
+        val deleteChampionnat = championnatService.deleteChampionnat(id.toLong())
         return ChampionnatDto(deleteChampionnat.id, deleteChampionnat.nom)
     }
 }

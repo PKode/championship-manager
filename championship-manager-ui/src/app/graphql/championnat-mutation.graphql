@@ -4,3 +4,10 @@ mutation championnat($nom: String!){
     nom
   }
 }
+
+mutation deleteChampionnat($id: Int!){
+  deleteChampionnat(id: $id) {
+    id
+    nom
+  }
+}

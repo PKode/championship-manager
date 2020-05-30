@@ -35,7 +35,7 @@ export type MutationChampionnatArgs = {
 
 
 export type MutationDeleteChampionnatArgs = {
-  id: Scalars['Long'];
+  id: Scalars['Int'];
 };
 
 export type Query = {
@@ -57,6 +57,19 @@ export type ChampionnatMutationVariables = {
 export type ChampionnatMutation = (
   { readonly __typename?: 'Mutation' }
   & { readonly championnat: (
+    { readonly __typename?: 'ChampionnatDto' }
+    & Pick<ChampionnatDto, 'id' | 'nom'>
+  ) }
+);
+
+export type DeleteChampionnatMutationVariables = {
+  id: Scalars['Int'];
+};
+
+
+export type DeleteChampionnatMutation = (
+  { readonly __typename?: 'Mutation' }
+  & { readonly deleteChampionnat: (
     { readonly __typename?: 'ChampionnatDto' }
     & Pick<ChampionnatDto, 'id' | 'nom'>
   ) }
@@ -87,6 +100,22 @@ export const ChampionnatDocument = gql`
   })
   export class ChampionnatGQL extends Apollo.Mutation<ChampionnatMutation, ChampionnatMutationVariables> {
     document = ChampionnatDocument;
+    
+  }
+export const DeleteChampionnatDocument = gql`
+    mutation deleteChampionnat($id: Int!) {
+  deleteChampionnat(id: $id) {
+    id
+    nom
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class DeleteChampionnatGQL extends Apollo.Mutation<DeleteChampionnatMutation, DeleteChampionnatMutationVariables> {
+    document = DeleteChampionnatDocument;
     
   }
 export const ChampionnatsDocument = gql`

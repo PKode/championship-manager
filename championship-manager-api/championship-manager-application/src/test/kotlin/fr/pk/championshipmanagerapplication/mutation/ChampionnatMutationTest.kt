@@ -43,7 +43,7 @@ internal class ChampionnatMutationTest {
 
             `when`(championnatService.deleteChampionnat(id)).thenReturn(Championnat(id, nom ))
 
-            val championnat = mutation.deleteChampionnat(id)
+            val championnat = mutation.deleteChampionnat(id.toInt())
 
             assertThat(championnat).isEqualTo(ChampionnatDto(1L, nom))
             verify(championnatService, times(1)).deleteChampionnat(id)

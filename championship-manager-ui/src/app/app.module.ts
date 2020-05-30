@@ -27,6 +27,7 @@ import {MatRadioModule} from "@angular/material/radio";
 import {MatOptionModule} from "@angular/material/core";
 import {MatSelectModule} from "@angular/material/select";
 import {MatInputModule} from "@angular/material/input";
+import {ConfirmDialogComponent} from "./confirm-dialog/confirm-dialog.component";
 
 @NgModule({
   declarations: [
@@ -34,7 +35,8 @@ import {MatInputModule} from "@angular/material/input";
     SidenavComponent,
     ChampionnatComponent,
     ChampionnatListComponent,
-    ChampionnatFormComponent
+    ChampionnatFormComponent,
+    ConfirmDialogComponent
   ],
   imports: [
     BrowserModule,
