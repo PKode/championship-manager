@@ -1,5 +1,5 @@
-mutation championnat($nom: String!){
-  championnat(nom: $nom) {
+mutation championnat($championnat: ChampionnatDtoInput!){
+  championnat(championnat: $championnat) {
     id
     nom
   }

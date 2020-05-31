@@ -53,9 +53,23 @@ internal class DomainChampionnatServiceTest {
         fun `doit creer un championnat`() {
             val expectedCreatedChampionnat = Championnat(nom = "Bundesliga")
 
-            `when`(repository.save(expectedCreatedChampionnat.nom)).thenReturn(expectedCreatedChampionnat)
+            `when`(repository.saveOrUpdate(expectedCreatedChampionnat)).thenReturn(expectedCreatedChampionnat)
 
-            val championnat = service.createChampionnat(expectedCreatedChampionnat.nom)
+            val championnat = service.createOrEditChampionnat(expectedCreatedChampionnat)
+
+            assertThat(championnat).isEqualTo(expectedCreatedChampionnat)
+        }
+    }
+
+    @Nested
+    inner class EditFeature {
+        @Test
+        fun `doit editer un championnat`() {
+            val expectedCreatedChampionnat = Championnat(id = 3, nom = "Bundesliga")
+
+            `when`(repository.saveOrUpdate(expectedCreatedChampionnat)).thenReturn(expectedCreatedChampionnat)
+
+            val championnat = service.createOrEditChampionnat(expectedCreatedChampionnat)
 
             assertThat(championnat).isEqualTo(expectedCreatedChampionnat)
         }

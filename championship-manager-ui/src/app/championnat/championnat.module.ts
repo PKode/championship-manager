@@ -35,5 +35,6 @@ import {MatDialogModule} from "@angular/material/dialog";
     MatDialogModule
   ]
 })
+// @ts-ignore
 export class ChampionnatModule {
 }

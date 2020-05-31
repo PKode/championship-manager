@@ -9,18 +9,20 @@ export type Scalars = {
   Boolean: boolean;
   Int: number;
   Float: number;
-  /** Long type */
-  Long: number;
 };
 
 
 
 export type ChampionnatDto = {
   readonly __typename?: 'ChampionnatDto';
-  readonly id: Maybe<Scalars['Long']>;
+  readonly id: Maybe<Scalars['Int']>;
   readonly nom: Scalars['String'];
 };
 
+export type ChampionnatDtoInput = {
+  readonly id: Maybe<Scalars['Int']>;
+  readonly nom: Scalars['String'];
+};
 
 export type Mutation = {
   readonly __typename?: 'Mutation';
@@ -30,7 +32,7 @@ export type Mutation = {
 
 
 export type MutationChampionnatArgs = {
-  nom: Scalars['String'];
+  championnat: ChampionnatDtoInput;
 };
 
 
@@ -46,11 +48,11 @@ export type Query = {
 
 
 export type QueryChampionnatArgs = {
-  id: Scalars['Long'];
+  id: Scalars['Int'];
 };
 
 export type ChampionnatMutationVariables = {
-  nom: Scalars['String'];
+  championnat: ChampionnatDtoInput;
 };
 
 
@@ -87,8 +89,8 @@ export type ChampionnatsQuery = (
 );
 
 export const ChampionnatDocument = gql`
-    mutation championnat($nom: String!) {
-  championnat(nom: $nom) {
+    mutation championnat($championnat: ChampionnatDtoInput!) {
+  championnat(championnat: $championnat) {
     id
     nom
   }

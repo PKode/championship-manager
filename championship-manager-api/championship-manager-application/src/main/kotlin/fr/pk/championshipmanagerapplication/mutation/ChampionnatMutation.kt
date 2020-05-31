@@ -2,6 +2,7 @@ package fr.pk.championshipmanagerapplication.mutation
 
 import com.expediagroup.graphql.spring.operations.Mutation
 import fr.pk.championshipmanagerapplication.dto.ChampionnatDto
+import fr.pk.championshipmanagerdomain.championnat.Championnat
 import fr.pk.championshipmanagerdomain.championnat.port.ChampionnatService
 import org.springframework.stereotype.Component
 
@@ -13,8 +14,8 @@ class ChampionnatMutation(private val championnatService: ChampionnatService) : 
      * @param name of the championnat to create.
      * @return championnat freshly created.
      */
-    fun championnat(nom: String): ChampionnatDto {
-        val newChampionnat = championnatService.createChampionnat(nom)
+    fun championnat(championnat: ChampionnatDto): ChampionnatDto {
+        val newChampionnat = championnatService.createOrEditChampionnat(Championnat(id = championnat.id, nom = championnat.nom))
         return ChampionnatDto(newChampionnat.id, newChampionnat.nom)
     }
 

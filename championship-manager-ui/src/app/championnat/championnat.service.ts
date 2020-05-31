@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
-import {ChampionnatGQL, ChampionnatsGQL, DeleteChampionnatGQL} from "../generated/graphql";
+import {ChampionnatDtoInput, ChampionnatGQL, ChampionnatsGQL, DeleteChampionnatGQL} from "../generated/graphql";
 import {pluck} from "rxjs/operators";
+import {Championnat} from "./championnat";
 
 @Injectable({
   providedIn: 'root'
@@ -14,8 +15,8 @@ export class ChampionnatService {
   getAllChampionnats() {
     return this.championnatQuery.watch().valueChanges.pipe(pluck('data', "championnats"))
   }
-   createChampionnat(nom: string) {
-     this.championnatMutation.mutate({nom: nom}, {
+   createChampionnat(championnat: Championnat) {
+     this.championnatMutation.mutate({championnat: {nom: championnat.nom, id: championnat.id}}, {
          refetchQueries: [{
            query: this.championnatQuery.document
          }]

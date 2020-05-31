@@ -21,8 +21,11 @@ class StaticChampionnatRepository : ChampionnatRepository {
                 ?: throw NoSuchElementException("Aucun championnat avec l'id :: $id")
     }
 
-    override fun save(nom: String): Championnat {
-        val newChampionnat = Championnat(id = 2, nom = nom)
+    override fun saveOrUpdate(championnat: Championnat): Championnat {
+        championnats.firstOrNull { it.id == championnat.id }
+                ?.let { championnats.remove(it) }
+
+        val newChampionnat = Championnat(id = championnat.id ?: championnats.last().id?.plus(1), nom = championnat.nom)
         championnats.add(newChampionnat)
         return newChampionnat
     }

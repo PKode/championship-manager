@@ -1,9 +1,9 @@
 export class Championnat {
-  id: number;
+  id?: number;
   nom: string;
 
-  constructor(id: number, nom: string) {
-    this.id = id;
+  constructor(nom: string, id?: number) {
+    this.id = id ? id : null;
     this.nom = nom;
   }
 }

@@ -19,7 +19,7 @@ interface ChampionnatRepository {
      * @param nom: le nom du championnat à créer.
      * @return le nouveau championnat.
      */
-    fun save(nom: String) : Championnat
+    fun saveOrUpdate(championnat: Championnat) : Championnat
 
     /**
      * Supprime un championnat.

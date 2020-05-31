@@ -1,7 +1,8 @@
-import {Component} from '@angular/core';
-import {FormBuilder, Validators} from '@angular/forms';
-import {MatDialogRef} from "@angular/material/dialog";
+import {Component, Inject} from '@angular/core';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {ChampionnatService} from "../championnat.service";
+import {Championnat} from "../championnat";
 
 @Component({
   selector: 'app-championnat-form',
@@ -9,17 +10,19 @@ import {ChampionnatService} from "../championnat.service";
   styleUrls: ['./championnat-form.component.scss']
 })
 export class ChampionnatFormComponent {
-  championnatForm = this.fb.group({
-    nom: [null, Validators.required]
-  });
+  championnatForm: FormGroup;
 
   constructor(private fb: FormBuilder,
               private dialogRef: MatDialogRef<ChampionnatFormComponent>,
-              private championnatService: ChampionnatService) {
+              private championnatService: ChampionnatService,
+              @Inject(MAT_DIALOG_DATA) public data: Championnat) {
+    this.championnatForm = this.fb.group({
+      nom: [data?.nom ? data.nom : null, Validators.required]
+    });
   }
 
   onSubmit() {
-    this.championnatService.createChampionnat(this.championnatForm.value.nom);
+    this.championnatService.createChampionnat(new Championnat(this.championnatForm.value.nom, this.data?.id));
     this.dialogRef.close();
   }
 }

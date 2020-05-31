@@ -17,7 +17,7 @@ interface ChampionnatService {
     /**
      * Créer un nouveau championnat.
      */
-    fun createChampionnat(nom: String): Championnat
+    fun createOrEditChampionnat(championnat: Championnat): Championnat
 
     /**
      * Supprime un championnat.

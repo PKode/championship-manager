@@ -12,8 +12,8 @@ class DomainChampionnatService(private val championnatRepository: ChampionnatRep
         return championnatRepository.findById(id)
     }
 
-    override fun createChampionnat(nom: String): Championnat {
-        return championnatRepository.save(nom)
+    override fun createOrEditChampionnat(championnat: Championnat): Championnat {
+        return championnatRepository.saveOrUpdate(championnat)
     }
 
     override fun deleteChampionnat(id: Int): Championnat {

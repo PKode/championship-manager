@@ -16,19 +16,38 @@ internal class ChampionnatMutationTest {
     private val mutation = ChampionnatMutation(championnatService)
 
     @Nested
-    inner class NewMutation {
+    inner class CreateMutation {
 
         @Test
         fun `doit creer un nouveau championnat`() {
 
             val nom = "Ligue 1"
 
-            `when`(championnatService.createChampionnat(nom)).thenReturn(Championnat(1, nom))
+            val championnatToCreate = Championnat(nom = nom)
+            `when`(championnatService.createOrEditChampionnat(championnatToCreate)).thenReturn(Championnat(1, nom))
 
-            val championnat = mutation.championnat(nom)
+            val championnat = mutation.championnat(ChampionnatDto(nom = nom))
 
             assertThat(championnat).isEqualTo(ChampionnatDto(1, nom))
-            verify(championnatService, times(1)).createChampionnat(nom)
+            verify(championnatService, times(1)).createOrEditChampionnat(championnatToCreate)
+        }
+    }
+
+    @Nested
+    inner class EditMutation {
+
+        @Test
+        fun `doit modifier un championnat`() {
+
+            val nom = "Ligue 1"
+
+            val championnatToCreate = Championnat(id = 3, nom = nom)
+            `when`(championnatService.createOrEditChampionnat(championnatToCreate)).thenReturn(Championnat(3, nom))
+
+            val championnat = mutation.championnat(ChampionnatDto(id = 3, nom = nom))
+
+            assertThat(championnat).isEqualTo(ChampionnatDto(3, nom))
+            verify(championnatService, times(1)).createOrEditChampionnat(championnatToCreate)
         }
     }
 
