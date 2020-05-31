@@ -1,10 +1,9 @@
-import { DataSource } from '@angular/cdk/collections';
-import { MatPaginator } from '@angular/material/paginator';
-import { MatSort } from '@angular/material/sort';
-import { map } from 'rxjs/operators';
-import { Observable, of as observableOf, merge } from 'rxjs';
-import {ChampionnatDto} from "../../generated/graphql";
-import {Championnat} from "./championnat-list.component";
+import {DataSource} from '@angular/cdk/collections';
+import {MatPaginator} from '@angular/material/paginator';
+import {MatSort} from '@angular/material/sort';
+import {map} from 'rxjs/operators';
+import {merge, Observable, of as observableOf} from 'rxjs';
+import {Championnat} from "../championnat";
 
 /**
  * Data source for the ChampionnatList view. This class should
@@ -16,7 +15,7 @@ export class ChampionnatListDataSource extends DataSource<Championnat> {
   paginator: MatPaginator;
   sort: MatSort;
 
-  constructor(private items : Championnat[]) {
+  constructor(private items: Championnat[]) {
     super();
     this.data = items;
   }
@@ -44,7 +43,8 @@ export class ChampionnatListDataSource extends DataSource<Championnat> {
    *  Called when the table is being destroyed. Use this function, to clean up
    * any open connections or free any held resources that were set up during connect.
    */
-  disconnect() {}
+  disconnect() {
+  }
 
   /**
    * Paginate the data (client-side). If you're using server-side pagination,
@@ -67,9 +67,12 @@ export class ChampionnatListDataSource extends DataSource<Championnat> {
     return data.sort((a, b) => {
       const isAsc = this.sort.direction === 'asc';
       switch (this.sort.active) {
-        case 'nom': return compare(a.nom, b.nom, isAsc);
-        case 'id': return compare(+a.id, +b.id, isAsc);
-        default: return 0;
+        case 'nom':
+          return compare(a.nom, b.nom, isAsc);
+        case 'id':
+          return compare(+a.id, +b.id, isAsc);
+        default:
+          return 0;
       }
     });
   }

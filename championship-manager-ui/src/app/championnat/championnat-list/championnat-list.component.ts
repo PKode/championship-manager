@@ -3,20 +3,10 @@ import {MatPaginator} from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';
 import {MatTable} from '@angular/material/table';
 import {ChampionnatListDataSource} from './championnat-list-datasource';
-import {ChampionnatsGQL, DeleteChampionnatGQL} from "../../generated/graphql";
-import {pluck} from "rxjs/operators";
 import {MatDialog} from "@angular/material/dialog";
 import {ConfirmDialogComponent} from "../../confirm-dialog/confirm-dialog.component";
-
-export class Championnat {
-  id: number;
-  nom: string;
-
-  constructor(id: number, nom: string) {
-    this.id = id;
-    this.nom = nom;
-  }
-}
+import {ChampionnatService} from "../championnat.service";
+import {Championnat} from "../championnat";
 
 @Component({
   selector: 'app-championnat-list',
@@ -32,20 +22,18 @@ export class ChampionnatListComponent implements OnInit {
   /** Columns displayed in the table. Columns IDs can be added, removed, or reordered. */
   displayedColumns = ['id', 'nom', 'actions'];
 
-  constructor(private championnatsGQL: ChampionnatsGQL,
-              private deleteChampionnatGQL: DeleteChampionnatGQL,
+  constructor(private championnatService: ChampionnatService,
               private dialog: MatDialog) {
   }
 
   ngOnInit() {
-    this.championnatsGQL.watch().valueChanges.pipe(pluck('data', "championnats"))
-      .subscribe(data => {
-        let map = data.map(d => new Championnat(d.id, d.nom));
-        this.dataSource = new ChampionnatListDataSource(map);
-        this.dataSource.sort = this.sort;
-        this.dataSource.paginator = this.paginator;
-        this.table.dataSource = this.dataSource;
-      });
+    this.championnatService.getAllChampionnats().subscribe(data => {
+      let map = data.map(d => new Championnat(d.id, d.nom));
+      this.dataSource = new ChampionnatListDataSource(map);
+      this.dataSource.sort = this.sort;
+      this.dataSource.paginator = this.paginator;
+      this.table.dataSource = this.dataSource;
+    });
   }
 
   delete(row: Championnat) {
@@ -55,12 +43,7 @@ export class ChampionnatListComponent implements OnInit {
         data: 'Êtes vous sur de supprimer ce championnat ?'
       }).afterClosed().subscribe(result => {
       if (result === true) {
-        this.deleteChampionnatGQL.mutate({id: row.id}, {
-            refetchQueries: [{
-              query: this.championnatsGQL.document
-            }]
-          }
-        ).subscribe();
+        this.championnatService.deleteChampionnat(row.id);
       }
     });
   }

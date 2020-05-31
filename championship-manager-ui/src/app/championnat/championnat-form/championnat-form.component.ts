@@ -1,7 +1,7 @@
 import {Component} from '@angular/core';
 import {FormBuilder, Validators} from '@angular/forms';
 import {MatDialogRef} from "@angular/material/dialog";
-import {ChampionnatGQL, ChampionnatsGQL} from "../../generated/graphql";
+import {ChampionnatService} from "../championnat.service";
 
 @Component({
   selector: 'app-championnat-form',
@@ -15,18 +15,11 @@ export class ChampionnatFormComponent {
 
   constructor(private fb: FormBuilder,
               private dialogRef: MatDialogRef<ChampionnatFormComponent>,
-              private championnatMutation: ChampionnatGQL,
-              private championnatQuery: ChampionnatsGQL) {
+              private championnatService: ChampionnatService) {
   }
 
   onSubmit() {
-    console.log(this.championnatForm.value.nom);
-    this.championnatMutation.mutate({nom: this.championnatForm.value.nom}, {
-        refetchQueries: [{
-          query: this.championnatQuery.document
-        }]
-      }
-    ).subscribe();
+    this.championnatService.createChampionnat(this.championnatForm.value.nom);
     this.dialogRef.close();
   }
 }
