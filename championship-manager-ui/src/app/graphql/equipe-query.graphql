@@ -1,0 +1,6 @@
+query equipes {
+  equipes {
+    id
+    nom
+  }
+}

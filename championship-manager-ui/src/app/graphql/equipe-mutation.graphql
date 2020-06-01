@@ -1,0 +1,13 @@
+mutation equipe($equipe: EquipeDtoInput!){
+  equipe(equipe: $equipe) {
+    id
+    nom
+  }
+}
+
+mutation deleteEquipe($id: Int!){
+  deleteEquipe(id: $id) {
+    id
+    nom
+  }
+}
