@@ -1,6 +1,7 @@
 package fr.pk.championshipmanagerdomain.championnat.port
 
 import fr.pk.championshipmanagerdomain.championnat.Championnat
+import fr.pk.championshipmanagerdomain.championnat.Saison
 
 interface ChampionnatService {
     /**
@@ -24,4 +25,10 @@ interface ChampionnatService {
      * @param id du championnat à supprimer.
      */
     fun deleteChampionnat(id: Int) : Championnat
+
+    /**
+     * Génère le calendrier de match du championnat correspondant à
+     * @param id
+     */
+    fun genererCalendrier(championnatId: Int) : Saison
 }
