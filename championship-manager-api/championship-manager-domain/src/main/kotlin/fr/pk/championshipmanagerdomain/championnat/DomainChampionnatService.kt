@@ -24,10 +24,15 @@ class DomainChampionnatService(private val championnatRepository: ChampionnatRep
     @ExperimentalStdlibApi
     override fun genererCalendrier(championnatId: Int): Saison {
         val championnat = getChampionnatById(championnatId)
+
         val equipes = championnat.equipes.shuffled()
 
         val top = equipes.subList(0, equipes.size / 2).toMutableList()
         val bottom = equipes.subList(equipes.size / 2, equipes.size).toMutableList()
+
+        listOf(top, bottom).takeIf { top.size != bottom.size }
+                ?.minBy { it.size }
+                ?.add(Equipe(nom = "Exempt"))
 
         val journees = generateSequence(generateJournee(1, top, bottom)) {
             if (it.numero == equipes.size - 1) null

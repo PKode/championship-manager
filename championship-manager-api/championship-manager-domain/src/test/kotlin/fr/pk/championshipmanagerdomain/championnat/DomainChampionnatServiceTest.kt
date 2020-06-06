@@ -22,7 +22,7 @@ internal class DomainChampionnatServiceTest {
     inner class CalendrierFeature {
         @ExperimentalStdlibApi
         @ParameterizedTest
-        @ValueSource(ints = [2, 4, 8, 10, 20])
+        @ValueSource(ints = [2, 4, 8, 10, 20, 3, 5, 7, 11])
         fun `doit generer un calendrirer`(nbTeam: Int) {
             val championnat = Championnat(id = 1, nom = "Ligue 1", equipes = randomTeam(nbTeam))
 
