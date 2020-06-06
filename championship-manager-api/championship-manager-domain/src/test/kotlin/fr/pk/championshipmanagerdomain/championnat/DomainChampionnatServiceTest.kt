@@ -4,6 +4,7 @@ import fr.pk.championshipmanagerdomain.championnat.port.ChampionnatRepository
 import fr.pk.championshipmanagerdomain.equipe.Equipe
 import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.internal.bytebuddy.utility.RandomString
+import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
@@ -21,7 +22,7 @@ internal class DomainChampionnatServiceTest {
     @Nested
     inner class CalendrierFeature {
         @ExperimentalStdlibApi
-        @ParameterizedTest
+        @ParameterizedTest(name = "Genère un calendrier avec {0} équipes")
         @ValueSource(ints = [2, 4, 8, 10, 20, 3, 5, 7, 11])
         fun `doit generer un calendrirer`(nbTeam: Int) {
             val championnat = Championnat(id = 1, nom = "Ligue 1", equipes = randomTeam(nbTeam))

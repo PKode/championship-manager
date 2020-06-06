@@ -23,16 +23,12 @@ class DomainChampionnatService(private val championnatRepository: ChampionnatRep
 
     @ExperimentalStdlibApi
     override fun genererCalendrier(championnatId: Int): Saison {
-        val championnat = getChampionnatById(championnatId)
+        val equipes = getChampionnatById(championnatId).equipes.shuffled()
 
-        val equipes = championnat.equipes.shuffled()
+        val top = equipes.firstHalf()
+        val bottom = equipes.secondHalf()
 
-        val top = equipes.subList(0, equipes.size / 2).toMutableList()
-        val bottom = equipes.subList(equipes.size / 2, equipes.size).toMutableList()
-
-        listOf(top, bottom).takeIf { top.size != bottom.size }
-                ?.minBy { it.size }
-                ?.add(Equipe(nom = "Exempt"))
+        top.equalize(bottom)
 
         val journees = generateSequence(generateJournee(1, top, bottom)) {
             if (it.numero == equipes.size - 1) null
@@ -53,6 +49,20 @@ class DomainChampionnatService(private val championnatRepository: ChampionnatRep
     private fun matchForJournee(top: MutableList<Equipe>, bottom: MutableList<Equipe>): List<Match> {
         return top.mapIndexed { index, equipe -> Match(domicile = equipe, exterieur = bottom[index]) reverseIf index.even() }
     }
+}
+
+private fun MutableList<Equipe>.equalize(bottom: MutableList<Equipe>) {
+    listOf(this, bottom).takeIf { this.size != bottom.size }
+            ?.minBy { it.size }
+            ?.add(Equipe(nom = "Exempt"))
+}
+
+private fun List<Equipe>.secondHalf(): MutableList<Equipe> {
+    return this.subList(this.size / 2, this.size).toMutableList()
+}
+
+private fun List<Equipe>.firstHalf(): MutableList<Equipe> {
+    return this.subList(0, this.size / 2).toMutableList()
 }
 
 fun Int.even() = this % 2 == 0
