@@ -13,13 +13,21 @@ import {MatCardModule} from "@angular/material/card";
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatInputModule} from "@angular/material/input";
 import {MatDialogModule} from "@angular/material/dialog";
+import { ChampionnatDetailComponent } from './championnat-detail/championnat-detail.component';
+import { MatGridListModule } from '@angular/material/grid-list';
+import { MatMenuModule } from '@angular/material/menu';
+import { LayoutModule } from '@angular/cdk/layout';
+import { CalendrierComponent } from './calendrier/calendrier.component';
+import {MatListModule} from "@angular/material/list";
 
 
 @NgModule({
   declarations: [
     ChampionnatComponent,
     ChampionnatListComponent,
-    ChampionnatFormComponent
+    ChampionnatFormComponent,
+    ChampionnatDetailComponent,
+    CalendrierComponent
   ],
   imports: [
     CommonModule,
@@ -32,7 +40,11 @@ import {MatDialogModule} from "@angular/material/dialog";
     MatCardModule,
     MatFormFieldModule,
     MatInputModule,
-    MatDialogModule
+    MatDialogModule,
+    MatGridListModule,
+    MatMenuModule,
+    LayoutModule,
+    MatListModule
   ]
 })
 // @ts-ignore

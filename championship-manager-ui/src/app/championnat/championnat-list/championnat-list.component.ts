@@ -8,6 +8,7 @@ import {ConfirmDialogComponent} from "../../confirm-dialog/confirm-dialog.compon
 import {ChampionnatService} from "../championnat.service";
 import {Championnat} from "../championnat";
 import {ChampionnatFormComponent} from "../championnat-form/championnat-form.component";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-championnat-list',
@@ -24,7 +25,8 @@ export class ChampionnatListComponent implements OnInit {
   displayedColumns = ['id', 'nom', 'actions'];
 
   constructor(private championnatService: ChampionnatService,
-              private dialog: MatDialog) {
+              private dialog: MatDialog,
+              public router: Router) {
   }
 
   ngOnInit() {
