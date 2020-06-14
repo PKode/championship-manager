@@ -2,6 +2,7 @@ package fr.pk.championshipmanagerdomain.championnat
 
 import fr.pk.championshipmanagerdomain.equipe.Equipe
 import java.time.LocalDate
+import java.time.LocalDateTime
 
 data class Championnat(
         val id: Int? = null,
@@ -28,7 +29,8 @@ data class Match(
         val domicile: Equipe,
         val exterieur: Equipe,
         val butDomicile: Int = 0,
-        val butExterieur: Int = 0
+        val butExterieur: Int = 0,
+        val date: LocalDateTime = LocalDateTime.now().withHour(20).withMinute(0).withSecond(0).withNano(0)
 ) {
     val score: String get() = "$butDomicile - $exterieur"
 

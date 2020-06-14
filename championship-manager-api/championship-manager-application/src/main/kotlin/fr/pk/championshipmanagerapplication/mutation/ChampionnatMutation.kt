@@ -2,6 +2,7 @@ package fr.pk.championshipmanagerapplication.mutation
 
 import com.expediagroup.graphql.spring.operations.Mutation
 import fr.pk.championshipmanagerapplication.dto.ChampionnatDto
+import fr.pk.championshipmanagerapplication.dto.SaisonDto
 import fr.pk.championshipmanagerdomain.championnat.Championnat
 import fr.pk.championshipmanagerdomain.championnat.port.ChampionnatService
 import org.springframework.stereotype.Component
@@ -27,5 +28,14 @@ class ChampionnatMutation(private val championnatService: ChampionnatService) : 
     fun deleteChampionnat(id: Int): ChampionnatDto {
         val deleteChampionnat = championnatService.deleteChampionnat(id)
         return ChampionnatDto(deleteChampionnat.id, deleteChampionnat.nom)
+    }
+
+    /**
+     * Génère un calendrier (une saison) pour une championnat donné.
+     * @param id du championnat auquel généré le calendrier de la saison.
+     * @return la saison générée.
+     */
+    fun calendrier(championnatId: Int): SaisonDto {
+        return SaisonDto(championnatService.genererCalendrier(championnatId))
     }
 }

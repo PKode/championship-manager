@@ -1,43 +1,35 @@
-<div>
-  <mat-grid-list cols="3" rowHeight="350px">
-    <mat-grid-tile [colspan]="1" [rowspan]="1">
-      <mat-list>
-        <mat-list-item>PSG</mat-list-item>
-        <mat-list-item>PSG</mat-list-item>
-        <mat-list-item>PSG</mat-list-item>
-        <mat-list-item>PSG</mat-list-item>
-        <mat-list-item>PSG</mat-list-item>
-        <mat-list-item>PSG</mat-list-item>
-        <mat-list-item>PSG</mat-list-item>
-        <mat-list-item>PSG</mat-list-item>
-        <mat-list-item>PSG</mat-list-item>
-      </mat-list>
-    </mat-grid-tile>
-    <mat-grid-tile [colspan]="1" [rowspan]="1">
-      <mat-list>
-        <mat-list-item>5-0</mat-list-item>
-        <mat-list-item>3-2</mat-list-item>
-        <mat-list-item>4-3</mat-list-item>
-        <mat-list-item>1-0</mat-list-item>
-        <mat-list-item>1-0</mat-list-item>
-        <mat-list-item>1-0</mat-list-item>
-        <mat-list-item>1-0</mat-list-item>
-        <mat-list-item>1-0</mat-list-item>
-        <mat-list-item>1-0</mat-list-item>
-      </mat-list>
-    </mat-grid-tile>
-    <mat-grid-tile [colspan]="1" [rowspan]="1">
-      <mat-list>
-        <mat-list-item>OM</mat-list-item>
-        <mat-list-item>ASSE</mat-list-item>
-        <mat-list-item>LYON</mat-list-item>
-        <mat-list-item>NICE</mat-list-item>
-        <mat-list-item>NICE</mat-list-item>
-        <mat-list-item>NICE</mat-list-item>
-        <mat-list-item>NICE</mat-list-item>
-        <mat-list-item>NICE</mat-list-item>
-        <mat-list-item>NICE</mat-list-item>
-      </mat-list>
-    </mat-grid-tile>
-  </mat-grid-list>
+<div class="mat-elevation-z8">
+  <table mat-table class="full-width-table" matSort aria-label="Elements">
+    <!-- Id Column -->
+    <ng-container matColumnDef="date">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Date</th>
+      <td mat-cell *matCellDef="let row">{{row.date}}</td>
+    </ng-container>
+
+    <!-- Name Column -->
+    <ng-container matColumnDef="domicile">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Domicile</th>
+      <td mat-cell *matCellDef="let row">{{row.domicile}}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="score">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Score</th>
+      <td mat-cell *matCellDef="let row">{{row.score}}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="exterieur">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Exterieur</th>
+      <td mat-cell *matCellDef="let row">{{row.exterieur}}</td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+
+  <mat-paginator #paginator
+                 [length]="dataSource?.data.length"
+                 [pageIndex]="0"
+                 [pageSize]="10"
+                 [hidePageSize]="true">
+  </mat-paginator>
 </div>
