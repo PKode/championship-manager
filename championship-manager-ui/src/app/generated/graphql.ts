@@ -35,12 +35,33 @@ export type EquipeDtoInput = {
   readonly nom: Scalars['String'];
 };
 
+export type JourneeDto = {
+  readonly __typename?: 'JourneeDto';
+  readonly matchs: ReadonlyArray<MatchDto>;
+  readonly numero: Scalars['Int'];
+};
+
+export type MatchDto = {
+  readonly __typename?: 'MatchDto';
+  readonly butDomicile: Scalars['Int'];
+  readonly butExterieur: Scalars['Int'];
+  readonly date: Scalars['String'];
+  readonly domicile: EquipeDto;
+  readonly exterieur: EquipeDto;
+};
+
 export type Mutation = {
   readonly __typename?: 'Mutation';
+  readonly calendrier: SaisonDto;
   readonly championnat: ChampionnatDto;
   readonly deleteChampionnat: ChampionnatDto;
   readonly deleteEquipe: EquipeDto;
   readonly equipe: EquipeDto;
+};
+
+
+export type MutationCalendrierArgs = {
+  championnatId: Scalars['Int'];
 };
 
 
@@ -81,6 +102,12 @@ export type QueryEquipeArgs = {
   id: Scalars['Int'];
 };
 
+export type SaisonDto = {
+  readonly __typename?: 'SaisonDto';
+  readonly annee: Scalars['Int'];
+  readonly journees: ReadonlyArray<JourneeDto>;
+};
+
 export type ChampionnatMutationVariables = {
   championnat: ChampionnatDtoInput;
 };
@@ -104,6 +131,33 @@ export type DeleteChampionnatMutation = (
   & { readonly deleteChampionnat: (
     { readonly __typename?: 'ChampionnatDto' }
     & Pick<ChampionnatDto, 'id' | 'nom'>
+  ) }
+);
+
+export type CalendrierMutationVariables = {
+  championnatId: Scalars['Int'];
+};
+
+
+export type CalendrierMutation = (
+  { readonly __typename?: 'Mutation' }
+  & { readonly calendrier: (
+    { readonly __typename?: 'SaisonDto' }
+    & { readonly journees: ReadonlyArray<(
+      { readonly __typename?: 'JourneeDto' }
+      & Pick<JourneeDto, 'numero'>
+      & { readonly matchs: ReadonlyArray<(
+        { readonly __typename?: 'MatchDto' }
+        & Pick<MatchDto, 'butDomicile' | 'butExterieur' | 'date'>
+        & { readonly domicile: (
+          { readonly __typename?: 'EquipeDto' }
+          & Pick<EquipeDto, 'id' | 'nom'>
+        ), readonly exterieur: (
+          { readonly __typename?: 'EquipeDto' }
+          & Pick<EquipeDto, 'id' | 'nom'>
+        ) }
+      )> }
+    )> }
   ) }
 );
 
@@ -185,6 +239,36 @@ export const DeleteChampionnatDocument = gql`
   })
   export class DeleteChampionnatGQL extends Apollo.Mutation<DeleteChampionnatMutation, DeleteChampionnatMutationVariables> {
     document = DeleteChampionnatDocument;
+    
+  }
+export const CalendrierDocument = gql`
+    mutation calendrier($championnatId: Int!) {
+  calendrier(championnatId: $championnatId) {
+    journees {
+      numero
+      matchs {
+        domicile {
+          id
+          nom
+        }
+        exterieur {
+          id
+          nom
+        }
+        butDomicile
+        butExterieur
+        date
+      }
+    }
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class CalendrierGQL extends Apollo.Mutation<CalendrierMutation, CalendrierMutationVariables> {
+    document = CalendrierDocument;
     
   }
 export const ChampionnatsDocument = gql`

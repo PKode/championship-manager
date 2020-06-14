@@ -11,3 +11,24 @@ mutation deleteChampionnat($id: Int!){
     nom
   }
 }
+
+mutation calendrier($championnatId: Int!) {
+  calendrier(championnatId: $championnatId) {
+    journees {
+      numero
+      matchs {
+        domicile {
+          id
+          nom
+        }
+        exterieur {
+          id
+          nom
+        }
+        butDomicile
+        butExterieur
+        date
+      }
+    }
+  }
+}
