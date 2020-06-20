@@ -3,6 +3,7 @@ import {CalendrierGQL, ChampionnatGQL, ChampionnatsGQL, DeleteChampionnatGQL} fr
 import {pluck} from "rxjs/operators";
 import {Championnat} from "./championnat";
 
+
 @Injectable({
   providedIn: 'root'
 })

@@ -8,6 +8,7 @@ import {Equipe} from "../equipe";
 import {EquipeListDataSource} from "./equipe-list-datasource";
 import {EquipeFormComponent} from "../equipe-form/equipe-form.component";
 import {EquipeService} from "../equipe.service";
+import {Championnat} from "../../championnat/championnat";
 
 @Component({
   selector: 'app-equipe-list',
@@ -29,7 +30,7 @@ export class EquipeListComponent implements OnInit {
 
   ngOnInit() {
     this.equipeService.getAllEquipes().subscribe(data => {
-      let map = data.map(d => new Equipe(d.nom, d.id));
+      let map = data.map(d => new Equipe(d.nom, new Championnat("Ligue 1"),d.id));
       this.dataSource = new EquipeListDataSource(map);
       this.dataSource.sort = this.sort;
       this.dataSource.paginator = this.paginator;

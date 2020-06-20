@@ -1,15 +1,29 @@
 <form [formGroup]="equipeForm" novalidate (ngSubmit)="onSubmit()">
   <mat-card class="shipping-card">
-      <div class="row">
-        <div class="col">
-          <mat-form-field class="full-width">
-            <input matInput placeholder="Nom" formControlName="nom">
-            <mat-error *ngIf="equipeForm.controls['nom'].hasError('required')">
-              Nom is <strong>required</strong>
-            </mat-error>
-          </mat-form-field>
-        </div>
+    <div class="row">
+      <div class="col">
+        <mat-form-field class="full-width">
+          <input matInput placeholder="Nom" formControlName="nom">
+          <mat-error *ngIf="equipeForm.controls['nom'].hasError('required')">
+            Nom is <strong>required</strong>
+          </mat-error>
+        </mat-form-field>
       </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        <mat-form-field class="full-width">
+          <mat-label>Championnat</mat-label>
+          <mat-select formControlName="championnat">
+            <mat-option *ngFor="let championnat of championnats"
+                        [value]="championnat.id">{{championnat.nom}} </mat-option>
+          </mat-select>
+          <mat-error *ngIf="equipeForm.controls['championnat'].hasError('required')">
+            Nom is <strong>required</strong>
+          </mat-error>
+        </mat-form-field>
+      </div>
+    </div>
     <mat-card-actions>
       <button mat-raised-button color="primary" type="submit">{{data?.id ? 'Modifier' : 'Créer'}}</button>
     </mat-card-actions>

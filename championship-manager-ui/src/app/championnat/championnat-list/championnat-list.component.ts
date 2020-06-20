@@ -53,7 +53,7 @@ export class ChampionnatListComponent implements OnInit {
 
   edit(row: Championnat) {
     const dialogRef = this.dialog.open(ChampionnatFormComponent, {
-      width: '250px',
+      width: '500px',
       data: row
     });
 

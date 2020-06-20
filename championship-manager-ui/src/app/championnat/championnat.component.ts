@@ -17,7 +17,7 @@ export class ChampionnatComponent implements OnInit {
 
   add() {
     const dialogRef = this.dialog.open(ChampionnatFormComponent, {
-      width: '250px'
+      width: '500px'
     });
 
     dialogRef.afterClosed().subscribe(result => {

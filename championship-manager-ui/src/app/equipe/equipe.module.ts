@@ -13,23 +13,25 @@ import {MatCardModule} from "@angular/material/card";
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatInputModule} from "@angular/material/input";
 import {MatDialogModule} from "@angular/material/dialog";
+import {MatSelectModule} from "@angular/material/select";
 
 
 
 @NgModule({
   declarations: [EquipeComponent, EquipeListComponent, EquipeFormComponent],
-  imports: [
-    CommonModule,
-    MatTableModule,
-    MatButtonModule,
-    MatSortModule,
-    MatIconModule,
-    MatPaginatorModule,
-    ReactiveFormsModule,
-    MatCardModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatDialogModule
-  ]
+    imports: [
+        CommonModule,
+        MatTableModule,
+        MatButtonModule,
+        MatSortModule,
+        MatIconModule,
+        MatPaginatorModule,
+        ReactiveFormsModule,
+        MatCardModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatDialogModule,
+        MatSelectModule
+    ]
 })
 export class EquipeModule { }
