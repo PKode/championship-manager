@@ -8,7 +8,7 @@ import java.util.*
 /**
  * Implements ChampionnatRepository
  */
-@Component
+/*@Component
 class StaticChampionnatRepository : ChampionnatRepository {
     val championnats: MutableList<Championnat> = mutableListOf(Championnat(id = 1, nom = "Ligue 1"))
 
@@ -36,3 +36,4 @@ class StaticChampionnatRepository : ChampionnatRepository {
                 ?: throw NoSuchElementException("Aucun championnat avec l'id :: $id à supprimer")
     }
 }
+*/
