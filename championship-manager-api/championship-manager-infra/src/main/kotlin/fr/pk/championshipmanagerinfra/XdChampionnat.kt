@@ -8,7 +8,8 @@ import kotlinx.dnq.xdRequiredStringProp
 
 class XdChampionnat(entity: Entity) : XdEntity(entity) {
     companion object : XdNaturalEntityType<XdChampionnat>()
-    var id by xdRequiredIntProp(unique = true
-    )
+
+    var id by xdRequiredIntProp(unique = true)
+
     var nom by xdRequiredStringProp()
 }
