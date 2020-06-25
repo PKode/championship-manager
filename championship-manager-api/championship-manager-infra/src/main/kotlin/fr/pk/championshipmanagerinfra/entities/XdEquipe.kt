@@ -1,4 +1,4 @@
-package fr.pk.championshipmanagerinfra
+package fr.pk.championshipmanagerinfra.entities
 
 import jetbrains.exodus.entitystore.Entity
 import kotlinx.dnq.XdEntity

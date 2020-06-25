@@ -1,4 +1,4 @@
-package fr.pk.championshipmanagerinfra
+package fr.pk.championshipmanagerinfra.repository
 
 import jetbrains.exodus.query.NodeBase
 import kotlinx.dnq.XdEntity

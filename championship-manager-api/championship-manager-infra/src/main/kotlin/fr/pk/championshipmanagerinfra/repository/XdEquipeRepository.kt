@@ -1,7 +1,8 @@
-package fr.pk.championshipmanagerinfra
+package fr.pk.championshipmanagerinfra.repository
 
 import fr.pk.championshipmanagerdomain.equipe.Equipe
 import fr.pk.championshipmanagerdomain.equipe.port.EquipeRepository
+import fr.pk.championshipmanagerinfra.entities.XdEquipe
 import jetbrains.exodus.database.TransientEntityStore
 import jetbrains.exodus.util.Random
 import kotlinx.dnq.query.eq
