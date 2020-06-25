@@ -25,7 +25,6 @@ class TestConfiguration {
 
         // Initialize Xodus-DNQ metadata
         initMetaData(XdModel.hierarchy, xodusStore)
-
         return xodusStore
     }
 }

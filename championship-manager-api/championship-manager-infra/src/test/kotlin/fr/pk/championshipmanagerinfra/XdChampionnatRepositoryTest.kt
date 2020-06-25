@@ -1,9 +1,11 @@
 package fr.pk.championshipmanagerinfra
 
 import fr.pk.championshipmanagerdomain.championnat.Championnat
+import fr.pk.championshipmanagerinfra.entities.XdChampionnat
+import fr.pk.championshipmanagerinfra.repository.XdChampionnatRepository
 import jetbrains.exodus.database.TransientEntityStore
-import org.assertj.core.api.Assertions
-import org.junit.jupiter.api.AfterAll
+import org.assertj.core.api.Assertions.assertThat
+import org.assertj.core.api.Assertions.assertThatThrownBy
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
@@ -41,17 +43,12 @@ internal class XdChampionnatRepositoryTest {
         }
     }
 
-    @AfterAll
-    fun end() {
-        xdStore.persistentStore.clear()
-    }
-
     @Test
     fun `doit retourner tous les championnats en base`() {
 
         val championnats = repository.findAll()
 
-        Assertions.assertThat(championnats).containsExactlyInAnyOrderElementsOf(championnats())
+        assertThat(championnats).containsExactlyInAnyOrderElementsOf(championnats())
     }
 
     @Test
@@ -61,18 +58,31 @@ internal class XdChampionnatRepositoryTest {
         val new = Championnat(nom = "CFA")
         val championnat = repository.saveOrUpdate(new)
 
-        Assertions.assertThat(championnat.nom).isEqualTo(new.nom)
-        Assertions.assertThat(repository.findAll().size).isEqualTo(4)
+        assertThat(championnat.nom).isEqualTo(new.nom)
+        assertThat(repository.findAll().size).isEqualTo(4)
 
         // Update and get
         val updated = repository.saveOrUpdate(Championnat(championnat.id, "CFA 2"))
-        Assertions.assertThat(repository.findById(championnat.id!!).nom).isEqualTo("CFA 2")
+        assertThat(repository.findById(championnat.id!!).nom).isEqualTo("CFA 2")
 
         // Remove
         val removed = repository.remove(championnat.id!!)
 
-        Assertions.assertThat(removed).isEqualTo(updated)
-        Assertions.assertThat(repository.findAll().size).isEqualTo(3)
+        assertThat(removed).isEqualTo(updated)
+        assertThat(repository.findAll().size).isEqualTo(3)
+    }
+
+    @Test
+    fun `doit renvoyer une exception si aucun championnat trouve`() {
+
+        assertThatThrownBy { repository.findById(99) }
+                .isInstanceOf(NoSuchElementException::class.java)
+                .hasMessageContaining("Aucun XdChampionnat matche la condition :: PropertyEqual(id=99)")
+
+        assertThatThrownBy { repository.remove(99) }
+                .isInstanceOf(NoSuchElementException::class.java)
+                .hasMessageContaining("Aucun XdChampionnat matche la condition :: PropertyEqual(id=99)")
+
     }
 
     fun championnats(): List<Championnat> =
