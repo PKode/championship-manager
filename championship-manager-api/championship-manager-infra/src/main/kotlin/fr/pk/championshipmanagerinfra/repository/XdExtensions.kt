@@ -3,6 +3,7 @@ package fr.pk.championshipmanagerinfra.repository
 import jetbrains.exodus.query.NodeBase
 import kotlinx.dnq.XdEntity
 import kotlinx.dnq.XdEntityType
+import kotlinx.dnq.query.XdMutableQuery
 import kotlinx.dnq.query.singleOrNull
 import kotlinx.dnq.query.toList
 
@@ -32,4 +33,9 @@ inline fun <reified T : XdEntity, O : Any> XdEntityType<T>.removeMapped(node: No
                 ret
             }
             ?: throw NoSuchElementException("Aucun ${T::class.simpleName} matche la condition :: $node")
+}
+
+
+inline fun <reified T : XdEntity, O : Any> XdMutableQuery<T>.map(mapper: (T) -> O): List<O> {
+    return this.toList().map(mapper)
 }

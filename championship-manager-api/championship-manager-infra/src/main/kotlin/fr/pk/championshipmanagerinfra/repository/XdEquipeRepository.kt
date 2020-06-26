@@ -13,13 +13,13 @@ class XdEquipeRepository(private val xdStore: TransientEntityStore) : EquipeRepo
 
     override fun findAll(): List<Equipe> {
         return xdStore.transactional {
-            XdEquipe findAllMapped { Equipe(id = it.id, nom = it.nom) }
+            XdEquipe findAllMapped { it.toEquipe() }
         }
     }
 
     override fun findById(id: Int): Equipe {
         return xdStore.transactional {
-            XdEquipe.findByIdMapped(XdEquipe::id eq id) { Equipe(it.id, it.nom) }
+            XdEquipe.findByIdMapped(XdEquipe::id eq id) { it.toEquipe() }
         }
     }
 
@@ -34,14 +34,14 @@ class XdEquipeRepository(private val xdStore: TransientEntityStore) : EquipeRepo
                         n.id = Random().nextInt()
                         n.nom = equipe.nom
                     }) {
-                Equipe(it.id, it.nom)
+                it.toEquipe()
             }
         }
     }
 
     override fun remove(id: Int): Equipe {
         return xdStore.transactional {
-            XdEquipe.removeMapped(XdEquipe::id eq id) { Equipe(it.id, it.nom) }
+            XdEquipe.removeMapped(XdEquipe::id eq id) { it.toEquipe() }
         }
     }
 }
