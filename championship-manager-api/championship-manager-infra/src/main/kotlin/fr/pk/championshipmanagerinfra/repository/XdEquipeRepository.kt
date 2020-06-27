@@ -30,6 +30,9 @@ class XdEquipeRepository(private val xdStore: TransientEntityStore) : EquipeRepo
             XdEquipe.saveOrUpdateMapped(XdEquipe::id eq equipe.id,
                     ifUpdate = { c ->
                         c.nom = equipe.nom
+                        c.championnat = equipe.championnat?.let {
+                            XdChampionnat.findFirstByMapped(XdChampionnat::id eq it.id) { ch -> ch }
+                        }
                         c
                     },
                     ifNew = { n ->

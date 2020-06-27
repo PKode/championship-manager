@@ -14,7 +14,7 @@ class EquipeQuery(private val equipeService: EquipeService) : Query {
      * Query for getting all equipes.
      */
     fun equipes(): List<EquipeDto> {
-        return equipeService.getAll().map { EquipeDto(it.id, it.nom) }
+        return equipeService.getAll().map { EquipeDto(it) }
     }
 
     /**
@@ -22,6 +22,6 @@ class EquipeQuery(private val equipeService: EquipeService) : Query {
      */
     fun equipe(id: Int): EquipeDto {
         val equipe = equipeService.getById(id)
-        return EquipeDto(equipe.id, equipe.nom)
+        return EquipeDto(equipe)
     }
 }

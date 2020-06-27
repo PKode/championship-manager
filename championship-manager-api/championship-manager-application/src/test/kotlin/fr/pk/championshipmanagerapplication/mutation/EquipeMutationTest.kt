@@ -1,6 +1,8 @@
 package fr.pk.championshipmanagerapplication.mutation
 
+import fr.pk.championshipmanagerapplication.dto.ChampionnatDto
 import fr.pk.championshipmanagerapplication.dto.EquipeDto
+import fr.pk.championshipmanagerdomain.championnat.Championnat
 import fr.pk.championshipmanagerdomain.equipe.Equipe
 import fr.pk.championshipmanagerdomain.equipe.port.EquipeService
 import org.assertj.core.api.Assertions
@@ -24,12 +26,13 @@ internal class EquipeMutationTest {
 
             val nom = "PSG"
 
-            val equipeToCreate = Equipe(nom = nom)
-            Mockito.`when`(equipeService.createOrEdit(equipeToCreate)).thenReturn(Equipe(1, nom))
+            val equipeToCreate = Equipe(nom = nom, championnat = Championnat(1, "Ligue 1"))
+            Mockito.`when`(equipeService.createOrEdit(equipeToCreate)).thenReturn(Equipe(1, nom, Championnat(1, "Ligue 1")))
 
-            val equipe = mutation.equipe(EquipeDto(nom = nom))
+            val championnatDto = ChampionnatDto(1, "Ligue 1")
+            val equipe = mutation.equipe(equipe = EquipeDto(nom = nom, championnat = championnatDto))
 
-            Assertions.assertThat(equipe).isEqualTo(EquipeDto(1, nom))
+            Assertions.assertThat(equipe).isEqualTo(EquipeDto(1, nom, championnatDto))
             verify(equipeService, Mockito.times(1)).createOrEdit(equipeToCreate)
         }
     }

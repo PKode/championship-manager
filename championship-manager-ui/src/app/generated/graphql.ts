@@ -26,11 +26,13 @@ export type ChampionnatDtoInput = {
 
 export type EquipeDto = {
   readonly __typename?: 'EquipeDto';
+  readonly championnat: Maybe<ChampionnatDto>;
   readonly id: Maybe<Scalars['Int']>;
   readonly nom: Scalars['String'];
 };
 
 export type EquipeDtoInput = {
+  readonly championnat: Maybe<ChampionnatDtoInput>;
   readonly id: Maybe<Scalars['Int']>;
   readonly nom: Scalars['String'];
 };
@@ -206,6 +208,10 @@ export type EquipesQuery = (
   & { readonly equipes: ReadonlyArray<(
     { readonly __typename?: 'EquipeDto' }
     & Pick<EquipeDto, 'id' | 'nom'>
+    & { readonly championnat: Maybe<(
+      { readonly __typename?: 'ChampionnatDto' }
+      & Pick<ChampionnatDto, 'id' | 'nom'>
+    )> }
   )> }
 );
 
@@ -324,6 +330,10 @@ export const EquipesDocument = gql`
   equipes {
     id
     nom
+    championnat {
+      id
+      nom
+    }
   }
 }
     `;

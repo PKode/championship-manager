@@ -22,7 +22,7 @@ export class EquipeListComponent implements OnInit {
   dataSource: EquipeListDataSource;
 
   /** Columns displayed in the table. Columns IDs can be added, removed, or reordered. */
-  displayedColumns = ['id', 'nom', 'actions'];
+  displayedColumns = ['id', 'nom', 'championnat', 'actions'];
 
   constructor(private equipeService: EquipeService,
               private dialog: MatDialog) {
@@ -30,7 +30,7 @@ export class EquipeListComponent implements OnInit {
 
   ngOnInit() {
     this.equipeService.getAllEquipes().subscribe(data => {
-      let map = data.map(d => new Equipe(d.nom, new Championnat("Ligue 1"),d.id));
+      let map = data.map(d => new Equipe(d.nom, d.championnat != null ? new Championnat(d.championnat.nom, d.championnat.id) : null, d.id));
       this.dataSource = new EquipeListDataSource(map);
       this.dataSource.sort = this.sort;
       this.dataSource.paginator = this.paginator;

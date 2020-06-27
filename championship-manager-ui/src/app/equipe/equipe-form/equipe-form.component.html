@@ -16,10 +16,10 @@
           <mat-label>Championnat</mat-label>
           <mat-select formControlName="championnat">
             <mat-option *ngFor="let championnat of championnats"
-                        [value]="championnat.id">{{championnat.nom}} </mat-option>
+                        [value]="championnat">{{championnat.nom}} </mat-option>
           </mat-select>
           <mat-error *ngIf="equipeForm.controls['championnat'].hasError('required')">
-            Nom is <strong>required</strong>
+            Championnat is <strong>required</strong>
           </mat-error>
         </mat-form-field>
       </div>

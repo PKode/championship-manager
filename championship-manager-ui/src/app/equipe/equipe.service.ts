@@ -17,8 +17,15 @@ export class EquipeService {
     return this.equipeQuery.watch().valueChanges.pipe(pluck('data', "equipes"))
   }
 
-  createChampionnat(equipe: Equipe) {
-    this.equipeMutation.mutate({equipe: {nom: equipe.nom, id: equipe.id}}, {
+  createEquipe(equipe: Equipe) {
+    this.equipeMutation.mutate({
+        equipe: {
+          nom: equipe.nom,
+          id: equipe.id,
+          championnat: equipe.championnat ? {id: equipe.championnat.id, nom: equipe.championnat.nom} : null
+        }
+      },
+      {
         refetchQueries: [{
           query: this.equipeQuery.document
         }]

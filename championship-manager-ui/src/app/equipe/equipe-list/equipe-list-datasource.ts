@@ -71,6 +71,8 @@ export class EquipeListDataSource extends DataSource<Equipe> {
           return compare(a.nom, b.nom, isAsc);
         case 'id':
           return compare(+a.id, +b.id, isAsc);
+        case 'championnat':
+          return compare(a.championnat?.nom, b.championnat?.nom, isAsc);
         default:
           return 0;
       }

@@ -28,7 +28,7 @@ export class EquipeFormComponent implements OnInit {
   }
 
   onSubmit() {
-    this.equipeService.createChampionnat(new Equipe(this.equipeForm.value.nom, this.equipeForm.value.championnat, this.data?.id));
+    this.equipeService.createEquipe(new Equipe(this.equipeForm.value.nom, this.equipeForm.value.championnat, this.data?.id));
     this.dialogRef.close();
   }
 

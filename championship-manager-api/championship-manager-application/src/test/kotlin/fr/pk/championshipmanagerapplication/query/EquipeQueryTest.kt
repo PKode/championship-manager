@@ -1,6 +1,8 @@
 package fr.pk.championshipmanagerapplication.query
 
+import fr.pk.championshipmanagerapplication.dto.ChampionnatDto
 import fr.pk.championshipmanagerapplication.dto.EquipeDto
+import fr.pk.championshipmanagerdomain.championnat.Championnat
 import fr.pk.championshipmanagerdomain.equipe.Equipe
 import fr.pk.championshipmanagerdomain.equipe.port.EquipeService
 import org.assertj.core.api.Assertions.assertThat
@@ -22,9 +24,10 @@ internal class EquipeQueryTest {
         @Test
         fun `doit retourner la liste des equipes`() {
             // Given
+            val championnat = Championnat(1, "Ligue 1")
             val domainList = listOf(
-                    Equipe(1, "PSG"),
-                    Equipe(2, "Brest")
+                    Equipe(1, "PSG", championnat),
+                    Equipe(2, "Brest", championnat)
             )
 
             // When
@@ -33,14 +36,15 @@ internal class EquipeQueryTest {
             val equipes = query.equipes()
 
             // Then
-            val dtoList = listOf(EquipeDto(1, "PSG"), EquipeDto(2, "Brest"))
+            val championnatDto = ChampionnatDto(1, "Ligue 1")
+            val dtoList = listOf(EquipeDto(1, "PSG", championnatDto), EquipeDto(2, "Brest", championnatDto))
 
             assertThat(equipes).isEqualTo(dtoList)
             verify(equipeService, Mockito.times(1)).getAll()
         }
 
         @Test
-        fun `doit retourner le championnat correspondant a id`() {
+        fun `doit retourner l'equipe correspondant a id`() {
             // Given
             val domainEquipe = Equipe(1, "Nantes")
 
