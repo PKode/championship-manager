@@ -2,10 +2,12 @@ package fr.pk.championshipmanagerinfra.repository
 
 import fr.pk.championshipmanagerdomain.equipe.Equipe
 import fr.pk.championshipmanagerdomain.equipe.port.EquipeRepository
+import fr.pk.championshipmanagerinfra.entities.XdChampionnat
 import fr.pk.championshipmanagerinfra.entities.XdEquipe
 import jetbrains.exodus.database.TransientEntityStore
 import jetbrains.exodus.util.Random
 import kotlinx.dnq.query.eq
+import kotlinx.dnq.query.filter
 import org.springframework.stereotype.Component
 
 @Component
@@ -19,7 +21,7 @@ class XdEquipeRepository(private val xdStore: TransientEntityStore) : EquipeRepo
 
     override fun findById(id: Int): Equipe {
         return xdStore.transactional {
-            XdEquipe.findByIdMapped(XdEquipe::id eq id) { it.toEquipe() }
+            XdEquipe.findFirstByMapped(XdEquipe::id eq id) { it.toEquipe() }
         }
     }
 
@@ -33,15 +35,22 @@ class XdEquipeRepository(private val xdStore: TransientEntityStore) : EquipeRepo
                     ifNew = { n ->
                         n.id = Random().nextInt()
                         n.nom = equipe.nom
-                    }) {
-                it.toEquipe()
-            }
+                        n.championnat = equipe.championnat?.let {
+                            XdChampionnat.findFirstByMapped(XdChampionnat::id eq it.id) { c -> c }
+                        }
+                    }) { it.toEquipe() }
         }
     }
 
     override fun remove(id: Int): Equipe {
         return xdStore.transactional {
             XdEquipe.removeMapped(XdEquipe::id eq id) { it.toEquipe() }
+        }
+    }
+
+    override fun findAllEquipeByChampionnat(championnatId: Int): List<Equipe> {
+        return xdStore.transactional {
+            XdEquipe.filter { it.championnat?.id eq championnatId }.map { e -> e.toEquipe() }
         }
     }
 }

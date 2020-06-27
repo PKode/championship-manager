@@ -1,3 +1,5 @@
 package fr.pk.championshipmanagerdomain.equipe
 
-data class Equipe(val id: Int? = null, val nom: String)
+import fr.pk.championshipmanagerdomain.championnat.Championnat
+
+data class Equipe(val id: Int? = null, val nom: String, val championnat: Championnat? = null)

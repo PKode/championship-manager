@@ -1,13 +1,8 @@
 package fr.pk.championshipmanagerinfra.entities
 
 import fr.pk.championshipmanagerdomain.equipe.Equipe
-import fr.pk.championshipmanagerinfra.repository.map
 import jetbrains.exodus.entitystore.Entity
-import kotlinx.dnq.XdEntity
-import kotlinx.dnq.XdNaturalEntityType
-import kotlinx.dnq.query.XdMutableQuery
-import kotlinx.dnq.xdRequiredIntProp
-import kotlinx.dnq.xdRequiredStringProp
+import kotlinx.dnq.*
 
 class XdEquipe(entity: Entity) : XdEntity(entity) {
     companion object : XdNaturalEntityType<XdEquipe>()
@@ -16,11 +11,7 @@ class XdEquipe(entity: Entity) : XdEntity(entity) {
 
     var nom by xdRequiredStringProp()
 
-    fun toEquipe() = Equipe(id = this.id, nom = this.nom)
+    var championnat by xdLink0_1(XdChampionnat)
 
-}
-
-
-fun XdMutableQuery<XdEquipe>.toEquipes(): List<Equipe> {
-    return this.map { it.toEquipe() }
+    fun toEquipe() = Equipe(id = this.id, nom = this.nom, championnat = this.championnat?.toChampionnat())
 }

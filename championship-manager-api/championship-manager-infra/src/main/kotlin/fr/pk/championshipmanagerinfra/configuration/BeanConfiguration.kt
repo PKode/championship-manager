@@ -18,8 +18,8 @@ import java.io.File
 class BeanConfiguration {
 
     @Bean
-    fun championnatService(championnatRepository: ChampionnatRepository): ChampionnatService {
-        return DomainChampionnatService(championnatRepository)
+    fun championnatService(championnatRepository: ChampionnatRepository, equipeRepository: EquipeRepository): ChampionnatService {
+        return DomainChampionnatService(championnatRepository, equipeRepository)
     }
 
     @Bean

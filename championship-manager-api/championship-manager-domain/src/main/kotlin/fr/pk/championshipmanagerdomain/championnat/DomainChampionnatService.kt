@@ -3,8 +3,10 @@ package fr.pk.championshipmanagerdomain.championnat
 import fr.pk.championshipmanagerdomain.championnat.port.ChampionnatRepository
 import fr.pk.championshipmanagerdomain.championnat.port.ChampionnatService
 import fr.pk.championshipmanagerdomain.equipe.Equipe
+import fr.pk.championshipmanagerdomain.equipe.port.EquipeRepository
 
-class DomainChampionnatService(private val championnatRepository: ChampionnatRepository) : ChampionnatService {
+class DomainChampionnatService(private val championnatRepository: ChampionnatRepository,
+                               private val equipeRepository: EquipeRepository) : ChampionnatService {
     override fun getAllChampionnats(): List<Championnat> {
         return championnatRepository.findAll()
     }
@@ -23,7 +25,7 @@ class DomainChampionnatService(private val championnatRepository: ChampionnatRep
 
     @ExperimentalStdlibApi
     override fun genererCalendrier(championnatId: Int): Saison {
-        val equipes = getChampionnatById(championnatId).equipes.shuffled()
+        val equipes = equipeRepository.findAllEquipeByChampionnat(championnatId).shuffled()
 
         val top = equipes.firstHalf()
         val bottom = equipes.secondHalf()

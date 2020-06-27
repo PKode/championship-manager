@@ -1,32 +1,31 @@
 package fr.pk.championshipmanagerinfra
 
 import fr.pk.championshipmanagerdomain.championnat.Championnat
+import fr.pk.championshipmanagerinfra.configuration.BeanConfiguration
 import fr.pk.championshipmanagerinfra.entities.XdChampionnat
+import fr.pk.championshipmanagerinfra.entities.XdEquipe
 import fr.pk.championshipmanagerinfra.repository.XdChampionnatRepository
-import jetbrains.exodus.database.TransientEntityStore
 import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.Assertions.assertThatThrownBy
+import org.junit.jupiter.api.AfterAll
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
 import org.junit.jupiter.api.extension.ExtendWith
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.context.junit.jupiter.SpringExtension
+import java.io.File
 
-@ExtendWith(SpringExtension::class)
 @SpringBootTest(classes = [TestConfiguration::class])
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-internal class XdChampionnatRepositoryTest {
+internal class XdChampionnatRepositoryTest : XdRepositoryTest() {
 
-    @Autowired
-    private lateinit var xdStore: TransientEntityStore
+    private val xdStore = xodusStore(XdChampionnat)
 
-    private lateinit var repository: XdChampionnatRepository
+    private val repository = XdChampionnatRepository(xdStore)
 
     @BeforeAll
     fun init() {
-        repository = XdChampionnatRepository(xdStore)
         xdStore.transactional {
             XdChampionnat.new {
                 this.id = 1
@@ -42,6 +41,13 @@ internal class XdChampionnatRepositoryTest {
             }
         }
     }
+
+    @AfterAll
+    fun clean() {
+        File(xdStore.persistentStore.location).deleteRecursively()
+        println("Exodus removing environment")
+    }
+
 
     @Test
     fun `doit retourner tous les championnats en base`() {

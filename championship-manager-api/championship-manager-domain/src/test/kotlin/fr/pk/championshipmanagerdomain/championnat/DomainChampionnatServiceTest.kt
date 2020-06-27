@@ -2,6 +2,7 @@ package fr.pk.championshipmanagerdomain.championnat
 
 import fr.pk.championshipmanagerdomain.championnat.port.ChampionnatRepository
 import fr.pk.championshipmanagerdomain.equipe.Equipe
+import fr.pk.championshipmanagerdomain.equipe.port.EquipeRepository
 import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.internal.bytebuddy.utility.RandomString
 import org.junit.jupiter.api.DisplayName
@@ -17,7 +18,8 @@ import org.mockito.Mockito.mock
 internal class DomainChampionnatServiceTest {
 
     private val repository = mock(ChampionnatRepository::class.java)
-    private val service = DomainChampionnatService(repository)
+    private val equipeRepository = mock(EquipeRepository::class.java)
+    private val service = DomainChampionnatService(repository, equipeRepository)
 
     @Nested
     inner class CalendrierFeature {
@@ -25,15 +27,15 @@ internal class DomainChampionnatServiceTest {
         @ParameterizedTest(name = "Genère un calendrier avec {0} équipes")
         @ValueSource(ints = [2, 4, 8, 10, 20, 3, 5, 7, 11])
         fun `doit generer un calendrirer`(nbTeam: Int) {
-            val championnat = Championnat(id = 1, nom = "Ligue 1", equipes = randomTeam(nbTeam))
+            val championnat = Championnat(id = 1, nom = "Ligue 1")
 
             `when`(repository.findById(1)).thenReturn(championnat)
-
+            `when`(equipeRepository.findAllEquipeByChampionnat(1)).thenReturn(randomTeam(nbTeam))
             val saison = service.genererCalendrier(1)
 
             val matchs = saison.journees.flatMap { it.matchs }
 
-            assertThat(saison.journees.size).isEqualTo((championnat.equipes.size - 1) * 2)
+            assertThat(saison.journees.size).isEqualTo((nbTeam - 1) * 2)
             assertThat(matchs).containsExactlyInAnyOrderElementsOf(matchs.toSet())
         }
     }

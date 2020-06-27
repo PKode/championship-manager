@@ -11,7 +11,5 @@ class XdChampionnat(entity: Entity) : XdEntity(entity) {
 
     var nom by xdRequiredStringProp()
 
-    val equipes by xdLink0_N(XdEquipe)
-
-    fun toChampionnat() = Championnat(id = this.id, nom = this.nom, equipes = this.equipes.toEquipes())
+    fun toChampionnat() = Championnat(id = this.id, nom = this.nom)
 }

@@ -1,46 +1,58 @@
 package fr.pk.championshipmanagerinfra
 
+import fr.pk.championshipmanagerdomain.championnat.Championnat
 import fr.pk.championshipmanagerdomain.equipe.Equipe
+import fr.pk.championshipmanagerinfra.entities.XdChampionnat
 import fr.pk.championshipmanagerinfra.entities.XdEquipe
 import fr.pk.championshipmanagerinfra.repository.XdEquipeRepository
-import jetbrains.exodus.database.TransientEntityStore
 import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.Assertions.assertThatThrownBy
+import org.junit.jupiter.api.AfterAll
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
-import org.junit.jupiter.api.extension.ExtendWith
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
-import org.springframework.test.context.junit.jupiter.SpringExtension
+import java.io.File
+import kotlin.random.Random
 
-@ExtendWith(SpringExtension::class)
 @SpringBootTest(classes = [TestConfiguration::class])
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-internal class XdEquipeRepositoryTest {
+internal class XdEquipeRepositoryTest : XdRepositoryTest() {
 
-    @Autowired
-    private lateinit var xdStore: TransientEntityStore
+    private val xdStore = xodusStore(XdChampionnat, XdEquipe)
 
-    private lateinit var repository: XdEquipeRepository
+    private val repository = XdEquipeRepository(xdStore)
+
+    private val championnatId = 1
 
     @BeforeAll
     fun init() {
-        repository = XdEquipeRepository(xdStore)
         xdStore.transactional {
+            val championnat = XdChampionnat.new {
+                this.id = championnatId
+                this.nom = "Ligue 1"
+            }
             XdEquipe.new {
                 this.id = 4
                 this.nom = "PSG"
+                this.championnat = championnat
             }
             XdEquipe.new {
                 this.id = 5
                 this.nom = "ASSE"
+                this.championnat = championnat
             }
             XdEquipe.new {
                 this.id = 6
                 this.nom = "OL"
             }
         }
+    }
+
+    @AfterAll
+    fun clean() {
+        File(xdStore.persistentStore.location).deleteRecursively()
+        println("Exodus removing environment")
     }
 
     @Test
@@ -52,13 +64,25 @@ internal class XdEquipeRepositoryTest {
     }
 
     @Test
+    fun `doit retourner toutes les equipes en base pour un championnat`() {
+
+        val equipes = repository.findAllEquipeByChampionnat(championnatId)
+
+        assertThat(equipes).containsExactlyInAnyOrderElementsOf(listOf(
+                Equipe(4, "PSG", championnat = Championnat(championnatId, "Ligue 1")),
+                Equipe(5, "ASSE", championnat = Championnat(championnatId, "Ligue 1")))
+        )
+    }
+
+    @Test
     fun `doit creer une equipe, la modifier et la supprimer`() {
 
         // Create
-        val new = Equipe(nom = "CFA")
+        val new = Equipe(nom = "Lens", championnat = Championnat(id = championnatId, nom = "Ligue 1"))
         val equipe = repository.saveOrUpdate(new)
 
         assertThat(equipe.nom).isEqualTo(new.nom)
+        assertThat(equipe.championnat?.nom).isEqualTo("Ligue 1")
         assertThat(repository.findAll().size).isEqualTo(4)
 
         // Update and get
@@ -87,8 +111,8 @@ internal class XdEquipeRepositoryTest {
 
     fun equipes(): List<Equipe> =
             listOf(
-                    Equipe(4, "PSG"),
-                    Equipe(5, "ASSE"),
+                    Equipe(4, "PSG", championnat = Championnat(championnatId, "Ligue 1")),
+                    Equipe(5, "ASSE", championnat = Championnat(championnatId, "Ligue 1")),
                     Equipe(6, "OL")
             )
 }

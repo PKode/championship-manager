@@ -7,7 +7,6 @@ import java.time.LocalDateTime
 data class Championnat(
         val id: Int? = null,
         val nom: String,
-        val equipes: List<Equipe> = emptyList(),
         val saisons: List<Saison> = emptyList()
 )
 

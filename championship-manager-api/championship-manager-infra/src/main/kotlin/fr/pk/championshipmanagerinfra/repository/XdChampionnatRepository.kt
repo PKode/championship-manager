@@ -2,17 +2,10 @@ package fr.pk.championshipmanagerinfra.repository
 
 import fr.pk.championshipmanagerdomain.championnat.Championnat
 import fr.pk.championshipmanagerdomain.championnat.port.ChampionnatRepository
-import fr.pk.championshipmanagerdomain.equipe.Equipe
 import fr.pk.championshipmanagerinfra.entities.XdChampionnat
-import fr.pk.championshipmanagerinfra.entities.XdEquipe
-import fr.pk.championshipmanagerinfra.entities.toEquipes
 import jetbrains.exodus.database.TransientEntityStore
 import jetbrains.exodus.util.Random
-import kotlinx.dnq.XdEntity
-import kotlinx.dnq.query.XdMutableQuery
 import kotlinx.dnq.query.eq
-import kotlinx.dnq.query.mapDistinct
-import kotlinx.dnq.query.toList
 import org.springframework.stereotype.Component
 
 @Component
@@ -26,7 +19,7 @@ class XdChampionnatRepository(private val xdStore: TransientEntityStore) : Champ
 
     override fun findById(id: Int): Championnat {
         return xdStore.transactional {
-            XdChampionnat.findByIdMapped(XdChampionnat::id eq id) { it.toChampionnat() }
+            XdChampionnat.findFirstByMapped(XdChampionnat::id eq id) { it.toChampionnat() }
         }
     }
 

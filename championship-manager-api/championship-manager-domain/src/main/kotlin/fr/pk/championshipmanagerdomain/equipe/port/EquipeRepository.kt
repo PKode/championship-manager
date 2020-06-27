@@ -26,4 +26,11 @@ interface EquipeRepository {
      * @param id de l' équipe à supprimer.
      */
     fun remove(id: Int): Equipe
+
+    /**
+     * Récupère toutes les équipes correspondant au championnat avec l'id
+     * @param championnatId
+     * @return la liste des équipes.
+     */
+    fun findAllEquipeByChampionnat(championnatId: Int): List<Equipe>
 }
