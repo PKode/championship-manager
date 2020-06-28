@@ -17,11 +17,13 @@ export type ChampionnatDto = {
   readonly __typename?: 'ChampionnatDto';
   readonly id: Maybe<Scalars['Int']>;
   readonly nom: Scalars['String'];
+  readonly saisons: Maybe<ReadonlyArray<SaisonDto>>;
 };
 
 export type ChampionnatDtoInput = {
   readonly id: Maybe<Scalars['Int']>;
   readonly nom: Scalars['String'];
+  readonly saisons: Maybe<ReadonlyArray<SaisonDtoInput>>;
 };
 
 export type EquipeDto = {
@@ -43,6 +45,11 @@ export type JourneeDto = {
   readonly numero: Scalars['Int'];
 };
 
+export type JourneeDtoInput = {
+  readonly matchs: ReadonlyArray<MatchDtoInput>;
+  readonly numero: Scalars['Int'];
+};
+
 export type MatchDto = {
   readonly __typename?: 'MatchDto';
   readonly butDomicile: Scalars['Int'];
@@ -50,6 +57,14 @@ export type MatchDto = {
   readonly date: Scalars['String'];
   readonly domicile: EquipeDto;
   readonly exterieur: EquipeDto;
+};
+
+export type MatchDtoInput = {
+  readonly butDomicile: Scalars['Int'];
+  readonly butExterieur: Scalars['Int'];
+  readonly date: Scalars['String'];
+  readonly domicile: EquipeDtoInput;
+  readonly exterieur: EquipeDtoInput;
 };
 
 export type Mutation = {
@@ -108,6 +123,11 @@ export type SaisonDto = {
   readonly __typename?: 'SaisonDto';
   readonly annee: Scalars['Int'];
   readonly journees: ReadonlyArray<JourneeDto>;
+};
+
+export type SaisonDtoInput = {
+  readonly annee: Scalars['Int'];
+  readonly journees: ReadonlyArray<JourneeDtoInput>;
 };
 
 export type ChampionnatMutationVariables = {
@@ -172,6 +192,37 @@ export type ChampionnatsQuery = (
     { readonly __typename?: 'ChampionnatDto' }
     & Pick<ChampionnatDto, 'id' | 'nom'>
   )> }
+);
+
+export type ChampionnatByIdQueryVariables = {
+  id: Scalars['Int'];
+};
+
+
+export type ChampionnatByIdQuery = (
+  { readonly __typename?: 'Query' }
+  & { readonly championnat: (
+    { readonly __typename?: 'ChampionnatDto' }
+    & Pick<ChampionnatDto, 'id' | 'nom'>
+    & { readonly saisons: Maybe<ReadonlyArray<(
+      { readonly __typename?: 'SaisonDto' }
+      & Pick<SaisonDto, 'annee'>
+      & { readonly journees: ReadonlyArray<(
+        { readonly __typename?: 'JourneeDto' }
+        & { readonly matchs: ReadonlyArray<(
+          { readonly __typename?: 'MatchDto' }
+          & Pick<MatchDto, 'butDomicile' | 'butExterieur' | 'date'>
+          & { readonly domicile: (
+            { readonly __typename?: 'EquipeDto' }
+            & Pick<EquipeDto, 'nom'>
+          ), readonly exterieur: (
+            { readonly __typename?: 'EquipeDto' }
+            & Pick<EquipeDto, 'nom'>
+          ) }
+        )> }
+      )> }
+    )>> }
+  ) }
 );
 
 export type EquipeMutationVariables = {
@@ -291,6 +342,38 @@ export const ChampionnatsDocument = gql`
   })
   export class ChampionnatsGQL extends Apollo.Query<ChampionnatsQuery, ChampionnatsQueryVariables> {
     document = ChampionnatsDocument;
+    
+  }
+export const ChampionnatByIdDocument = gql`
+    query championnatById($id: Int!) {
+  championnat(id: $id) {
+    id
+    nom
+    saisons {
+      annee
+      journees {
+        matchs {
+          butDomicile
+          butExterieur
+          date
+          domicile {
+            nom
+          }
+          exterieur {
+            nom
+          }
+        }
+      }
+    }
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class ChampionnatByIdGQL extends Apollo.Query<ChampionnatByIdQuery, ChampionnatByIdQueryVariables> {
+    document = ChampionnatByIdDocument;
     
   }
 export const EquipeDocument = gql`

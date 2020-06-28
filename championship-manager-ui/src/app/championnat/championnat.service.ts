@@ -1,5 +1,11 @@
 import {Injectable} from '@angular/core';
-import {CalendrierGQL, ChampionnatGQL, ChampionnatsGQL, DeleteChampionnatGQL} from "../generated/graphql";
+import {
+  CalendrierGQL,
+  ChampionnatByIdGQL,
+  ChampionnatGQL,
+  ChampionnatsGQL,
+  DeleteChampionnatGQL
+} from "../generated/graphql";
 import {pluck} from "rxjs/operators";
 import {Championnat} from "./championnat";
 
@@ -12,15 +18,20 @@ export class ChampionnatService {
   constructor(private championnatMutation: ChampionnatGQL,
               private championnatQuery: ChampionnatsGQL,
               private deleteChampionnatMutation: DeleteChampionnatGQL,
-              private calendrierMutation: CalendrierGQL) {
+              private calendrierMutation: CalendrierGQL,
+              private championnatByIdQuery: ChampionnatByIdGQL) {
   }
 
   getAllChampionnats() {
-    return this.championnatQuery.watch().valueChanges.pipe(pluck('data', "championnats"))
+    return this.championnatQuery.watch().valueChanges.pipe(pluck('data', 'championnats'))
+  }
+
+  getChampionnatById(championnatId: number) {
+    return this.championnatByIdQuery.watch({id: championnatId}).valueChanges.pipe(pluck('data', 'championnat'))
   }
 
   createChampionnat(championnat: Championnat) {
-    this.championnatMutation.mutate({championnat: {nom: championnat.nom, id: championnat.id}}, {
+    this.championnatMutation.mutate({championnat: {nom: championnat.nom, id: championnat.id, saisons: []}}, {
         refetchQueries: [{
           query: this.championnatQuery.document
         }]

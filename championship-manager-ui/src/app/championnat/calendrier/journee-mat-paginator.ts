@@ -11,9 +11,9 @@ export class JourneeMatPaginatorIntl extends MatPaginatorIntl {
 
   getAndInitTranslations() {
 
-    this.itemsPerPageLabel = "test";
-    this.nextPageLabel = "test";
-    this.previousPageLabel = "test";
+    this.itemsPerPageLabel = "Journée";
+    this.nextPageLabel = "Prochaine Journée";
+    this.previousPageLabel = "Précédente Journée";
     this.changes.next();
 
   }
@@ -25,6 +25,6 @@ export class JourneeMatPaginatorIntl extends MatPaginatorIntl {
     length = Math.max(length, 0);
     const startIndex = page * pageSize;
     const endIndex = startIndex < length ? Math.min(startIndex + pageSize, length) : startIndex + pageSize;
-    return `Journée ${page + 1} / ${length}`;
+    return `Journée ${page + 1} / ${length / 2}`;
   }
 }

@@ -3,32 +3,21 @@ import {MatPaginator} from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';
 import {map} from 'rxjs/operators';
 import {Observable, of as observableOf, merge} from 'rxjs';
-
-// TODO: Replace this with your own data model type
-export interface CalendrierItem {
-  date: string;
-  domicile: string;
-  score: string;
-  exterieur: string;
-}
-
-// TODO: replace this with real data from your application
-const EXAMPLE_DATA: CalendrierItem[] = [
-
-];
+import {MatchDto} from "../../generated/graphql";
 
 /**
  * Data source for the Calendrier view. This class should
  * encapsulate all logic for fetching and manipulating the displayed data
  * (including sorting, pagination, and filtering).
  */
-export class CalendrierDataSource extends DataSource<CalendrierItem> {
-  data: CalendrierItem[] = EXAMPLE_DATA;
+export class CalendrierDataSource extends DataSource<MatchDto> {
+  data: MatchDto[] = [];
   paginator: MatPaginator;
   sort: MatSort;
 
-  constructor() {
+  constructor(private matchs: MatchDto[]) {
     super();
+    this.data = matchs;
   }
 
   /**
@@ -36,7 +25,7 @@ export class CalendrierDataSource extends DataSource<CalendrierItem> {
    * the returned stream emits new items.
    * @returns A stream of the items to be rendered.
    */
-  connect(): Observable<CalendrierItem[]> {
+  connect(): Observable<MatchDto[]> {
     // Combine everything that affects the rendered data into one update
     // stream for the data-table to consume.
     const dataMutations = [
@@ -61,7 +50,7 @@ export class CalendrierDataSource extends DataSource<CalendrierItem> {
    * Paginate the data (client-side). If you're using server-side pagination,
    * this would be replaced by requesting the appropriate data from the server.
    */
-  private getPagedData(data: CalendrierItem[]) {
+  private getPagedData(data: MatchDto[]) {
     const startIndex = this.paginator.pageIndex * this.paginator.pageSize;
     return data.splice(startIndex, this.paginator.pageSize);
   }
@@ -70,7 +59,7 @@ export class CalendrierDataSource extends DataSource<CalendrierItem> {
    * Sort the data (client-side). If you're using server-side sorting,
    * this would be replaced by requesting the appropriate data from the server.
    */
-  private getSortedData(data: CalendrierItem[]) {
+  private getSortedData(data: MatchDto[]) {
     if (!this.sort.active || this.sort.direction === '') {
       return data;
     }
@@ -79,7 +68,7 @@ export class CalendrierDataSource extends DataSource<CalendrierItem> {
       const isAsc = this.sort.direction === 'asc';
       switch (this.sort.active) {
         case 'domicile':
-          return compare(a.domicile, b.domicile, isAsc);
+          return compare(a.domicile.nom, b.domicile.nom, isAsc);
         case 'date':
           return compare(a.date, b.date, isAsc);
         default:

@@ -15,7 +15,7 @@
           </mat-card-title>
         </mat-card-header>
         <mat-card-content class="dashboard-card-content">
-          <ng-container *ngComponentOutlet="card.component"></ng-container>
+          <ng-container *ngComponentOutlet="card.component; injector: idInjector;"></ng-container>
         </mat-card-content>
       </mat-card>
     </mat-grid-tile>

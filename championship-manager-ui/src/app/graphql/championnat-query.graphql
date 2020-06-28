@@ -4,3 +4,26 @@ query championnats {
     nom
   }
 }
+
+query championnatById($id: Int!) {
+  championnat(id: $id) {
+    id
+    nom
+    saisons {
+      annee
+      journees {
+        matchs {
+          butDomicile
+          butExterieur
+          date
+          domicile {
+            nom
+          }
+          exterieur {
+            nom
+          }
+        }
+      }
+    }
+  }
+}

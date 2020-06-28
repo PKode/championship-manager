@@ -22,7 +22,7 @@ export class EquipeService {
         equipe: {
           nom: equipe.nom,
           id: equipe.id,
-          championnat: equipe.championnat ? {id: equipe.championnat.id, nom: equipe.championnat.nom} : null
+          championnat: equipe.championnat ? {id: equipe.championnat.id, nom: equipe.championnat.nom, saisons: []} : null
         }
       },
       {

@@ -32,6 +32,5 @@ export class ChampionnatDetailComponent {
   );
 
   constructor(private breakpointObserver: BreakpointObserver) {
-
   }
 }

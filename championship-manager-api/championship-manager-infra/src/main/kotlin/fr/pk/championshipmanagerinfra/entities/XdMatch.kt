@@ -30,7 +30,7 @@ class XdMatch(entity: Entity) : XdEntity(entity) {
     var championnatId by xdIntProp()
 
     fun toMatch(): Match {
-        return Match(this.domicile.toEquipe(), this.exterieur.toEquipe(), this.scoreDomicile, this.scoreExterieur,
+        return Match(this.domicile.toEquipeWithoutChampionnat(), this.exterieur.toEquipeWithoutChampionnat(), this.scoreDomicile, this.scoreExterieur,
                 LocalDateTime.ofEpochSecond(this.date.millis,0, ZoneOffset.UTC))
     }
 }

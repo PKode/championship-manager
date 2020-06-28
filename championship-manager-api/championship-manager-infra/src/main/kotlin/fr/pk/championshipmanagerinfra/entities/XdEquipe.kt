@@ -14,4 +14,5 @@ class XdEquipe(entity: Entity) : XdEntity(entity) {
     var championnat by xdLink0_1(XdChampionnat)
 
     fun toEquipe() = Equipe(id = this.id, nom = this.nom, championnat = this.championnat?.toChampionnat())
+    fun toEquipeWithoutChampionnat() = Equipe(id = this.id, nom = this.nom)
 }
