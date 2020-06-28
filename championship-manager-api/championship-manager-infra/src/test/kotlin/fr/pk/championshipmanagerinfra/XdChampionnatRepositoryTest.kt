@@ -1,10 +1,16 @@
 package fr.pk.championshipmanagerinfra
 
 import fr.pk.championshipmanagerdomain.championnat.Championnat
+import fr.pk.championshipmanagerdomain.championnat.Journee
+import fr.pk.championshipmanagerdomain.championnat.Match
+import fr.pk.championshipmanagerdomain.championnat.Saison
+import fr.pk.championshipmanagerdomain.equipe.Equipe
 import fr.pk.championshipmanagerinfra.configuration.BeanConfiguration
 import fr.pk.championshipmanagerinfra.entities.XdChampionnat
 import fr.pk.championshipmanagerinfra.entities.XdEquipe
+import fr.pk.championshipmanagerinfra.entities.XdMatch
 import fr.pk.championshipmanagerinfra.repository.XdChampionnatRepository
+import org.assertj.core.api.Assertions
 import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.Assertions.assertThatThrownBy
 import org.junit.jupiter.api.AfterAll
@@ -20,9 +26,12 @@ import java.io.File
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 internal class XdChampionnatRepositoryTest : XdRepositoryTest() {
 
-    private val xdStore = xodusStore(XdChampionnat)
+    private val xdStore = xodusStore(XdChampionnat, XdMatch, XdEquipe)
 
     private val repository = XdChampionnatRepository(xdStore)
+
+    private val PSG = Equipe(1, "PSG")
+    private val OL = Equipe(2, "OL")
 
     @BeforeAll
     fun init() {
@@ -38,6 +47,16 @@ internal class XdChampionnatRepositoryTest : XdRepositoryTest() {
             XdChampionnat.new {
                 this.id = 3
                 this.nom = "National"
+            }
+
+            XdEquipe.new {
+                this.id = PSG.id!!
+                this.nom = PSG.nom
+            }
+
+            XdEquipe.new {
+                this.id = OL.id!!
+                this.nom = OL.nom
             }
         }
     }
@@ -76,6 +95,24 @@ internal class XdChampionnatRepositoryTest : XdRepositoryTest() {
 
         assertThat(removed).isEqualTo(updated)
         assertThat(repository.findAll().size).isEqualTo(3)
+    }
+
+    @Test
+    fun `doit ajouter une saison a un championnat`() {
+        val saison = saison()
+        val championnat = repository.saveNewSaison(1, saison)
+
+        assertThat(championnat.nom).isEqualTo("Ligue 1")
+        assertThat(championnat.saisons).isEqualTo(listOf(saison))
+    }
+
+    private fun saison(): Saison {
+        return Saison(2020, listOf(
+                Journee(1, listOf(
+                        Match(PSG, OL),
+                        Match(OL, PSG)
+                ))
+        ))
     }
 
     @Test

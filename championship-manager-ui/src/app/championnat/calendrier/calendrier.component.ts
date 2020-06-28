@@ -28,7 +28,6 @@ export class CalendrierComponent implements AfterViewInit, OnInit {
   }
   ngOnInit() {
     this.dataSource = new CalendrierDataSource();
-    this.championnatService.genererCalendrier(1)
   }
 
   ngAfterViewInit() {

@@ -11,8 +11,9 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.ValueSource
-import org.mockito.Mockito.`when`
-import org.mockito.Mockito.mock
+import org.mockito.ArgumentMatchers
+import org.mockito.ArgumentMatchers.any
+import org.mockito.Mockito.*
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 internal class DomainChampionnatServiceTest {
@@ -26,11 +27,12 @@ internal class DomainChampionnatServiceTest {
         @ExperimentalStdlibApi
         @ParameterizedTest(name = "Genère un calendrier avec {0} équipes")
         @ValueSource(ints = [2, 4, 8, 10, 20, 3, 5, 7, 11])
-        fun `doit generer un calendrirer`(nbTeam: Int) {
+        fun `doit generer un calendrier`(nbTeam: Int) {
             val championnat = Championnat(id = 1, nom = "Ligue 1")
 
             `when`(repository.findById(1)).thenReturn(championnat)
             `when`(equipeRepository.findAllEquipeByChampionnat(1)).thenReturn(randomTeam(nbTeam))
+
             val saison = service.genererCalendrier(1)
 
             val matchs = saison.journees.flatMap { it.matchs }

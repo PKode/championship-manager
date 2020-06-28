@@ -14,22 +14,7 @@ export interface CalendrierItem {
 
 // TODO: replace this with real data from your application
 const EXAMPLE_DATA: CalendrierItem[] = [
-  {date: '13/06/2020', domicile: 'Hydrogen', score:'2-1', exterieur: 'Oxygen'},
-  {date: '13/06/2020', domicile: 'Hydrogen', score:'2-1', exterieur: 'Oxygen'},
-  {date: '13/06/2020', domicile: 'Hydrogen', score:'2-1', exterieur: 'Oxygen'},
-  {date: '13/06/2020', domicile: 'Hydrogen', score:'2-1', exterieur: 'Oxygen'},
-  {date: '13/06/2020', domicile: 'Hydrogen', score:'2-1', exterieur: 'Oxygen'},
-  {date: '13/06/2020', domicile: 'Hydrogen', score:'2-1', exterieur: 'Oxygen'},
-  {date: '13/06/2020', domicile: 'Hydrogen', score:'2-1', exterieur: 'Oxygen'},
-  {date: '13/06/2020', domicile: 'Hydrogen', score:'2-1', exterieur: 'Oxygen'},
-  {date: '13/06/2020', domicile: 'Hydrogen', score:'2-1', exterieur: 'Oxygen'},
-  {date: '13/06/2020', domicile: 'Hydrogen', score:'2-1', exterieur: 'Oxygen'},
-  {date: '13/06/2020', domicile: 'Hydrogen', score:'2-1', exterieur: 'Oxygen'},
-  {date: '13/06/2020', domicile: 'Hydrogen', score:'2-1', exterieur: 'Oxygen'},
-  {date: '13/06/2020', domicile: 'Hydrogen', score:'2-1', exterieur: 'Oxygen'},
-  {date: '13/06/2020', domicile: 'Hydrogen', score:'2-1', exterieur: 'Oxygen'},
-  {date: '13/06/2020', domicile: 'Hydrogen', score:'2-1', exterieur: 'Oxygen'},
-  {date: '13/06/2020', domicile: 'Hydrogen', score:'2-1', exterieur: 'Oxygen'},
+
 ];
 
 /**

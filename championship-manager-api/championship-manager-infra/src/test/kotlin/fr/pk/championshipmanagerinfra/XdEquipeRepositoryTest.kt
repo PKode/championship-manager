@@ -4,6 +4,7 @@ import fr.pk.championshipmanagerdomain.championnat.Championnat
 import fr.pk.championshipmanagerdomain.equipe.Equipe
 import fr.pk.championshipmanagerinfra.entities.XdChampionnat
 import fr.pk.championshipmanagerinfra.entities.XdEquipe
+import fr.pk.championshipmanagerinfra.entities.XdMatch
 import fr.pk.championshipmanagerinfra.repository.XdEquipeRepository
 import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.Assertions.assertThatThrownBy
@@ -13,13 +14,12 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
 import org.springframework.boot.test.context.SpringBootTest
 import java.io.File
-import kotlin.random.Random
 
 @SpringBootTest(classes = [TestConfiguration::class])
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 internal class XdEquipeRepositoryTest : XdRepositoryTest() {
 
-    private val xdStore = xodusStore(XdChampionnat, XdEquipe)
+    private val xdStore = xodusStore(XdChampionnat, XdEquipe, XdMatch)
 
     private val repository = XdEquipeRepository(xdStore)
 

@@ -1,6 +1,7 @@
 package fr.pk.championshipmanagerdomain.championnat.port
 
 import fr.pk.championshipmanagerdomain.championnat.Championnat
+import fr.pk.championshipmanagerdomain.championnat.Saison
 
 interface ChampionnatRepository {
     /**
@@ -26,4 +27,12 @@ interface ChampionnatRepository {
      * @param id du championnat à supprimer.
      */
     fun remove(id: Int) : Championnat
+
+
+    /**
+     * Ajoute une nouvelle saison au championnat d'id
+     * @param championnatId
+     * @return le championnat avec la nouvelle saison.
+     */
+    fun saveNewSaison(championnatId: Int, saison: Saison): Championnat
 }
