@@ -34,12 +34,20 @@ export class CalendrierComponent implements OnInit {
     this.route.paramMap.subscribe(params => {
       this.championnatService.getChampionnatById(Number.parseInt(params.get("id"))).subscribe(
         data => {
-          // @ts-ignore
-          let journees = data.saisons[data.saisons.length - 1].journees;
-          let matchs = journees.flatMap(j => j.matchs.map(m => m as MatchDto));
+          let matchs: MatchDto[];
+          let matchPerDay = 0;
+          if (data.saisons.length == 0) {
+            matchs = [];
+          } else {
+            let journees = data.saisons[data.saisons.length - 1].journees;
+            // @ts-ignore
+            matchs = journees?.flatMap(j => j.matchs.map(m => m as MatchDto));
+            matchPerDay = journees[0].matchs.length;
+          }
+
           this.dataSource = new CalendrierDataSource(matchs);
           this.dataSource.sort = this.sort;
-          this.paginator.pageSize = journees[0].matchs.length;
+          this.paginator.pageSize = matchPerDay;
           this.dataSource.paginator = this.paginator;
           this.table.dataSource = this.dataSource;
         });
