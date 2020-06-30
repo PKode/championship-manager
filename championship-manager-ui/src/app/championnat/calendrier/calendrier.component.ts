@@ -26,13 +26,15 @@ export class CalendrierComponent implements OnInit {
   /** Columns displayed in the table. Columns IDs can be added, removed, or reordered. */
   displayedColumns = ['date', 'domicile', 'score', 'exterieur'];
 
+  championnatId: number;
   constructor(private championnatService: ChampionnatService,
               private route: ActivatedRoute) {
   }
 
   ngOnInit() {
     this.route.paramMap.subscribe(params => {
-      this.championnatService.getChampionnatById(Number.parseInt(params.get("id"))).subscribe(
+      this.championnatId = Number.parseInt(params.get("id"));
+      this.championnatService.getChampionnatById(this.championnatId).subscribe(
         data => {
           let matchs: MatchDto[];
           let matchPerDay = 0;
@@ -52,5 +54,9 @@ export class CalendrierComponent implements OnInit {
           this.table.dataSource = this.dataSource;
         });
     });
+  }
+
+  genererCalendrier() {
+    this.championnatService.genererCalendrier(this.championnatId)
   }
 }
