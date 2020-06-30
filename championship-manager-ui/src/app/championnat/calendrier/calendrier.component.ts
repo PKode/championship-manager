@@ -5,7 +5,7 @@ import {MatTable} from '@angular/material/table';
 import {CalendrierDataSource} from './calendrier-datasource';
 import {JourneeMatPaginatorIntl} from "./journee-mat-paginator";
 import {ChampionnatService} from "../championnat.service";
-import {MatchDto} from "../../generated/graphql";
+import {MatchDto, SaisonDto} from "../../generated/graphql";
 import {ActivatedRoute} from "@angular/router";
 
 @Component({
@@ -27,6 +27,8 @@ export class CalendrierComponent implements OnInit {
   displayedColumns = ['date', 'domicile', 'score', 'exterieur'];
 
   championnatId: number;
+  saisons: SaisonDto[];
+
   constructor(private championnatService: ChampionnatService,
               private route: ActivatedRoute) {
   }
@@ -41,6 +43,7 @@ export class CalendrierComponent implements OnInit {
           if (data.saisons.length == 0) {
             matchs = [];
           } else {
+            this.saisons = data.saisons.map(s => s as SaisonDto);
             let journees = data.saisons[data.saisons.length - 1].journees;
             // @ts-ignore
             matchs = journees?.flatMap(j => j.matchs.map(m => m as MatchDto));
