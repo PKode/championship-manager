@@ -1,4 +1,11 @@
 <div class="mat-elevation-z8">
+  <mat-form-field class="full-width" style="float: right">
+    <mat-label>Saison</mat-label>
+    <mat-select>
+      <mat-option *ngFor="let saison of saisons"
+                  [value]="saison">{{saison.annee}} </mat-option>
+    </mat-select>
+  </mat-form-field>
   <table mat-table class="full-width-table" matSort aria-label="Elements">
     <ng-container matColumnDef="nodata">
       <td mat-footer-row *matFooterCellDef [colSpan]="displayedColumns.length"
@@ -45,5 +52,13 @@
   </mat-paginator>
 </div>
 <div class="add-button-row">
+
+  <mat-form-field style="margin-right: 5%">
+    <mat-label>Début de la saison</mat-label>
+    <input matInput [matDatepicker]="picker">
+    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-datepicker #picker></mat-datepicker>
+  </mat-form-field>
   <button mat-raised-button color="primary" (click)="genererCalendrier()"> + Générer une nouvelle saison</button>
+
 </div>

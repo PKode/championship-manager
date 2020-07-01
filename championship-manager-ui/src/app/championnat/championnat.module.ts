@@ -19,6 +19,9 @@ import { MatMenuModule } from '@angular/material/menu';
 import { LayoutModule } from '@angular/cdk/layout';
 import { CalendrierComponent } from './calendrier/calendrier.component';
 import {MatListModule} from "@angular/material/list";
+import {MatSelectModule} from "@angular/material/select";
+import {MatDatepickerModule} from "@angular/material/datepicker";
+import {MatNativeDateModule} from "@angular/material/core";
 
 
 @NgModule({
@@ -44,7 +47,10 @@ import {MatListModule} from "@angular/material/list";
     MatGridListModule,
     MatMenuModule,
     LayoutModule,
-    MatListModule
+    MatListModule,
+    MatSelectModule,
+    MatDatepickerModule,
+    MatNativeDateModule
   ]
 })
 // @ts-ignore

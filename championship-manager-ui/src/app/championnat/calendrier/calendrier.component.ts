@@ -7,6 +7,7 @@ import {JourneeMatPaginatorIntl} from "./journee-mat-paginator";
 import {ChampionnatService} from "../championnat.service";
 import {MatchDto, SaisonDto} from "../../generated/graphql";
 import {ActivatedRoute} from "@angular/router";
+import {FormControl} from "@angular/forms";
 
 @Component({
   selector: 'app-calendrier',
@@ -28,6 +29,7 @@ export class CalendrierComponent implements OnInit {
 
   championnatId: number;
   saisons: SaisonDto[];
+  saisonControl = new FormControl();
 
   constructor(private championnatService: ChampionnatService,
               private route: ActivatedRoute) {
