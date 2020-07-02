@@ -18,10 +18,14 @@ data class Saison(
 data class Journee(
         val numero: Int,
         val matchs: List<Match> = emptyList()
-)
+) {
+    fun firstMatch(): Match {
+        return matchs.first()
+    }
+}
 
 fun List<Journee>.matchsRetour(): List<Journee> {
-    return this.map { Journee(numero = it.numero + this.size, matchs = it.matchs.map { match -> match.retour() }) }
+    return this.map { Journee(numero = it.numero + this.size, matchs = it.matchs.map { match -> match.retour().at(match.date.plusWeeks(this.size.toLong())) }) }
 }
 
 data class Match(
@@ -34,8 +38,12 @@ data class Match(
     val score: String get() = "$butDomicile - $exterieur"
 
     infix fun reverseIf(condition: Boolean): Match {
-        return if (condition) Match(domicile = this.exterieur, exterieur = this.domicile) else this
+        return if (condition) Match(domicile = this.exterieur, exterieur = this.domicile, date = this.date) else this
     }
 
     fun retour() = this reverseIf true
+
+    fun at(date: LocalDateTime): Match {
+        return this.copy(date = date)
+    }
 }

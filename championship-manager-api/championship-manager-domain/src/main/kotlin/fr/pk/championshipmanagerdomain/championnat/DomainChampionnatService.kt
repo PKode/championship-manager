@@ -4,6 +4,9 @@ import fr.pk.championshipmanagerdomain.championnat.port.ChampionnatRepository
 import fr.pk.championshipmanagerdomain.championnat.port.ChampionnatService
 import fr.pk.championshipmanagerdomain.equipe.Equipe
 import fr.pk.championshipmanagerdomain.equipe.port.EquipeRepository
+import java.time.LocalDate
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 class DomainChampionnatService(private val championnatRepository: ChampionnatRepository,
                                private val equipeRepository: EquipeRepository) : ChampionnatService {
@@ -24,7 +27,7 @@ class DomainChampionnatService(private val championnatRepository: ChampionnatRep
     }
 
     @ExperimentalStdlibApi
-    override fun genererCalendrier(championnatId: Int): Saison {
+    override fun genererCalendrier(championnatId: Int, dateDebut: String): Saison {
         val equipes = equipeRepository.findAllEquipeByChampionnat(championnatId).shuffled()
 
         val top = equipes.firstHalf()
@@ -32,9 +35,11 @@ class DomainChampionnatService(private val championnatRepository: ChampionnatRep
 
         top.equalize(bottom)
 
-        val journees = generateSequence(generateJournee(1, top, bottom)) {
+        val localDateDebut = dateDebut.toLocalDate().atTime(20, 0, 0)
+
+        val journees = generateSequence(generateJournee(1, top, bottom, localDateDebut)) {
             if (it.numero == equipes.size - 1) null
-            else generateJournee(it.numero + 1, top, bottom)
+            else generateJournee(it.numero + 1, top, bottom, it.firstMatch().date.plusWeeks(1))
         }.toList()
 
         val saison = Saison(journees = journees + journees.matchsRetour())
@@ -44,16 +49,20 @@ class DomainChampionnatService(private val championnatRepository: ChampionnatRep
     }
 
     @ExperimentalStdlibApi
-    private fun generateJournee(numero: Int, top: MutableList<Equipe>, bottom: MutableList<Equipe>): Journee {
-        val journee = Journee(numero, matchForJournee(top, bottom))
+    private fun generateJournee(numero: Int, top: MutableList<Equipe>, bottom: MutableList<Equipe>, dateDebut: LocalDateTime): Journee {
+        val journee = Journee(numero, matchForJournee(top, bottom, dateDebut))
         top.add(1, bottom.removeFirst())
         bottom.add(top.removeLast())
         return journee
     }
 
-    private fun matchForJournee(top: MutableList<Equipe>, bottom: MutableList<Equipe>): List<Match> {
-        return top.mapIndexed { index, equipe -> Match(domicile = equipe, exterieur = bottom[index]) reverseIf index.even() }
+    private fun matchForJournee(top: MutableList<Equipe>, bottom: MutableList<Equipe>, dateDebut: LocalDateTime): List<Match> {
+        return top.mapIndexed { index, equipe -> Match(domicile = equipe, exterieur = bottom[index], date = dateDebut) reverseIf index.even() }
     }
+}
+
+private fun String.toLocalDate(): LocalDate {
+    return LocalDate.parse(this, DateTimeFormatter.ofPattern("d/MM/yyyy"))
 }
 
 private fun MutableList<Equipe>.equalize(bottom: MutableList<Equipe>) {

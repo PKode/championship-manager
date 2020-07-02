@@ -79,11 +79,12 @@ internal class ChampionnatMutationTest {
         fun `doit retourner le calendrier genere pour la championnat avec id correspondant`() {
             val id = 1
 
-            `when`(championnatService.genererCalendrier(id)).thenReturn(Saison(journees = journees()))
+            val dateDebut = "10/07/2020"
+            `when`(championnatService.genererCalendrier(id, dateDebut)).thenReturn(Saison(journees = journees()))
 
-            val generatedSaison = mutation.calendrier(id)
+            val generatedSaison = mutation.calendrier(id, dateDebut)
 
-            verify(championnatService, times(1)).genererCalendrier(id)
+            verify(championnatService, times(1)).genererCalendrier(id, dateDebut)
             assertThat(generatedSaison).isEqualTo(SaisonDto(journees = journees().map { JourneeDto(it) }))
         }
 

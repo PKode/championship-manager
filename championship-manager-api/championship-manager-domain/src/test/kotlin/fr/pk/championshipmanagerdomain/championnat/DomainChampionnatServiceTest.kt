@@ -5,14 +5,11 @@ import fr.pk.championshipmanagerdomain.equipe.Equipe
 import fr.pk.championshipmanagerdomain.equipe.port.EquipeRepository
 import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.internal.bytebuddy.utility.RandomString
-import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.ValueSource
-import org.mockito.ArgumentMatchers
-import org.mockito.ArgumentMatchers.any
 import org.mockito.Mockito.*
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
@@ -33,12 +30,14 @@ internal class DomainChampionnatServiceTest {
             `when`(repository.findById(1)).thenReturn(championnat)
             `when`(equipeRepository.findAllEquipeByChampionnat(1)).thenReturn(randomTeam(nbTeam))
 
-            val saison = service.genererCalendrier(1)
+            val saison = service.genererCalendrier(1, "17/07/2020")
 
             val matchs = saison.journees.flatMap { it.matchs }
+            val dates = saison.journees.map { it.firstMatch().date }
 
             assertThat(saison.journees.size).isEqualTo((nbTeam - 1) * 2)
             assertThat(matchs).containsExactlyInAnyOrderElementsOf(matchs.toSet())
+            assertThat(dates).containsExactlyInAnyOrderElementsOf(dates.toSet())
         }
     }
 

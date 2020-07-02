@@ -33,9 +33,10 @@ class ChampionnatMutation(private val championnatService: ChampionnatService) : 
     /**
      * Génère un calendrier (une saison) pour une championnat donné.
      * @param id du championnat auquel généré le calendrier de la saison.
+     * @param date de début du calendrier
      * @return la saison générée.
      */
-    fun calendrier(championnatId: Int): SaisonDto {
-        return SaisonDto(championnatService.genererCalendrier(championnatId))
+    fun calendrier(championnatId: Int, dateDebut: String): SaisonDto {
+        return SaisonDto(championnatService.genererCalendrier(championnatId, dateDebut))
     }
 }

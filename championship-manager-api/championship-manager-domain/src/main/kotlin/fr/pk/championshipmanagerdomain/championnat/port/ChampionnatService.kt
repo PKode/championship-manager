@@ -30,5 +30,5 @@ interface ChampionnatService {
      * Génère le calendrier de match du championnat correspondant à
      * @param id
      */
-    fun genererCalendrier(championnatId: Int) : Saison
+    fun genererCalendrier(championnatId: Int, dateDebut: String) : Saison
 }
