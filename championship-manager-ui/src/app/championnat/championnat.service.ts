@@ -48,11 +48,11 @@ export class ChampionnatService {
     ).subscribe();
   }
 
-  genererCalendrier(championnatId: number) {
-    this.calendrierMutation.mutate({championnatId: championnatId}, {
+  genererCalendrier(championnatId: number, dateDebut: string) {
+    this.calendrierMutation.mutate({championnatId: championnatId, dateDebut: dateDebut}, {
       refetchQueries: [{
         query: this.championnatByIdQuery.document,
-        variables : {id: championnatId}
+        variables: {id: championnatId}
       }]
     }).subscribe(value => console.log(value))
   }

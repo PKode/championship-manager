@@ -8,6 +8,7 @@ import {ChampionnatService} from "../championnat.service";
 import {MatchDto, SaisonDto} from "../../generated/graphql";
 import {ActivatedRoute} from "@angular/router";
 import {FormControl} from "@angular/forms";
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-calendrier',
@@ -29,7 +30,8 @@ export class CalendrierComponent implements OnInit {
 
   championnatId: number;
   saisons: SaisonDto[];
-  saisonControl = new FormControl();
+  dateDebutNewSaison = new FormControl(moment());
+  saisonFilter: number;
 
   constructor(private championnatService: ChampionnatService,
               private route: ActivatedRoute) {
@@ -46,7 +48,9 @@ export class CalendrierComponent implements OnInit {
             matchs = [];
           } else {
             this.saisons = data.saisons.map(s => s as SaisonDto);
-            let journees = data.saisons[data.saisons.length - 1].journees;
+            console.log(this.saisons);
+            this.saisonFilter = this.saisons[this.saisons.length - 1].annee;
+            let journees = this.saisons[data.saisons.length - 1].journees;
             // @ts-ignore
             matchs = journees?.flatMap(j => j.matchs.map(m => m as MatchDto));
             matchPerDay = journees[0].matchs.length;
@@ -62,6 +66,22 @@ export class CalendrierComponent implements OnInit {
   }
 
   genererCalendrier() {
-    this.championnatService.genererCalendrier(this.championnatId)
+    this.championnatService.genererCalendrier(this.championnatId, this.dateDebutNewSaison.value.format('MM/DD/YYYY'))
+  }
+
+  //TODO: mutualise with action in ngOnInit
+  filterMatch() {
+    console.log(this.saisonFilter);
+    let indexSaison = this.saisons.findIndex(value => value.annee == this.saisonFilter);
+    console.log(indexSaison);
+    let journees = this.saisons[indexSaison].journees;
+    // @ts-ignore
+    let matchs = journees?.flatMap(j => j.matchs.map(m => m as MatchDto));
+    let matchPerDay = journees[0].matchs.length;
+    this.dataSource = new CalendrierDataSource(matchs);
+    this.dataSource.sort = this.sort;
+    this.paginator.pageSize = matchPerDay;
+    this.dataSource.paginator = this.paginator;
+    this.table.dataSource = this.dataSource;
   }
 }

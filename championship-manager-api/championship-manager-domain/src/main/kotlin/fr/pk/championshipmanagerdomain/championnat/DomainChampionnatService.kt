@@ -42,7 +42,7 @@ class DomainChampionnatService(private val championnatRepository: ChampionnatRep
             else generateJournee(it.numero + 1, top, bottom, it.firstMatch().date.plusWeeks(1))
         }.toList()
 
-        val saison = Saison(journees = journees + journees.matchsRetour())
+        val saison = Saison(annee = localDateDebut.year, journees = journees + journees.matchsRetour())
         championnatRepository.saveNewSaison(championnatId, saison)
 
         return saison

@@ -79,6 +79,7 @@ export type Mutation = {
 
 export type MutationCalendrierArgs = {
   championnatId: Scalars['Int'];
+  dateDebut: Scalars['String'];
 };
 
 
@@ -158,6 +159,7 @@ export type DeleteChampionnatMutation = (
 
 export type CalendrierMutationVariables = {
   championnatId: Scalars['Int'];
+  dateDebut: Scalars['String'];
 };
 
 
@@ -299,8 +301,8 @@ export const DeleteChampionnatDocument = gql`
     
   }
 export const CalendrierDocument = gql`
-    mutation calendrier($championnatId: Int!) {
-  calendrier(championnatId: $championnatId) {
+    mutation calendrier($championnatId: Int!, $dateDebut: String!) {
+  calendrier(championnatId: $championnatId, dateDebut: $dateDebut) {
     journees {
       numero
       matchs {
