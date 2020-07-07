@@ -48,19 +48,13 @@ export class CalendrierComponent implements OnInit {
             matchs = [];
           } else {
             this.saisons = data.saisons.map(s => s as SaisonDto);
-            console.log(this.saisons);
             this.saisonFilter = this.saisons[this.saisons.length - 1].annee;
-            let journees = this.saisons[data.saisons.length - 1].journees;
+            let indexSaison = this.indexOfSaisonSelected();
             // @ts-ignore
-            matchs = journees?.flatMap(j => j.matchs.map(m => m as MatchDto));
-            matchPerDay = journees[0].matchs.length;
+            matchs = this.filterBySaison(indexSaison);
+            matchPerDay = this.matchsPerDay(indexSaison);
           }
-
-          this.dataSource = new CalendrierDataSource(matchs);
-          this.dataSource.sort = this.sort;
-          this.paginator.pageSize = matchPerDay;
-          this.dataSource.paginator = this.paginator;
-          this.table.dataSource = this.dataSource;
+          this.updateDataSource(matchs, matchPerDay);
         });
     });
   }
@@ -69,19 +63,34 @@ export class CalendrierComponent implements OnInit {
     this.championnatService.genererCalendrier(this.championnatId, this.dateDebutNewSaison.value.format('MM/DD/YYYY'))
   }
 
-  //TODO: mutualise with action in ngOnInit
-  filterMatch() {
-    console.log(this.saisonFilter);
-    let indexSaison = this.saisons.findIndex(value => value.annee == this.saisonFilter);
-    console.log(indexSaison);
-    let journees = this.saisons[indexSaison].journees;
-    // @ts-ignore
-    let matchs = journees?.flatMap(j => j.matchs.map(m => m as MatchDto));
-    let matchPerDay = journees[0].matchs.length;
+  updateDataSource(matchs: MatchDto[], matchPerDay: number) {
     this.dataSource = new CalendrierDataSource(matchs);
     this.dataSource.sort = this.sort;
     this.paginator.pageSize = matchPerDay;
     this.dataSource.paginator = this.paginator;
     this.table.dataSource = this.dataSource;
+  }
+  //TODO: mutualise with action in ngOnInit
+  filterMatch() {
+    let indexSaison = this.indexOfSaisonSelected();
+    // @ts-ignore
+    let matchs = this.filterBySaison(indexSaison);
+    let matchPerDay = this.matchsPerDay(indexSaison);
+
+    this.updateDataSource(matchs, matchPerDay);
+  }
+
+  indexOfSaisonSelected() {
+    return this.saisons.findIndex(value => value.annee == this.saisonFilter);
+  }
+
+  matchsPerDay(indexSaison: number) {
+    let journees = this.saisons[indexSaison].journees;
+    return journees[0].matchs.length;
+  }
+  filterBySaison(indexSaison: number) {
+    let journees = this.saisons[indexSaison].journees;
+    // @ts-ignore
+    return journees?.flatMap(j => j.matchs.map(m => m as MatchDto));
   }
 }
