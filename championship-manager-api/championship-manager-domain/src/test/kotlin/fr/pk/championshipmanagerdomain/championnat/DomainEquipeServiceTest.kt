@@ -47,6 +47,16 @@ internal class DomainEquipeServiceTest {
 
             assertThat(equipe).isEqualTo(expected)
         }
+
+        @Test
+        fun `doit retourner toutes les equipes d un championnat`() {
+            val expected = listOf(Equipe(nom = "PSG"), Equipe(nom = "Lille"))
+            `when`(repository.findAllEquipeByChampionnat(1)).thenReturn(expected)
+
+            val equipes = service.getEquipesByChampionnat(1)
+
+            assertThat(equipes).isEqualTo(expected)
+        }
     }
 
     @Nested

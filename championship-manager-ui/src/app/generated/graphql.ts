@@ -108,6 +108,7 @@ export type Query = {
   readonly championnats: ReadonlyArray<ChampionnatDto>;
   readonly equipe: EquipeDto;
   readonly equipes: ReadonlyArray<EquipeDto>;
+  readonly equipesOfChampionnat: ReadonlyArray<EquipeDto>;
 };
 
 
@@ -118,6 +119,11 @@ export type QueryChampionnatArgs = {
 
 export type QueryEquipeArgs = {
   id: Scalars['Int'];
+};
+
+
+export type QueryEquipesOfChampionnatArgs = {
+  championnatId: Scalars['Int'];
 };
 
 export type SaisonDto = {
@@ -265,6 +271,19 @@ export type EquipesQuery = (
       { readonly __typename?: 'ChampionnatDto' }
       & Pick<ChampionnatDto, 'id' | 'nom'>
     )> }
+  )> }
+);
+
+export type EquipesOfChampionnatQueryVariables = {
+  championnatId: Scalars['Int'];
+};
+
+
+export type EquipesOfChampionnatQuery = (
+  { readonly __typename?: 'Query' }
+  & { readonly equipesOfChampionnat: ReadonlyArray<(
+    { readonly __typename?: 'EquipeDto' }
+    & Pick<EquipeDto, 'id' | 'nom'>
   )> }
 );
 
@@ -428,5 +447,21 @@ export const EquipesDocument = gql`
   })
   export class EquipesGQL extends Apollo.Query<EquipesQuery, EquipesQueryVariables> {
     document = EquipesDocument;
+    
+  }
+export const EquipesOfChampionnatDocument = gql`
+    query equipesOfChampionnat($championnatId: Int!) {
+  equipesOfChampionnat(championnatId: $championnatId) {
+    id
+    nom
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class EquipesOfChampionnatGQL extends Apollo.Query<EquipesOfChampionnatQuery, EquipesOfChampionnatQueryVariables> {
+    document = EquipesOfChampionnatDocument;
     
   }

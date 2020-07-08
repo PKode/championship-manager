@@ -24,4 +24,10 @@ class EquipeQuery(private val equipeService: EquipeService) : Query {
         val equipe = equipeService.getById(id)
         return EquipeDto(equipe)
     }
+
+    /**
+     * Query for getting all teams of a championnat
+     */
+    //TODO: See if this is usefull
+    fun equipesOfChampionnat(championnatId: Int) = equipeService.getEquipesByChampionnat(championnatId).map { EquipeDto(it) }
 }

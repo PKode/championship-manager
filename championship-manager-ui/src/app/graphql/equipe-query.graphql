@@ -8,3 +8,10 @@ query equipes {
     }
   }
 }
+
+query equipesOfChampionnat($championnatId: Int!) {
+  equipesOfChampionnat(championnatId: $championnatId) {
+    id
+    nom
+  }
+}

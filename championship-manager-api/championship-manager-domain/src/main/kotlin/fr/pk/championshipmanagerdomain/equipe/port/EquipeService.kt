@@ -24,4 +24,11 @@ interface EquipeService {
      * @param id de l'équipe à supprimer.
      */
     fun delete(id: Int): Equipe
+
+    /**
+     * @return toutes les équipes du championnat.
+     * @param championnatId
+     */
+    fun getEquipesByChampionnat(championnatId: Int): List<Equipe>
+
 }

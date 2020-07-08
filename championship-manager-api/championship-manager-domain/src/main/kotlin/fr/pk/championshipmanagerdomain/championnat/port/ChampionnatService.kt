@@ -2,6 +2,7 @@ package fr.pk.championshipmanagerdomain.championnat.port
 
 import fr.pk.championshipmanagerdomain.championnat.Championnat
 import fr.pk.championshipmanagerdomain.championnat.Saison
+import fr.pk.championshipmanagerdomain.equipe.Equipe
 
 interface ChampionnatService {
     /**

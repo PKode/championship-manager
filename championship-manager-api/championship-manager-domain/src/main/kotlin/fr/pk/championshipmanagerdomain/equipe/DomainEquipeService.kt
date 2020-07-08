@@ -19,4 +19,8 @@ class DomainEquipeService(private val equipeRepository: EquipeRepository) : Equi
     override fun delete(id: Int): Equipe {
         return equipeRepository.remove(id)
     }
+
+    override fun getEquipesByChampionnat(championnatId: Int): List<Equipe> {
+        return equipeRepository.findAllEquipeByChampionnat(championnatId)
+    }
 }

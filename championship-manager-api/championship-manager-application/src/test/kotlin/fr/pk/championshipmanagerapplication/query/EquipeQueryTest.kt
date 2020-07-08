@@ -59,5 +59,27 @@ internal class EquipeQueryTest {
             assertThat(equipe).isEqualTo(expectedDto)
             verify(equipeService, Mockito.times(1)).getById(1)
         }
+
+        @Test
+        fun `doit retourner la liste des equipes dun championnat`() {
+            // Given
+            val championnat = Championnat(1, "Ligue 1")
+            val domainList = listOf(
+                    Equipe(1, "PSG", championnat),
+                    Equipe(2, "Brest", championnat)
+            )
+
+            // When
+            Mockito.`when`(equipeService.getEquipesByChampionnat(1)).thenReturn(domainList)
+
+            val equipes = query.equipesOfChampionnat(1)
+
+            // Then
+            val championnatDto = ChampionnatDto(1, "Ligue 1")
+            val dtoList = listOf(EquipeDto(1, "PSG", championnatDto), EquipeDto(2, "Brest", championnatDto))
+
+            assertThat(equipes).isEqualTo(dtoList)
+            verify(equipeService, Mockito.times(1)).getEquipesByChampionnat(1)
+        }
     }
 }
