@@ -9,6 +9,9 @@ import {EquipeListDataSource} from "./equipe-list-datasource";
 import {EquipeFormComponent} from "../equipe-form/equipe-form.component";
 import {EquipeService} from "../equipe.service";
 import {Championnat} from "../../championnat/championnat";
+import {ActivatedRoute} from "@angular/router";
+import {map} from "rxjs/operators";
+import {Observable} from "rxjs";
 
 @Component({
   selector: 'app-equipe-list',
@@ -25,7 +28,8 @@ export class EquipeListComponent implements OnInit {
   displayedColumns = ['id', 'nom', 'championnat', 'actions'];
 
   constructor(private equipeService: EquipeService,
-              private dialog: MatDialog) {
+              private dialog: MatDialog,
+              private route: ActivatedRoute) {
   }
 
   ngOnInit() {
@@ -35,6 +39,22 @@ export class EquipeListComponent implements OnInit {
       this.dataSource.sort = this.sort;
       this.dataSource.paginator = this.paginator;
       this.table.dataSource = this.dataSource;
+
+      this.filterByChampionnat();
+    });
+  }
+
+  filterByChampionnat() {
+    const id: Observable<string> = this.route.params.pipe(map(p => p.id));
+    const url: Observable<string> = this.route.url.pipe(map(segments => segments.join('')));
+    url.subscribe(url => {
+      console.log(url);
+      if (url.startsWith("championnat")) {
+        this.displayedColumns = this.displayedColumns.filter(c => c != 'championnat' && c != 'id');
+        id.subscribe(championnatId => {
+          this.dataSource.data = this.dataSource.data.filter(e => e.championnat.id == Number.parseInt(championnatId));
+        });
+      }
     });
   }
 
