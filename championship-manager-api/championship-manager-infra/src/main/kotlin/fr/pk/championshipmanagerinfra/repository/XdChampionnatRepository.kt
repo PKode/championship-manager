@@ -1,6 +1,7 @@
 package fr.pk.championshipmanagerinfra.repository
 
 import fr.pk.championshipmanagerdomain.championnat.Championnat
+import fr.pk.championshipmanagerdomain.championnat.Match
 import fr.pk.championshipmanagerdomain.championnat.Saison
 import fr.pk.championshipmanagerdomain.championnat.port.ChampionnatRepository
 import fr.pk.championshipmanagerinfra.entities.XdChampionnat
@@ -75,5 +76,9 @@ class XdChampionnatRepository(private val xdStore: TransientEntityStore) : Champ
                 it.toChampionnat()
             }
         }
+    }
+
+    override fun findMatchsBySaisonAndChampionnat(id: Int, saison: Int): List<Match> {
+        TODO("Not yet implemented")
     }
 }

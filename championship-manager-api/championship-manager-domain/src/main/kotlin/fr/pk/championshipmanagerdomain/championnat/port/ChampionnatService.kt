@@ -1,6 +1,7 @@
 package fr.pk.championshipmanagerdomain.championnat.port
 
 import fr.pk.championshipmanagerdomain.championnat.Championnat
+import fr.pk.championshipmanagerdomain.championnat.Classement
 import fr.pk.championshipmanagerdomain.championnat.Saison
 import fr.pk.championshipmanagerdomain.equipe.Equipe
 
@@ -32,4 +33,11 @@ interface ChampionnatService {
      * @param id
      */
     fun genererCalendrier(championnatId: Int, dateDebut: String) : Saison
+
+    /**
+     * Génère le classement d'une saison d'un championnat.
+     * @param id championnat
+     * @param saison annee
+     */
+    fun genererClassement(id: Int, saison: Int): List<Classement>
 }

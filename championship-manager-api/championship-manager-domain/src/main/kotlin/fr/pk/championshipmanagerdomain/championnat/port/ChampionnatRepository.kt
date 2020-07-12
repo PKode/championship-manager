@@ -1,6 +1,7 @@
 package fr.pk.championshipmanagerdomain.championnat.port
 
 import fr.pk.championshipmanagerdomain.championnat.Championnat
+import fr.pk.championshipmanagerdomain.championnat.Match
 import fr.pk.championshipmanagerdomain.championnat.Saison
 
 interface ChampionnatRepository {
@@ -35,4 +36,12 @@ interface ChampionnatRepository {
      * @return le championnat avec la nouvelle saison.
      */
     fun saveNewSaison(championnatId: Int, saison: Saison): Championnat
+
+    /**
+     * Récupère la saison
+     * @param saison
+     * du championnat
+     * @param id
+     */
+    fun findMatchsBySaisonAndChampionnat(id: Int, saison: Int) : List<Match>
 }
