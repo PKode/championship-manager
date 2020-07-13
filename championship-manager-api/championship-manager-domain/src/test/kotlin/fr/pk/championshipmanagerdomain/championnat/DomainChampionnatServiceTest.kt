@@ -53,6 +53,7 @@ internal class DomainChampionnatServiceTest {
             val OM = Equipe(2, "OM")
             val OL = Equipe(3, "OL")
             val ASSE = Equipe(4, "ASSE")
+
             val championnat = Championnat(id = 1, nom = "Ligue 1", saisons = listOf(
                     Saison(2020, journees = listOf(
                             Journee(1, matchs = listOf(

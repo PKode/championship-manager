@@ -10,6 +10,7 @@ import fr.pk.championshipmanagerinfra.entities.XdMatch
 import jetbrains.exodus.database.TransientEntityStore
 import jetbrains.exodus.util.Random
 import kotlinx.dnq.query.addAll
+import kotlinx.dnq.query.and
 import kotlinx.dnq.query.eq
 import org.joda.time.DateTime
 import org.springframework.stereotype.Component
@@ -78,7 +79,11 @@ class XdChampionnatRepository(private val xdStore: TransientEntityStore) : Champ
         }
     }
 
-    override fun findMatchsBySaisonAndChampionnat(id: Int, saison: Int): List<Match> {
-        TODO("Not yet implemented")
+    override fun findMatchsBySaisonAndChampionnat(championnatId: Int, saison: Int): List<Match> {
+        return xdStore.transactional {
+            XdMatch.findByMapped((XdMatch::championnatId eq championnatId)
+                    and (XdMatch::saison eq saison))
+            { it.toMatch() }
+        }
     }
 }

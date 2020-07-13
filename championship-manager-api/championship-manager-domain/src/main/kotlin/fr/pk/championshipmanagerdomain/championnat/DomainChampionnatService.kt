@@ -55,7 +55,7 @@ class DomainChampionnatService(private val championnatRepository: ChampionnatRep
 
         val resultatExterieur = matchs.groupBy { it.exterieur }
                 .mapValues { it.value.fold(Stat()) { stat, match -> stat + match.statExterieur() } }
-        // TODO: create a comparator to compare 2 classement (pts, diff, bp, ...)
+
         return resultatDomicile.mapValues { it.value + resultatExterieur.getValue(it.key) }
                 .map {
                     Classement(
@@ -66,7 +66,7 @@ class DomainChampionnatService(private val championnatRepository: ChampionnatRep
                             bp = it.value.butMarque,
                             bc = it.value.butPris
                     )
-                }.sortedByDescending { it.pts }
+                }.sortedDescending()
     }
 
     @ExperimentalStdlibApi
@@ -117,41 +117,3 @@ private fun List<Equipe>.firstHalf(): MutableList<Equipe> {
 }
 
 fun Int.even() = this % 2 == 0
-
-data class Stat(var nbVictoire: Int = 0, var nbNul: Int = 0, var nbDefaite: Int = 0, var butMarque: Int = 0, var butPris: Int = 0) {
-    constructor(match: Match) : this(
-            nbVictoire = if (match.butDomicile > match.butExterieur) 1 else 0,
-            nbDefaite = if (match.butDomicile < match.butExterieur) 1 else 0,
-            nbNul = if (match.butDomicile == match.butExterieur) 1 else 0,
-            butMarque = match.butDomicile,
-            butPris = match.butExterieur
-    )
-
-    fun statForDomicile(match: Match) = Stat(
-            nbVictoire = if (match.butDomicile > match.butExterieur) 1 else 0,
-            nbDefaite = if (match.butDomicile < match.butExterieur) 1 else 0,
-            nbNul = if (match.butDomicile == match.butExterieur) 1 else 0,
-            butMarque = match.butDomicile,
-            butPris = match.butExterieur
-    )
-
-    fun statForExterieur(match: Match) = Stat(
-            nbVictoire = if (match.butDomicile > match.butExterieur) 1 else 0,
-            nbDefaite = if (match.butDomicile < match.butExterieur) 1 else 0,
-            nbNul = if (match.butDomicile == match.butExterieur) 1 else 0,
-            butMarque = match.butDomicile,
-            butPris = match.butExterieur
-    )
-
-    operator fun plus(stat: Stat): Stat {
-        return this.apply {
-            nbVictoire += stat.nbVictoire
-            nbNul += stat.nbNul
-            nbDefaite += stat.nbDefaite
-            butMarque += stat.butMarque
-            butPris += stat.butPris
-        }
-    }
-}
-
-data class Classement(val equipe: Equipe, val v: Int = 0, val n: Int = 0, val d: Int = 0, val mj: Int = v + n + d, val pts: Int = v * 3 + n, val bp: Int = 0, val bc: Int = 0, val diff: Int = bp - bc)

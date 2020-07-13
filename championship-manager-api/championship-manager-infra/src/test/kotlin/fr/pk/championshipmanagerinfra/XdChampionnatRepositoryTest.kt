@@ -5,21 +5,17 @@ import fr.pk.championshipmanagerdomain.championnat.Journee
 import fr.pk.championshipmanagerdomain.championnat.Match
 import fr.pk.championshipmanagerdomain.championnat.Saison
 import fr.pk.championshipmanagerdomain.equipe.Equipe
-import fr.pk.championshipmanagerinfra.configuration.BeanConfiguration
 import fr.pk.championshipmanagerinfra.entities.XdChampionnat
 import fr.pk.championshipmanagerinfra.entities.XdEquipe
 import fr.pk.championshipmanagerinfra.entities.XdMatch
 import fr.pk.championshipmanagerinfra.repository.XdChampionnatRepository
-import org.assertj.core.api.Assertions
 import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.Assertions.assertThatThrownBy
 import org.junit.jupiter.api.AfterAll
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
-import org.junit.jupiter.api.extension.ExtendWith
 import org.springframework.boot.test.context.SpringBootTest
-import org.springframework.test.context.junit.jupiter.SpringExtension
 import java.io.File
 
 @SpringBootTest(classes = [TestConfiguration::class])
@@ -98,16 +94,21 @@ internal class XdChampionnatRepositoryTest : XdRepositoryTest() {
     }
 
     @Test
-    fun `doit ajouter une saison a un championnat`() {
-        val saison = saison()
+    fun `doit ajouter une saison a un championnat et retourner la liste des matchs de cette saison`() {
+        val saison = saison(2020)
         val championnat = repository.saveNewSaison(1, saison)
 
         assertThat(championnat.nom).isEqualTo("Ligue 1")
-        assertThat(championnat.saisons).isEqualTo(listOf(saison))
+        assertThat(championnat.saisons).isEqualTo(listOf(saison(2020)))
+
+        val matchs = repository.findMatchsBySaisonAndChampionnat(1, 2020)
+
+        assertThat(matchs).size().isEqualTo(2)
+        assertThat(matchs).containsExactly(Match(PSG, OL), Match(OL, PSG))
     }
 
-    private fun saison(): Saison {
-        return Saison(2020, listOf(
+    private fun saison(annee: Int): Saison {
+        return Saison(annee, listOf(
                 Journee(1, listOf(
                         Match(PSG, OL),
                         Match(OL, PSG)
