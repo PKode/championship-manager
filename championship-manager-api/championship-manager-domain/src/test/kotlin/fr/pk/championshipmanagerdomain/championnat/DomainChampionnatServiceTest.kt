@@ -84,7 +84,7 @@ internal class DomainChampionnatServiceTest {
             ))
 
             `when`(repository.findMatchsBySaisonAndChampionnat(1, 2020)).thenReturn(championnat.saisons.flatMap { s -> s.journees.flatMap { it.matchs } })
-            val classement = service.genererClassement(1, 2020)
+            val classement = service.getClassement(1, 2020)
             assertThat(classement).containsExactly(
                     Classement(PSG, v = 5, n = 1, d = 0, bc = 5, bp = 18, pts = 16, mj = 6, diff = 13),
                     Classement(ASSE, v = 1, n = 3, d = 2, bc = 7, bp = 7, pts = 6, mj = 6, diff = 0),

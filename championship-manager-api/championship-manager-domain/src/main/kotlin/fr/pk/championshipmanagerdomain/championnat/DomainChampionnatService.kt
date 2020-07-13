@@ -48,7 +48,7 @@ class DomainChampionnatService(private val championnatRepository: ChampionnatRep
         return saison
     }
 
-    override fun genererClassement(id: Int, saison: Int): List<Classement> {
+    override fun getClassement(id: Int, saison: Int): List<Classement> {
         val matchs = championnatRepository.findMatchsBySaisonAndChampionnat(id, saison)
         val resultatDomicile = matchs.groupBy { it.domicile }
                 .mapValues { it.value.fold(Stat()) { stat, match -> stat + match.statDomicile() } }

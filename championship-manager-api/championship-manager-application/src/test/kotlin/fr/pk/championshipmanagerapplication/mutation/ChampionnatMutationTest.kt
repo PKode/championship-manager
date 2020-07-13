@@ -1,10 +1,7 @@
 package fr.pk.championshipmanagerapplication.mutation
 
 import fr.pk.championshipmanagerapplication.dto.*
-import fr.pk.championshipmanagerdomain.championnat.Championnat
-import fr.pk.championshipmanagerdomain.championnat.Journee
-import fr.pk.championshipmanagerdomain.championnat.Match
-import fr.pk.championshipmanagerdomain.championnat.Saison
+import fr.pk.championshipmanagerdomain.championnat.*
 import fr.pk.championshipmanagerdomain.championnat.port.ChampionnatService
 import fr.pk.championshipmanagerdomain.equipe.Equipe
 import org.assertj.core.api.Assertions.assertThat

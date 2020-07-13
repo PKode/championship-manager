@@ -39,5 +39,5 @@ interface ChampionnatService {
      * @param id championnat
      * @param saison annee
      */
-    fun genererClassement(id: Int, saison: Int): List<Classement>
+    fun getClassement(id: Int, saison: Int): List<Classement>
 }

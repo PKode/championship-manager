@@ -2,6 +2,7 @@ package fr.pk.championshipmanagerapplication.mutation
 
 import com.expediagroup.graphql.spring.operations.Mutation
 import fr.pk.championshipmanagerapplication.dto.ChampionnatDto
+import fr.pk.championshipmanagerapplication.dto.ClassementDto
 import fr.pk.championshipmanagerapplication.dto.SaisonDto
 import fr.pk.championshipmanagerdomain.championnat.Championnat
 import fr.pk.championshipmanagerdomain.championnat.port.ChampionnatService

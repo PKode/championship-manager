@@ -1,10 +1,7 @@
 package fr.pk.championshipmanagerapplication.query
 
 import fr.pk.championshipmanagerapplication.dto.*
-import fr.pk.championshipmanagerdomain.championnat.Championnat
-import fr.pk.championshipmanagerdomain.championnat.Journee
-import fr.pk.championshipmanagerdomain.championnat.Match
-import fr.pk.championshipmanagerdomain.championnat.Saison
+import fr.pk.championshipmanagerdomain.championnat.*
 import fr.pk.championshipmanagerdomain.championnat.port.ChampionnatService
 import fr.pk.championshipmanagerdomain.equipe.Equipe
 import org.assertj.core.api.Assertions.assertThat
@@ -21,7 +18,9 @@ internal class ChampionnatQueryTest {
     private val query = ChampionnatQuery(championnatService)
 
     private val PSG = Equipe(1, "PSG")
-    private val OL = Equipe(2, "OL")
+    private val OM = Equipe(2, "OM")
+    private val OL = Equipe(3, "OL")
+    private val ASSE = Equipe(4, "ASSE")
 
     private val NOW = LocalDateTime.now()
     @Nested
@@ -79,5 +78,31 @@ internal class ChampionnatQueryTest {
         }
     }
 
+    @Nested
+    inner class ClassementFeature {
 
+        @Test
+        fun `doit retourner le classement d un championnat`() {
+
+            val id = 1
+            val nom = "Ligue 1"
+
+            `when`(championnatService.getClassement(id, 2020)).thenReturn(listOf(
+                    Classement(PSG, v = 5, n = 1, d = 0, bc = 5, bp = 18, pts = 16, mj = 6, diff = 13),
+                    Classement(ASSE, v = 1, n = 3, d = 2, bc = 7, bp = 7, pts = 6, mj = 6, diff = 0),
+                    Classement(OL, v = 0, n = 5, d = 1, bc = 12, bp = 9, pts = 5, mj = 6, diff = -3),
+                    Classement(OM, v = 0, n = 3, d = 3, bc = 17, bp = 7, pts = 3, mj = 6, diff = -10)
+            ))
+
+            val classement = query.classement(id, 2020)
+
+            assertThat(classement).containsExactly(
+                    ClassementDto(EquipeDto(PSG), v = 5, n = 1, d = 0, bc = 5, bp = 18, pts = 16, mj = 6, diff = 13),
+                    ClassementDto(EquipeDto(ASSE), v = 1, n = 3, d = 2, bc = 7, bp = 7, pts = 6, mj = 6, diff = 0),
+                    ClassementDto(EquipeDto(OL), v = 0, n = 5, d = 1, bc = 12, bp = 9, pts = 5, mj = 6, diff = -3),
+                    ClassementDto(EquipeDto(OM), v = 0, n = 3, d = 3, bc = 17, bp = 7, pts = 3, mj = 6, diff = -10)
+            )
+            verify(championnatService, times(1)).getClassement(id, 2020)
+        }
+    }
 }
