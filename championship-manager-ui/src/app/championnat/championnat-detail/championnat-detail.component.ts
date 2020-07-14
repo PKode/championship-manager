@@ -3,6 +3,7 @@ import {map} from 'rxjs/operators';
 import {BreakpointObserver, Breakpoints} from '@angular/cdk/layout';
 import {CalendrierComponent} from "../calendrier/calendrier.component";
 import {EquipeListComponent} from "../../equipe/equipe-list/equipe-list.component";
+import {ClassementComponent} from "../classement/classement.component";
 
 @Component({
   selector: 'app-championnat-detail',
@@ -16,7 +17,7 @@ export class ChampionnatDetailComponent {
       if (matches) {
         return [
           {title: 'Calendrier', cols: 1, rows: 1, component: CalendrierComponent},
-          {title: 'Classement', cols: 1, rows: 1, component: EquipeListComponent},
+          {title: 'Classement', cols: 1, rows: 1, component: ClassementComponent},
           {title: 'Classement Buteur', cols: 1, rows: 1, component: CalendrierComponent},
           {title: 'Equipes', cols: 1, rows: 1, component: EquipeListComponent}
         ];
@@ -24,7 +25,7 @@ export class ChampionnatDetailComponent {
 
       return [
         {title: 'Calendrier', cols: 1, rows: 2, component: CalendrierComponent},
-        {title: 'Classement', cols: 1, rows: 2, component: EquipeListComponent},
+        {title: 'Classement', cols: 1, rows: 2, component: ClassementComponent},
         {title: 'Classement Buteur', cols: 1, rows: 1, component: CalendrierComponent},
         {title: 'Equipes', cols: 1, rows: 1, component: EquipeListComponent}
       ];

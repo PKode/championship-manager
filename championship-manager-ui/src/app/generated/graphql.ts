@@ -26,6 +26,19 @@ export type ChampionnatDtoInput = {
   readonly saisons: Maybe<ReadonlyArray<SaisonDtoInput>>;
 };
 
+export type ClassementDto = {
+  readonly __typename?: 'ClassementDto';
+  readonly bc: Scalars['Int'];
+  readonly bp: Scalars['Int'];
+  readonly d: Scalars['Int'];
+  readonly diff: Scalars['Int'];
+  readonly equipe: EquipeDto;
+  readonly mj: Scalars['Int'];
+  readonly n: Scalars['Int'];
+  readonly pts: Scalars['Int'];
+  readonly v: Scalars['Int'];
+};
+
 export type EquipeDto = {
   readonly __typename?: 'EquipeDto';
   readonly championnat: Maybe<ChampionnatDto>;
@@ -106,6 +119,7 @@ export type Query = {
   readonly __typename?: 'Query';
   readonly championnat: ChampionnatDto;
   readonly championnats: ReadonlyArray<ChampionnatDto>;
+  readonly classement: ReadonlyArray<ClassementDto>;
   readonly equipe: EquipeDto;
   readonly equipes: ReadonlyArray<EquipeDto>;
   readonly equipesOfChampionnat: ReadonlyArray<EquipeDto>;
@@ -114,6 +128,12 @@ export type Query = {
 
 export type QueryChampionnatArgs = {
   id: Scalars['Int'];
+};
+
+
+export type QueryClassementArgs = {
+  championnatId: Scalars['Int'];
+  saison: Scalars['Int'];
 };
 
 
@@ -231,6 +251,24 @@ export type ChampionnatByIdQuery = (
       )> }
     )>> }
   ) }
+);
+
+export type ClassementQueryVariables = {
+  championnatId: Scalars['Int'];
+  saison: Scalars['Int'];
+};
+
+
+export type ClassementQuery = (
+  { readonly __typename?: 'Query' }
+  & { readonly classement: ReadonlyArray<(
+    { readonly __typename?: 'ClassementDto' }
+    & Pick<ClassementDto, 'v' | 'n' | 'd' | 'bp' | 'bc' | 'mj' | 'pts' | 'diff'>
+    & { readonly equipe: (
+      { readonly __typename?: 'EquipeDto' }
+      & Pick<EquipeDto, 'nom'>
+    ) }
+  )> }
 );
 
 export type EquipeMutationVariables = {
@@ -395,6 +433,31 @@ export const ChampionnatByIdDocument = gql`
   })
   export class ChampionnatByIdGQL extends Apollo.Query<ChampionnatByIdQuery, ChampionnatByIdQueryVariables> {
     document = ChampionnatByIdDocument;
+    
+  }
+export const ClassementDocument = gql`
+    query classement($championnatId: Int!, $saison: Int!) {
+  classement(championnatId: $championnatId, saison: $saison) {
+    equipe {
+      nom
+    }
+    v
+    n
+    d
+    bp
+    bc
+    mj
+    pts
+    diff
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class ClassementGQL extends Apollo.Query<ClassementQuery, ClassementQueryVariables> {
+    document = ClassementDocument;
     
   }
 export const EquipeDocument = gql`

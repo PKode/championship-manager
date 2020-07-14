@@ -22,6 +22,7 @@ import {MatListModule} from "@angular/material/list";
 import {MatSelectModule} from "@angular/material/select";
 import {MatDatepickerModule} from "@angular/material/datepicker";
 import {MatNativeDateModule} from "@angular/material/core";
+import { ClassementComponent } from './classement/classement.component';
 
 
 @NgModule({
@@ -30,7 +31,8 @@ import {MatNativeDateModule} from "@angular/material/core";
     ChampionnatListComponent,
     ChampionnatFormComponent,
     ChampionnatDetailComponent,
-    CalendrierComponent
+    CalendrierComponent,
+    ClassementComponent
   ],
   imports: [
     CommonModule,
