@@ -85,7 +85,6 @@ internal class ChampionnatQueryTest {
         fun `doit retourner le classement d un championnat`() {
 
             val id = 1
-            val nom = "Ligue 1"
 
             `when`(championnatService.getClassement(id, 2020)).thenReturn(listOf(
                     Classement(PSG, v = 5, n = 1, d = 0, bc = 5, bp = 18, pts = 16, mj = 6, diff = 13),

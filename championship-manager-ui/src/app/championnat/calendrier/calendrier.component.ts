@@ -40,6 +40,7 @@ export class CalendrierComponent implements OnInit {
   ngOnInit() {
     this.route.paramMap.subscribe(params => {
       this.championnatId = Number.parseInt(params.get("id"));
+      this.saisonFilter = Number.parseInt(params.get("saison"));
       this.championnatService.getChampionnatById(this.championnatId).subscribe(
         data => {
           let matchs: MatchDto[];
@@ -48,11 +49,9 @@ export class CalendrierComponent implements OnInit {
             matchs = [];
           } else {
             this.saisons = data.saisons.map(s => s as SaisonDto);
-            this.saisonFilter = this.saisons[this.saisons.length - 1].annee;
-            let indexSaison = this.indexOfSaisonSelected();
             // @ts-ignore
-            matchs = this.filterBySaison(indexSaison);
-            matchPerDay = this.matchsPerDay(indexSaison);
+            matchs = this.filterBySaison();
+            matchPerDay = this.matchsPerDay();
           }
           this.updateDataSource(matchs, matchPerDay);
         });
@@ -70,26 +69,18 @@ export class CalendrierComponent implements OnInit {
     this.dataSource.paginator = this.paginator;
     this.table.dataSource = this.dataSource;
   }
-  //TODO: mutualise with action in ngOnInit
-  filterMatch() {
-    let indexSaison = this.indexOfSaisonSelected();
-    // @ts-ignore
-    let matchs = this.filterBySaison(indexSaison);
-    let matchPerDay = this.matchsPerDay(indexSaison);
-
-    this.updateDataSource(matchs, matchPerDay);
-  }
 
   indexOfSaisonSelected() {
     return this.saisons.findIndex(value => value.annee == this.saisonFilter);
   }
 
-  matchsPerDay(indexSaison: number) {
-    let journees = this.saisons[indexSaison].journees;
+  matchsPerDay() {
+    let journees = this.saisons[this.indexOfSaisonSelected()].journees;
     return journees[0].matchs.length;
   }
-  filterBySaison(indexSaison: number) {
-    let journees = this.saisons[indexSaison].journees;
+
+  filterBySaison() {
+    let journees = this.saisons[this.indexOfSaisonSelected()].journees;
     // @ts-ignore
     return journees?.flatMap(j => j.matchs.map(m => m as MatchDto));
   }

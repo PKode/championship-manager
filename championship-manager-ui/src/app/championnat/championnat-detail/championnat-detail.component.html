@@ -1,4 +1,8 @@
 <div class="grid-container">
+  <mat-chip-list aria-label="Saisons" [selectable]="true">
+    <mat-chip *ngFor="let saison of saisons" (click)="changeSaison(saison)"
+              [selected]="saison==this.selectedSaison">{{saison}}</mat-chip>
+  </mat-chip-list>
   <mat-grid-list cols="2" rowHeight="350px">
     <mat-grid-tile *ngFor="let card of cards | async" [colspan]="card.cols" [rowspan]="card.rows">
       <mat-card class="dashboard-card">

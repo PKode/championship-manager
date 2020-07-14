@@ -17,9 +17,9 @@ class XdMatch(entity: Entity) : XdEntity(entity) {
 
     var exterieur by xdLink1(XdEquipe)
 
-    var scoreDomicile by xdIntProp()
+    var butDomicile by xdNullableIntProp()
 
-    var scoreExterieur by xdIntProp()
+    var butExterieur by xdNullableIntProp()
 
     var journee by xdIntProp()
 
@@ -30,7 +30,7 @@ class XdMatch(entity: Entity) : XdEntity(entity) {
     var championnatId by xdIntProp()
 
     fun toMatch(): Match {
-        return Match(this.domicile.toEquipeWithoutChampionnat(), this.exterieur.toEquipeWithoutChampionnat(), this.scoreDomicile, this.scoreExterieur,
+        return Match(this.domicile.toEquipeWithoutChampionnat(), this.exterieur.toEquipeWithoutChampionnat(), this.butDomicile, this.butExterieur,
                 LocalDateTime.ofEpochSecond(this.date.millis,0, ZoneOffset.UTC))
     }
 }

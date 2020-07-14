@@ -65,16 +65,16 @@ export type JourneeDtoInput = {
 
 export type MatchDto = {
   readonly __typename?: 'MatchDto';
-  readonly butDomicile: Scalars['Int'];
-  readonly butExterieur: Scalars['Int'];
+  readonly butDomicile: Maybe<Scalars['Int']>;
+  readonly butExterieur: Maybe<Scalars['Int']>;
   readonly date: Scalars['String'];
   readonly domicile: EquipeDto;
   readonly exterieur: EquipeDto;
 };
 
 export type MatchDtoInput = {
-  readonly butDomicile: Scalars['Int'];
-  readonly butExterieur: Scalars['Int'];
+  readonly butDomicile: Maybe<Scalars['Int']>;
+  readonly butExterieur: Maybe<Scalars['Int']>;
   readonly date: Scalars['String'];
   readonly domicile: EquipeDtoInput;
   readonly exterieur: EquipeDtoInput;
@@ -219,6 +219,10 @@ export type ChampionnatsQuery = (
   & { readonly championnats: ReadonlyArray<(
     { readonly __typename?: 'ChampionnatDto' }
     & Pick<ChampionnatDto, 'id' | 'nom'>
+    & { readonly saisons: Maybe<ReadonlyArray<(
+      { readonly __typename?: 'SaisonDto' }
+      & Pick<SaisonDto, 'annee'>
+    )>> }
   )> }
 );
 
@@ -249,6 +253,22 @@ export type ChampionnatByIdQuery = (
           ) }
         )> }
       )> }
+    )>> }
+  ) }
+);
+
+export type SaisonsQueryVariables = {
+  championnatId: Scalars['Int'];
+};
+
+
+export type SaisonsQuery = (
+  { readonly __typename?: 'Query' }
+  & { readonly championnat: (
+    { readonly __typename?: 'ChampionnatDto' }
+    & { readonly saisons: Maybe<ReadonlyArray<(
+      { readonly __typename?: 'SaisonDto' }
+      & Pick<SaisonDto, 'annee'>
     )>> }
   ) }
 );
@@ -392,6 +412,9 @@ export const ChampionnatsDocument = gql`
   championnats {
     id
     nom
+    saisons {
+      annee
+    }
   }
 }
     `;
@@ -433,6 +456,23 @@ export const ChampionnatByIdDocument = gql`
   })
   export class ChampionnatByIdGQL extends Apollo.Query<ChampionnatByIdQuery, ChampionnatByIdQueryVariables> {
     document = ChampionnatByIdDocument;
+    
+  }
+export const SaisonsDocument = gql`
+    query saisons($championnatId: Int!) {
+  championnat(id: $championnatId) {
+    saisons {
+      annee
+    }
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class SaisonsGQL extends Apollo.Query<SaisonsQuery, SaisonsQueryVariables> {
+    document = SaisonsDocument;
     
   }
 export const ClassementDocument = gql`

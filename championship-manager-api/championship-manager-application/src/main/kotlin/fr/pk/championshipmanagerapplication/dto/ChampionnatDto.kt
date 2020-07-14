@@ -38,8 +38,8 @@ data class JourneeDto(
 data class MatchDto(
         val domicile: EquipeDto,
         val exterieur: EquipeDto,
-        val butDomicile: Int = 0,
-        val butExterieur: Int = 0,
+        val butDomicile: Int? = null,
+        val butExterieur: Int? = null,
         val date: String = LocalDateTime.now().toFrDateString()
 ) {
     constructor(match: Match) : this(EquipeDto(match.domicile), EquipeDto(match.exterieur), match.butDomicile, match.butExterieur, match.date.toFrDateString())

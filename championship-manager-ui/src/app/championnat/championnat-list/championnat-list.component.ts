@@ -9,6 +9,7 @@ import {ChampionnatService} from "../championnat.service";
 import {Championnat} from "../championnat";
 import {ChampionnatFormComponent} from "../championnat-form/championnat-form.component";
 import {Router} from "@angular/router";
+import {ChampionnatDto} from "../../generated/graphql";
 
 @Component({
   selector: 'app-championnat-list',
@@ -18,7 +19,7 @@ import {Router} from "@angular/router";
 export class ChampionnatListComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
-  @ViewChild(MatTable) table: MatTable<Championnat>;
+  @ViewChild(MatTable) table: MatTable<ChampionnatDto>;
   dataSource: ChampionnatListDataSource;
 
   /** Columns displayed in the table. Columns IDs can be added, removed, or reordered. */
@@ -31,15 +32,15 @@ export class ChampionnatListComponent implements OnInit {
 
   ngOnInit() {
     this.championnatService.getAllChampionnats().subscribe(data => {
-      let map = data.map(d => new Championnat(d.nom, d.id));
-      this.dataSource = new ChampionnatListDataSource(map);
+      let championnats = data.map(d => d as ChampionnatDto);
+      this.dataSource = new ChampionnatListDataSource(championnats);
       this.dataSource.sort = this.sort;
       this.dataSource.paginator = this.paginator;
       this.table.dataSource = this.dataSource;
     });
   }
 
-  delete(row: Championnat) {
+  delete(row: ChampionnatDto) {
     this.dialog.open(ConfirmDialogComponent,
       {
         width: '400px',

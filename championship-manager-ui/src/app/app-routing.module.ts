@@ -19,6 +19,10 @@ const routes: Routes = [
     component: ChampionnatDetailComponent
   },
   {
+    path: 'championnat/:id/saison/:saison',
+    component: ChampionnatDetailComponent
+  },
+  {
     path: 'equipe',
     component: EquipeComponent
   }

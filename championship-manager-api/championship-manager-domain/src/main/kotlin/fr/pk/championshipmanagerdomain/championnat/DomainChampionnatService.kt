@@ -84,19 +84,20 @@ class DomainChampionnatService(private val championnatRepository: ChampionnatRep
 }
 
 private fun Match.statDomicile() = Stat(
-        nbVictoire = if (this.butDomicile > this.butExterieur) 1 else 0,
-        nbDefaite = if (this.butDomicile < this.butExterieur) 1 else 0,
-        nbNul = if (this.butDomicile == this.butExterieur) 1 else 0,
-        butMarque = this.butDomicile,
-        butPris = this.butExterieur
+        nbVictoire = if (this.butDomicile ?: 0 > this.butExterieur ?: 0) 1 else 0,
+        nbDefaite = if (this.butDomicile ?: 0 < this.butExterieur ?: 0) 1 else 0,
+        nbNul = if (this.butDomicile?.equals(this.butExterieur) == true) 1 else 0,
+        butMarque = this.butDomicile ?: 0,
+        butPris = this.butExterieur ?: 0
 )
 
+
 private fun Match.statExterieur() = Stat(
-        nbVictoire = if (this.butExterieur > this.butDomicile) 1 else 0,
-        nbDefaite = if (this.butExterieur < this.butDomicile) 1 else 0,
-        nbNul = if (this.butExterieur == this.butDomicile) 1 else 0,
-        butMarque = this.butExterieur,
-        butPris = this.butDomicile
+        nbVictoire = if (this.butExterieur ?: 0 > this.butDomicile ?: 0) 1 else 0,
+        nbDefaite = if (this.butExterieur ?: 0 < this.butDomicile ?: 0) 1 else 0,
+        nbNul = if (this.butExterieur?.equals(this.butDomicile) == true) 1 else 0,
+        butMarque = this.butExterieur ?: 0,
+        butPris = this.butDomicile ?: 0
 )
 
 private fun String.toLocalDate(): LocalDate {

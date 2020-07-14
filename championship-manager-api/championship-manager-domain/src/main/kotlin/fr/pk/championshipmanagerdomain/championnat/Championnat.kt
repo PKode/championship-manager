@@ -32,12 +32,10 @@ fun List<Journee>.matchsRetour(): List<Journee> {
 data class Match(
         val domicile: Equipe,
         val exterieur: Equipe,
-        val butDomicile: Int = 0,
-        val butExterieur: Int = 0,
+        val butDomicile: Int? = null,
+        val butExterieur: Int? = null,
         val date: LocalDateTime = LocalDateTime.now().withHour(20).withMinute(0).withSecond(0).withNano(0)
 ) {
-    val score: String get() = "$butDomicile - $exterieur"
-
     infix fun reverseIf(condition: Boolean): Match {
         return if (condition) Match(domicile = this.exterieur, exterieur = this.domicile, date = this.date) else this
     }

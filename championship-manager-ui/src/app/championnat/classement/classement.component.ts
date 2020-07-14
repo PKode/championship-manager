@@ -28,8 +28,9 @@ export class ClassementComponent implements OnInit {
   ngOnInit() {
     this.route.paramMap.subscribe(params => {
       const championnatId = Number.parseInt(params.get("id"));
-      // TODO: dynamically choose saison.
-      this.championnatService.getClassement(championnatId, 2021)
+      const saison = Number.parseInt(params.get("saison"));
+      console.log("classement:::  "+saison);
+      this.championnatService.getClassement(championnatId, saison)
         .subscribe(data => {
           this.dataSource = new ClassementDataSource(data.map(it => it as ClassementDto));
           this.dataSource.sort = this.sort;

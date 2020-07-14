@@ -2,6 +2,9 @@ query championnats {
   championnats {
     id
     nom
+    saisons {
+      annee
+    }
   }
 }
 
@@ -24,6 +27,14 @@ query championnatById($id: Int!) {
           }
         }
       }
+    }
+  }
+}
+
+query saisons($championnatId: Int!) {
+  championnat(id: $championnatId) {
+    saisons {
+      annee
     }
   }
 }

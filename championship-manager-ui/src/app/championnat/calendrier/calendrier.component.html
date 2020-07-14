@@ -1,11 +1,4 @@
 <div class="mat-elevation-z8">
-  <mat-form-field class="full-width" style="float: right">
-    <mat-label>Saison</mat-label>
-    <mat-select (selectionChange)="filterMatch()" [(ngModel)]="saisonFilter" name="saison">
-      <mat-option *ngFor="let saison of saisons"
-                  [value]="saison.annee">{{saison.annee}} </mat-option>
-    </mat-select>
-  </mat-form-field>
   <table mat-table class="full-width-table" matSort aria-label="Elements">
     <ng-container matColumnDef="nodata">
       <td mat-footer-row *matFooterCellDef [colSpan]="displayedColumns.length"

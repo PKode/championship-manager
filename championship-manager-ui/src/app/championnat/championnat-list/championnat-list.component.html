@@ -26,7 +26,8 @@
 
 
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row (dblclick)="this.router.navigate(['/championnat/'+row.id])"
+    <tr mat-row
+        (dblclick)="this.router.navigate(['/championnat/'+row.id+'/saison/'+row.saisons[row.saisons.length-1].annee])"
         *matRowDef="let row; columns: displayedColumns;"></tr>
   </table>
 
