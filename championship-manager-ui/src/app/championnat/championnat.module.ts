@@ -25,6 +25,9 @@ import {MatNativeDateModule} from "@angular/material/core";
 import { ClassementComponent } from './classement/classement.component';
 import { ClassementButeurComponent } from './classement-buteur/classement-buteur.component';
 import {MatChipsModule} from "@angular/material/chips";
+import {MatTooltipModule} from "@angular/material/tooltip";
+import { MatchFormComponent } from './calendrier/match-form/match-form.component';
+import { MatRadioModule } from '@angular/material/radio';
 
 
 @NgModule({
@@ -35,30 +38,33 @@ import {MatChipsModule} from "@angular/material/chips";
     ChampionnatDetailComponent,
     CalendrierComponent,
     ClassementComponent,
-    ClassementButeurComponent
+    ClassementButeurComponent,
+    MatchFormComponent
   ],
-    imports: [
-        CommonModule,
-        MatTableModule,
-        MatButtonModule,
-        MatSortModule,
-        MatIconModule,
-        MatPaginatorModule,
-        ReactiveFormsModule,
-        MatCardModule,
-        MatFormFieldModule,
-        MatInputModule,
-        MatDialogModule,
-        MatGridListModule,
-        MatMenuModule,
-        LayoutModule,
-        MatListModule,
-        MatSelectModule,
-        MatDatepickerModule,
-        MatNativeDateModule,
-        FormsModule,
-        MatChipsModule
-    ]
+  imports: [
+    CommonModule,
+    MatTableModule,
+    MatButtonModule,
+    MatSortModule,
+    MatIconModule,
+    MatPaginatorModule,
+    ReactiveFormsModule,
+    MatCardModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatDialogModule,
+    MatGridListModule,
+    MatMenuModule,
+    LayoutModule,
+    MatListModule,
+    MatSelectModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    FormsModule,
+    MatChipsModule,
+    MatTooltipModule,
+    MatRadioModule
+  ]
 })
 // @ts-ignore
 export class ChampionnatModule {

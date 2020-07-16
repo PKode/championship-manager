@@ -1,0 +1,30 @@
+<form [formGroup]="matchForm" novalidate (ngSubmit)="onSubmit()">
+  <mat-card class="shipping-card">
+    <mat-card-header style="margin-bottom: 5%">
+      <mat-card-title>Résultat du match {{data.domicile.nom}} - {{data.exterieur.nom}}</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <div class="row">
+        <div class="col">
+          <mat-form-field class="">
+            <input matInput [placeholder]="data.domicile.nom" formControlName="butDomicile" type="number">
+            <mat-error *ngIf="matchForm.controls['butDomicile'].hasError('required')">
+              Domicile is <strong>required</strong>
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col">
+          <mat-form-field class="">
+            <input matInput [placeholder]="data.exterieur.nom" formControlName="butExterieur" type="number">
+            <mat-error *ngIf="matchForm.controls['butExterieur'].hasError('required')">
+              Exterieur is <strong>required</strong>
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+    </mat-card-content>
+    <mat-card-actions>
+      <button mat-raised-button color="primary" type="submit">Enregistrer le résultat</button>
+    </mat-card-actions>
+  </mat-card>
+</form>

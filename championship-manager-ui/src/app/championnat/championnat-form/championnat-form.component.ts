@@ -3,6 +3,7 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {ChampionnatService} from "../championnat.service";
 import {Championnat} from "../championnat";
+import {ChampionnatDto} from "../../generated/graphql";
 
 @Component({
   selector: 'app-championnat-form',
@@ -15,7 +16,7 @@ export class ChampionnatFormComponent {
   constructor(private fb: FormBuilder,
               private dialogRef: MatDialogRef<ChampionnatFormComponent>,
               private championnatService: ChampionnatService,
-              @Inject(MAT_DIALOG_DATA) public data: Championnat) {
+              @Inject(MAT_DIALOG_DATA) public data: ChampionnatDto) {
     this.championnatForm = this.fb.group({
       nom: [data?.nom ? data.nom : null, Validators.required]
     });

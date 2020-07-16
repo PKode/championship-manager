@@ -9,6 +9,10 @@ import {MatchDto, SaisonDto} from "../../generated/graphql";
 import {ActivatedRoute} from "@angular/router";
 import {FormControl} from "@angular/forms";
 import * as moment from 'moment';
+import {Championnat} from "../championnat";
+import {ChampionnatFormComponent} from "../championnat-form/championnat-form.component";
+import {MatDialog} from "@angular/material/dialog";
+import {MatchFormComponent} from "./match-form/match-form.component";
 
 @Component({
   selector: 'app-calendrier',
@@ -26,7 +30,7 @@ export class CalendrierComponent implements OnInit {
   dataSource: CalendrierDataSource;
 
   /** Columns displayed in the table. Columns IDs can be added, removed, or reordered. */
-  displayedColumns = ['date', 'domicile', 'score', 'exterieur'];
+  displayedColumns = ['date', 'domicile', 'score', 'exterieur', 'jouer'];
 
   championnatId: number;
   saisons: SaisonDto[];
@@ -34,7 +38,8 @@ export class CalendrierComponent implements OnInit {
   saisonFilter: number;
 
   constructor(private championnatService: ChampionnatService,
-              private route: ActivatedRoute) {
+              private route: ActivatedRoute,
+              private dialog: MatDialog) {
   }
 
   ngOnInit() {
@@ -84,4 +89,15 @@ export class CalendrierComponent implements OnInit {
     // @ts-ignore
     return journees?.flatMap(j => j.matchs.map(m => m as MatchDto));
   }
+
+  play(row: MatchDto) {
+      const dialogRef = this.dialog.open(MatchFormComponent, {
+        width: '500px',
+        data: row
+      });
+
+      dialogRef.afterClosed().subscribe(result => {
+        console.log('The dialog was closed');
+      });
+    }
 }
