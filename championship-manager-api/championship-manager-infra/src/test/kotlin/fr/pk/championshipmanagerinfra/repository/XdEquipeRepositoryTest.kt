@@ -1,11 +1,11 @@
-package fr.pk.championshipmanagerinfra
+package fr.pk.championshipmanagerinfra.repository
 
 import fr.pk.championshipmanagerdomain.championnat.Championnat
 import fr.pk.championshipmanagerdomain.equipe.Equipe
+import fr.pk.championshipmanagerinfra.TestConfiguration
 import fr.pk.championshipmanagerinfra.entities.XdChampionnat
 import fr.pk.championshipmanagerinfra.entities.XdEquipe
 import fr.pk.championshipmanagerinfra.entities.XdMatch
-import fr.pk.championshipmanagerinfra.repository.XdEquipeRepository
 import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.Assertions.assertThatThrownBy
 import org.junit.jupiter.api.AfterAll

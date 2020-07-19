@@ -4,6 +4,9 @@ import jetbrains.exodus.query.NodeBase
 import kotlinx.dnq.XdEntity
 import kotlinx.dnq.XdEntityType
 import kotlinx.dnq.query.*
+import org.joda.time.DateTime
+import java.time.LocalDateTime
+import java.time.ZoneOffset
 
 inline infix fun <reified T : XdEntity, O : Any> XdEntityType<T>.findAllMapped(mapper: (T) -> O): List<O> {
     return this.all().map { mapper.invoke(it) }
@@ -27,6 +30,14 @@ inline fun <reified T : XdEntity, O : Any> XdEntityType<T>.saveOrUpdateMapped(no
     return mapper.invoke(updatedEntity)
 }
 
+inline fun <reified T : XdEntity, O : Any> XdEntityType<T>.saveOrUpdateAndMap(noinline clause: FilteringContext.(T) -> XdSearchingNode, ifUpdate: (T) -> (T), crossinline ifNew: (T) -> Unit, mapper: (T) -> O): O {
+    val updatedEntity: T = this.filter(clause)
+            .singleOrNull()
+            ?.let { ifUpdate.invoke(it) }
+            ?: this.new { ifNew.invoke(this) }
+    return mapper.invoke(updatedEntity)
+}
+
 inline fun <reified T : XdEntity, O : Any> XdEntityType<T>.removeMapped(node: NodeBase, mapper: (T) -> O): O {
     return this.all().singleOrNull(node)
             ?.let {
@@ -41,3 +52,5 @@ inline fun <reified T : XdEntity, O : Any> XdEntityType<T>.removeMapped(node: No
 inline fun <reified T : XdEntity, O : Any> XdQuery<T>.map(mapper: (T) -> O): List<O> {
     return this.toList().map(mapper)
 }
+
+fun LocalDateTime.toDateTime() = DateTime(this.toEpochSecond(ZoneOffset.UTC))

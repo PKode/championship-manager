@@ -28,7 +28,6 @@ fun List<Journee>.matchsRetour(): List<Journee> {
     return this.map { Journee(numero = it.numero + this.size, matchs = it.matchs.map { match -> match.retour().at(match.date.plusWeeks(this.size.toLong())) }) }
 }
 
-// TODO: handle not played match (butDomicile/butExterieur nullable ?)
 data class Match(
         val domicile: Equipe,
         val exterieur: Equipe,

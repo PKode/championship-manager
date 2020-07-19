@@ -63,7 +63,7 @@ class XdChampionnatRepository(private val xdStore: TransientEntityStore) : Champ
                         this.exterieur = XdEquipe.findFirstByMapped(XdEquipe::id eq match.exterieur.id) { it }
                         this.journee = j.numero
                         this.saison = saison.annee
-                        this.date = DateTime(match.date.toEpochSecond(ZoneOffset.UTC))
+                        this.date = match.date.toDateTime()
                     }
                 }
             }
