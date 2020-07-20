@@ -42,7 +42,7 @@ internal class ChampionnatQueryTest {
             )
 
             // When
-            `when`(championnatService.getAllChampionnats()).thenReturn(domainList)
+            `when`(championnatService.getAll()).thenReturn(domainList)
 
             val championnats = query.championnats()
 
@@ -57,7 +57,7 @@ internal class ChampionnatQueryTest {
             )), ChampionnatDto(2, "Ligue 2"))
 
             assertThat(championnats).isEqualTo(dtoList)
-            verify(championnatService, times(1)).getAllChampionnats()
+            verify(championnatService, times(1)).getAll()
         }
 
         @Test
@@ -66,7 +66,7 @@ internal class ChampionnatQueryTest {
             val domainChampionnat = Championnat(1, "Ligue 1")
 
             // When
-            `when`(championnatService.getChampionnatById(1)).thenReturn(domainChampionnat)
+            `when`(championnatService.getById(1)).thenReturn(domainChampionnat)
 
             val championnat = query.championnat(1)
 
@@ -74,7 +74,7 @@ internal class ChampionnatQueryTest {
             val expectedDto = ChampionnatDto(1, "Ligue 1")
 
             assertThat(championnat).isEqualTo(expectedDto)
-            verify(championnatService, times(1)).getChampionnatById(1)
+            verify(championnatService, times(1)).getById(1)
         }
     }
 

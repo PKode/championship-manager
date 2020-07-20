@@ -9,24 +9,24 @@ interface ChampionnatService {
     /**
      * @return la liste des tous les championnats.
      */
-    fun getAllChampionnats(): List<Championnat>
+    fun getAll(): List<Championnat>
 
     /**
      * @param id à chercher.
      * @return le championnat correspondant à l'id.
      */
-    fun getChampionnatById(id: Int) : Championnat
+    fun getById(id: Int) : Championnat
 
     /**
      * Créer un nouveau championnat.
      */
-    fun createOrEditChampionnat(championnat: Championnat): Championnat
+    fun createOrEdit(championnat: Championnat): Championnat
 
     /**
      * Supprime un championnat.
      * @param id du championnat à supprimer.
      */
-    fun deleteChampionnat(id: Int) : Championnat
+    fun delete(id: Int) : Championnat
 
     /**
      * Génère le calendrier de match du championnat correspondant à

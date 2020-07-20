@@ -30,6 +30,7 @@ inline fun <reified T : XdEntity, O : Any> XdEntityType<T>.saveOrUpdateMapped(no
     return mapper.invoke(updatedEntity)
 }
 
+// TODO: see to use filter anywhere
 inline fun <reified T : XdEntity, O : Any> XdEntityType<T>.saveOrUpdateAndMap(noinline clause: FilteringContext.(T) -> XdSearchingNode, ifUpdate: (T) -> (T), crossinline ifNew: (T) -> Unit, mapper: (T) -> O): O {
     val updatedEntity: T = this.filter(clause)
             .singleOrNull()

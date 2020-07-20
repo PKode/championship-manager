@@ -4,6 +4,7 @@ import fr.pk.championshipmanagerdomain.championnat.Championnat
 import fr.pk.championshipmanagerdomain.championnat.Journee
 import fr.pk.championshipmanagerdomain.championnat.Match
 import fr.pk.championshipmanagerdomain.championnat.Saison
+import fr.pk.championshipmanagerdomain.equipe.Equipe
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
@@ -44,7 +45,20 @@ data class MatchDto(
 ) {
     constructor(match: Match) : this(EquipeDto(match.domicile), EquipeDto(match.exterieur), match.butDomicile, match.butExterieur, match.date.toFrDateString())
 }
+fun MatchDto.toMatch(): Match {
+    return Match(
+            domicile = Equipe(this.domicile.id, this.domicile.nom),
+            exterieur = Equipe(this.exterieur.id, this.exterieur.nom),
+            date = this.date.toLocalDateTime(),
+            butDomicile = this.butDomicile,
+            butExterieur = this.butExterieur
+    )
+}
 
 fun LocalDateTime.toFrDateString(): String {
     return this.format(DateTimeFormatter.ofPattern("dd/MM/YYYY H:mm"))
+}
+
+fun String.toLocalDateTime(): LocalDateTime {
+    return LocalDateTime.parse(this, DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm"))
 }

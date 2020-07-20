@@ -102,7 +102,7 @@ internal class DomainChampionnatServiceTest {
 
             `when`(repository.findAll()).thenReturn(expected)
 
-            val allChampionnats = service.getAllChampionnats()
+            val allChampionnats = service.getAll()
 
             assertThat(allChampionnats).isEqualTo(expected)
         }
@@ -111,7 +111,7 @@ internal class DomainChampionnatServiceTest {
         fun `doit retourner une liste vide si aucun championnat`() {
             `when`(repository.findAll()).thenReturn(emptyList())
 
-            val allChampionnats = service.getAllChampionnats()
+            val allChampionnats = service.getAll()
 
             assertThat(allChampionnats).isEqualTo(emptyList<Championnat>())
         }
@@ -121,7 +121,7 @@ internal class DomainChampionnatServiceTest {
             val expected = Championnat(id = 1, nom = "Ligue 1")
             `when`(repository.findById(1)).thenReturn(expected)
 
-            val championnat = service.getChampionnatById(1)
+            val championnat = service.getById(1)
 
             assertThat(championnat).isEqualTo(expected)
         }
@@ -135,7 +135,7 @@ internal class DomainChampionnatServiceTest {
 
             `when`(repository.saveOrUpdate(expectedCreatedChampionnat)).thenReturn(expectedCreatedChampionnat)
 
-            val championnat = service.createOrEditChampionnat(expectedCreatedChampionnat)
+            val championnat = service.createOrEdit(expectedCreatedChampionnat)
 
             assertThat(championnat).isEqualTo(expectedCreatedChampionnat)
         }
@@ -149,7 +149,7 @@ internal class DomainChampionnatServiceTest {
 
             `when`(repository.saveOrUpdate(expectedCreatedChampionnat)).thenReturn(expectedCreatedChampionnat)
 
-            val championnat = service.createOrEditChampionnat(expectedCreatedChampionnat)
+            val championnat = service.createOrEdit(expectedCreatedChampionnat)
 
             assertThat(championnat).isEqualTo(expectedCreatedChampionnat)
         }
@@ -164,7 +164,7 @@ internal class DomainChampionnatServiceTest {
 
             `when`(repository.remove(1)).thenReturn(expected)
 
-            val deleteChampionnat = service.deleteChampionnat(1)
+            val deleteChampionnat = service.delete(1)
 
             assertThat(deleteChampionnat).isEqualTo(expected)
         }

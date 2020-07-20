@@ -2,7 +2,6 @@ package fr.pk.championshipmanagerapplication.mutation
 
 import com.expediagroup.graphql.spring.operations.Mutation
 import fr.pk.championshipmanagerapplication.dto.ChampionnatDto
-import fr.pk.championshipmanagerapplication.dto.ClassementDto
 import fr.pk.championshipmanagerapplication.dto.SaisonDto
 import fr.pk.championshipmanagerdomain.championnat.Championnat
 import fr.pk.championshipmanagerdomain.championnat.port.ChampionnatService
@@ -17,7 +16,7 @@ class ChampionnatMutation(private val championnatService: ChampionnatService) : 
      * @return championnat freshly created.
      */
     fun championnat(championnat: ChampionnatDto): ChampionnatDto {
-        val newChampionnat = championnatService.createOrEditChampionnat(Championnat(id = championnat.id, nom = championnat.nom))
+        val newChampionnat = championnatService.createOrEdit(Championnat(id = championnat.id, nom = championnat.nom))
         return ChampionnatDto(newChampionnat.id, newChampionnat.nom)
     }
 
@@ -27,7 +26,7 @@ class ChampionnatMutation(private val championnatService: ChampionnatService) : 
      * @return championnat freshly deleted.
      */
     fun deleteChampionnat(id: Int): ChampionnatDto {
-        val deleteChampionnat = championnatService.deleteChampionnat(id)
+        val deleteChampionnat = championnatService.delete(id)
         return ChampionnatDto(deleteChampionnat.id, deleteChampionnat.nom)
     }
 

@@ -10,19 +10,19 @@ import java.time.format.DateTimeFormatter
 
 class DomainChampionnatService(private val championnatRepository: ChampionnatRepository,
                                private val equipeRepository: EquipeRepository) : ChampionnatService {
-    override fun getAllChampionnats(): List<Championnat> {
+    override fun getAll(): List<Championnat> {
         return championnatRepository.findAll()
     }
 
-    override fun getChampionnatById(id: Int): Championnat {
+    override fun getById(id: Int): Championnat {
         return championnatRepository.findById(id)
     }
 
-    override fun createOrEditChampionnat(championnat: Championnat): Championnat {
+    override fun createOrEdit(championnat: Championnat): Championnat {
         return championnatRepository.saveOrUpdate(championnat)
     }
 
-    override fun deleteChampionnat(id: Int): Championnat {
+    override fun delete(id: Int): Championnat {
         return championnatRepository.remove(id)
     }
 

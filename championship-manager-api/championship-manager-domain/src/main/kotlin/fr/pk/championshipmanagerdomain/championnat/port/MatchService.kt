@@ -6,5 +6,5 @@ interface MatchService {
     /**
      * Modifie un nouveau match.
      */
-    fun createOrEditMatch(match: Match): Match
+    fun createOrEdit(match: Match): Match
 }

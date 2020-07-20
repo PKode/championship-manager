@@ -25,12 +25,12 @@ internal class ChampionnatMutationTest {
             val nom = "Ligue 1"
 
             val championnatToCreate = Championnat(nom = nom)
-            `when`(championnatService.createOrEditChampionnat(championnatToCreate)).thenReturn(Championnat(1, nom))
+            `when`(championnatService.createOrEdit(championnatToCreate)).thenReturn(Championnat(1, nom))
 
             val championnat = mutation.championnat(ChampionnatDto(nom = nom))
 
             assertThat(championnat).isEqualTo(ChampionnatDto(1, nom))
-            verify(championnatService, times(1)).createOrEditChampionnat(championnatToCreate)
+            verify(championnatService, times(1)).createOrEdit(championnatToCreate)
         }
     }
 
@@ -43,12 +43,12 @@ internal class ChampionnatMutationTest {
             val nom = "Ligue 1"
 
             val championnatToCreate = Championnat(id = 3, nom = nom)
-            `when`(championnatService.createOrEditChampionnat(championnatToCreate)).thenReturn(Championnat(3, nom))
+            `when`(championnatService.createOrEdit(championnatToCreate)).thenReturn(Championnat(3, nom))
 
             val championnat = mutation.championnat(ChampionnatDto(id = 3, nom = nom))
 
             assertThat(championnat).isEqualTo(ChampionnatDto(3, nom))
-            verify(championnatService, times(1)).createOrEditChampionnat(championnatToCreate)
+            verify(championnatService, times(1)).createOrEdit(championnatToCreate)
         }
     }
 
@@ -61,12 +61,12 @@ internal class ChampionnatMutationTest {
             val id = 1
             val nom = "Ligue 1"
 
-            `when`(championnatService.deleteChampionnat(id)).thenReturn(Championnat(id, nom))
+            `when`(championnatService.delete(id)).thenReturn(Championnat(id, nom))
 
             val championnat = mutation.deleteChampionnat(id.toInt())
 
             assertThat(championnat).isEqualTo(ChampionnatDto(1, nom))
-            verify(championnatService, times(1)).deleteChampionnat(id)
+            verify(championnatService, times(1)).delete(id)
         }
     }
 

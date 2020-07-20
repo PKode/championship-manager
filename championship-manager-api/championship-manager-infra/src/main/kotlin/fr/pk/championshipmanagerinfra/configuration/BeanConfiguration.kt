@@ -1,8 +1,11 @@
 package fr.pk.championshipmanagerinfra.configuration
 
 import fr.pk.championshipmanagerdomain.championnat.DomainChampionnatService
+import fr.pk.championshipmanagerdomain.championnat.DomainMatchService
 import fr.pk.championshipmanagerdomain.championnat.port.ChampionnatRepository
 import fr.pk.championshipmanagerdomain.championnat.port.ChampionnatService
+import fr.pk.championshipmanagerdomain.championnat.port.MatchRepository
+import fr.pk.championshipmanagerdomain.championnat.port.MatchService
 import fr.pk.championshipmanagerdomain.equipe.DomainEquipeService
 import fr.pk.championshipmanagerdomain.equipe.port.EquipeRepository
 import fr.pk.championshipmanagerdomain.equipe.port.EquipeService
@@ -25,6 +28,11 @@ class BeanConfiguration {
     @Bean
     fun equipeService(equipeRepository: EquipeRepository): EquipeService {
         return DomainEquipeService(equipeRepository)
+    }
+
+    @Bean
+    fun matchService(matchRepository: MatchRepository): MatchService {
+        return DomainMatchService(matchRepository)
     }
 
     @Bean
