@@ -23,7 +23,7 @@ export class ChampionnatFormComponent {
   }
 
   onSubmit() {
-    this.championnatService.createChampionnat(new Championnat(this.championnatForm.value.nom, this.data?.id));
+    this.championnatService.createOrUpdateChampionnat(new Championnat(this.championnatForm.value.nom, this.data?.id));
     this.dialogRef.close();
   }
 }

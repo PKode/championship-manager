@@ -87,6 +87,7 @@ export type Mutation = {
   readonly deleteChampionnat: ChampionnatDto;
   readonly deleteEquipe: EquipeDto;
   readonly equipe: EquipeDto;
+  readonly match: MatchDto;
 };
 
 
@@ -113,6 +114,11 @@ export type MutationDeleteEquipeArgs = {
 
 export type MutationEquipeArgs = {
   equipe: EquipeDtoInput;
+};
+
+
+export type MutationMatchArgs = {
+  match: MatchDtoInput;
 };
 
 export type Query = {
@@ -246,10 +252,10 @@ export type ChampionnatByIdQuery = (
           & Pick<MatchDto, 'butDomicile' | 'butExterieur' | 'date'>
           & { readonly domicile: (
             { readonly __typename?: 'EquipeDto' }
-            & Pick<EquipeDto, 'nom'>
+            & Pick<EquipeDto, 'id' | 'nom'>
           ), readonly exterieur: (
             { readonly __typename?: 'EquipeDto' }
-            & Pick<EquipeDto, 'nom'>
+            & Pick<EquipeDto, 'id' | 'nom'>
           ) }
         )> }
       )> }
@@ -343,6 +349,26 @@ export type EquipesOfChampionnatQuery = (
     { readonly __typename?: 'EquipeDto' }
     & Pick<EquipeDto, 'id' | 'nom'>
   )> }
+);
+
+export type MatchMutationVariables = {
+  match: MatchDtoInput;
+};
+
+
+export type MatchMutation = (
+  { readonly __typename?: 'Mutation' }
+  & { readonly match: (
+    { readonly __typename?: 'MatchDto' }
+    & Pick<MatchDto, 'date' | 'butDomicile' | 'butExterieur'>
+    & { readonly domicile: (
+      { readonly __typename?: 'EquipeDto' }
+      & Pick<EquipeDto, 'nom'>
+    ), readonly exterieur: (
+      { readonly __typename?: 'EquipeDto' }
+      & Pick<EquipeDto, 'nom'>
+    ) }
+  ) }
 );
 
 export const ChampionnatDocument = gql`
@@ -439,9 +465,11 @@ export const ChampionnatByIdDocument = gql`
           butExterieur
           date
           domicile {
+            id
             nom
           }
           exterieur {
+            id
             nom
           }
         }
@@ -566,5 +594,28 @@ export const EquipesOfChampionnatDocument = gql`
   })
   export class EquipesOfChampionnatGQL extends Apollo.Query<EquipesOfChampionnatQuery, EquipesOfChampionnatQueryVariables> {
     document = EquipesOfChampionnatDocument;
+    
+  }
+export const MatchDocument = gql`
+    mutation match($match: MatchDtoInput!) {
+  match(match: $match) {
+    date
+    domicile {
+      nom
+    }
+    exterieur {
+      nom
+    }
+    butDomicile
+    butExterieur
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class MatchGQL extends Apollo.Mutation<MatchMutation, MatchMutationVariables> {
+    document = MatchDocument;
     
   }

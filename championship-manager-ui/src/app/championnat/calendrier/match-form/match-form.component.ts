@@ -1,7 +1,9 @@
-import {Component, Inject} from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
-import {MAT_DIALOG_DATA} from "@angular/material/dialog";
-import {ChampionnatDto, MatchDto} from "../../../generated/graphql";
+import {Component, Inject, OnInit} from '@angular/core';
+import {FormBuilder, Validators} from '@angular/forms';
+import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
+import {MatchDto} from "../../../generated/graphql";
+import {MatchService} from "../../match.service";
+import {ActivatedRoute} from "@angular/router";
 
 @Component({
   selector: 'app-match-form',
@@ -14,11 +16,22 @@ export class MatchFormComponent {
     butExterieur: [null, Validators.required],
   });
 
+  championnatId: number;
   constructor(private fb: FormBuilder,
-              @Inject(MAT_DIALOG_DATA) public data: MatchDto)
-  {}
+              private matchService: MatchService,
+              public dialogRef: MatDialogRef<MatchFormComponent>,
+              @Inject(MAT_DIALOG_DATA) public data: {match: MatchDto, championnatId: number}) {
+    this.matchForm.patchValue({
+      butDomicile: this.data.match.butDomicile,
+      butExterieur: this.data.match.butExterieur,
+    });
+  }
 
   onSubmit() {
-    alert('Thanks!');
+    const matchUpdate = JSON.parse(JSON.stringify(this.data.match));
+    matchUpdate.butDomicile = this.matchForm.value.butDomicile;
+    matchUpdate.butExterieur = this.matchForm.value.butExterieur;
+    this.matchService.createOrUpdateMatch(matchUpdate, this.data.championnatId);
+    this.dialogRef.close();
   }
 }

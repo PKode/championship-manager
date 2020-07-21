@@ -1,0 +1,13 @@
+mutation match($match: MatchDtoInput!){
+  match(match: $match) {
+    date
+    domicile {
+      nom
+    }
+    exterieur {
+      nom
+    }
+    butDomicile
+    butExterieur
+  }
+}

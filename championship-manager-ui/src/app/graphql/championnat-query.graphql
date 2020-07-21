@@ -20,9 +20,11 @@ query championnatById($id: Int!) {
           butExterieur
           date
           domicile {
+            id
             nom
           }
           exterieur {
+            id
             nom
           }
         }

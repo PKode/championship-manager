@@ -19,7 +19,7 @@ export class ChampionnatService {
               private championnatQuery: ChampionnatsGQL,
               private deleteChampionnatMutation: DeleteChampionnatGQL,
               private calendrierMutation: CalendrierGQL,
-              private championnatByIdQuery: ChampionnatByIdGQL,
+              public championnatByIdQuery: ChampionnatByIdGQL,
               private classementQuery: ClassementGQL,
               private saisonsQuery: SaisonsGQL) {
   }
@@ -32,7 +32,7 @@ export class ChampionnatService {
     return this.championnatByIdQuery.watch({id: championnatId}).valueChanges.pipe(pluck('data', 'championnat'))
   }
 
-  createChampionnat(championnat: Championnat) {
+  createOrUpdateChampionnat(championnat: Championnat) {
     this.championnatMutation.mutate({championnat: {nom: championnat.nom, id: championnat.id, saisons: []}}, {
         refetchQueries: [{
           query: this.championnatQuery.document
