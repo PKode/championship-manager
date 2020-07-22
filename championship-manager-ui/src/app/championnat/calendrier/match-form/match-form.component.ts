@@ -20,7 +20,7 @@ export class MatchFormComponent {
   constructor(private fb: FormBuilder,
               private matchService: MatchService,
               public dialogRef: MatDialogRef<MatchFormComponent>,
-              @Inject(MAT_DIALOG_DATA) public data: {match: MatchDto, championnatId: number}) {
+              @Inject(MAT_DIALOG_DATA) public data: {match: MatchDto, championnatId: number, saison: number}) {
     this.matchForm.patchValue({
       butDomicile: this.data.match.butDomicile,
       butExterieur: this.data.match.butExterieur,
@@ -31,7 +31,7 @@ export class MatchFormComponent {
     const matchUpdate = JSON.parse(JSON.stringify(this.data.match));
     matchUpdate.butDomicile = this.matchForm.value.butDomicile;
     matchUpdate.butExterieur = this.matchForm.value.butExterieur;
-    this.matchService.createOrUpdateMatch(matchUpdate, this.data.championnatId);
+    this.matchService.createOrUpdateMatch(matchUpdate, this.data.championnatId, this.data.saison);
     this.dialogRef.close();
   }
 }
