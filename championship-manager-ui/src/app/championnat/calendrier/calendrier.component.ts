@@ -7,10 +7,6 @@ import {JourneeMatPaginatorIntl} from "./journee-mat-paginator";
 import {ChampionnatService} from "../championnat.service";
 import {MatchDto, SaisonDto} from "../../generated/graphql";
 import {ActivatedRoute} from "@angular/router";
-import {FormControl} from "@angular/forms";
-import * as moment from 'moment';
-import {Championnat} from "../championnat";
-import {ChampionnatFormComponent} from "../championnat-form/championnat-form.component";
 import {MatDialog} from "@angular/material/dialog";
 import {MatchFormComponent} from "./match-form/match-form.component";
 
@@ -34,7 +30,6 @@ export class CalendrierComponent implements OnInit {
 
   championnatId: number;
   saisons: SaisonDto[];
-  dateDebutNewSaison = new FormControl(moment());
   saisonFilter: number;
 
   constructor(private championnatService: ChampionnatService,
@@ -42,6 +37,7 @@ export class CalendrierComponent implements OnInit {
               private dialog: MatDialog) {
   }
 
+  // TODO: rework to get only one saison and not all the championnat (parent is in charge to change saison by navigate)
   ngOnInit() {
     this.route.paramMap.subscribe(params => {
       this.championnatId = Number.parseInt(params.get("id"));
@@ -61,10 +57,6 @@ export class CalendrierComponent implements OnInit {
           this.updateDataSource(matchs, matchPerDay);
         });
     });
-  }
-
-  genererCalendrier() {
-    this.championnatService.genererCalendrier(this.championnatId, this.dateDebutNewSaison.value.format('MM/DD/YYYY'))
   }
 
   updateDataSource(matchs: MatchDto[], matchPerDay: number) {
@@ -91,12 +83,12 @@ export class CalendrierComponent implements OnInit {
   }
 
   play(row: MatchDto) {
-      const dialogRef = this.dialog.open(MatchFormComponent, {
-        width: '500px',
-        data: {match: row, championnatId: this.championnatId, saison: this.saisonFilter}
-      });
+    const dialogRef = this.dialog.open(MatchFormComponent, {
+      width: '500px',
+      data: {match: row, championnatId: this.championnatId, saison: this.saisonFilter}
+    });
 
-      dialogRef.afterClosed().subscribe(result => {
-      });
-    }
+    dialogRef.afterClosed().subscribe(result => {
+    });
+  }
 }

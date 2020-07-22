@@ -199,6 +199,7 @@ export type CalendrierMutation = (
   { readonly __typename?: 'Mutation' }
   & { readonly calendrier: (
     { readonly __typename?: 'SaisonDto' }
+    & Pick<SaisonDto, 'annee'>
     & { readonly journees: ReadonlyArray<(
       { readonly __typename?: 'JourneeDto' }
       & Pick<JourneeDto, 'numero'>
@@ -406,6 +407,7 @@ export const DeleteChampionnatDocument = gql`
 export const CalendrierDocument = gql`
     mutation calendrier($championnatId: Int!, $dateDebut: String!) {
   calendrier(championnatId: $championnatId, dateDebut: $dateDebut) {
+    annee
     journees {
       numero
       matchs {

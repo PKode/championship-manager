@@ -8,6 +8,8 @@ import {ClassementButeurComponent} from "../classement-buteur/classement-buteur.
 import {ChampionnatService} from "../championnat.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {SaisonDto} from "../../generated/graphql";
+import {FormControl} from "@angular/forms";
+import * as moment from "moment";
 
 @Component({
   selector: 'app-championnat-detail',
@@ -19,6 +21,8 @@ export class ChampionnatDetailComponent implements OnInit {
   saisons: number[];
   selectedSaison: number;
   championnatId: number;
+  dateDebutNewSaison = new FormControl(moment());
+
   /** Based on the screen size, switch from standard to one column per row */
   cards = this.breakpointObserver.observe(Breakpoints.Handset).pipe(
     map(({matches}) => {
@@ -51,7 +55,7 @@ export class ChampionnatDetailComponent implements OnInit {
       this.championnatId = Number.parseInt(params.get("id"));
       this.selectedSaison = Number.parseInt(params.get("saison"));
       this.championnatService.getSaisons(this.championnatId).subscribe(data => {
-        this.saisons = data.map(it => (it as SaisonDto).annee);
+        this.saisons = data.map(it => (it as SaisonDto).annee).sort();
       });
     });
   }
@@ -60,4 +64,10 @@ export class ChampionnatDetailComponent implements OnInit {
     this.selectedSaison = saison;
     this.router.navigate(['/championnat/' + this.championnatId + '/saison/' + saison]).then()
   }
+
+  genererCalendrier() {
+    this.championnatService.genererCalendrier(this.championnatId, this.dateDebutNewSaison.value.format('DD/MM/YYYY'))
+      .subscribe(value => this.changeSaison((value.data.calendrier as SaisonDto).annee))
+  }
+
 }

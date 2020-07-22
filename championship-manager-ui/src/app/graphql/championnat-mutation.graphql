@@ -14,6 +14,7 @@ mutation deleteChampionnat($id: Int!){
 
 mutation calendrier($championnatId: Int!, $dateDebut: String!) {
   calendrier(championnatId: $championnatId, dateDebut: $dateDebut) {
+    annee
     journees {
       numero
       matchs {

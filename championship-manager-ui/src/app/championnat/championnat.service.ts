@@ -51,12 +51,12 @@ export class ChampionnatService {
   }
 
   genererCalendrier(championnatId: number, dateDebut: string) {
-    this.calendrierMutation.mutate({championnatId: championnatId, dateDebut: dateDebut}, {
+    return this.calendrierMutation.mutate({championnatId: championnatId, dateDebut: dateDebut}, {
       refetchQueries: [{
         query: this.championnatByIdQuery.document,
         variables: {id: championnatId}
       }]
-    }).subscribe(value => console.log(value))
+    })
   }
 
   getClassement(championnatId: number, saison: number) {

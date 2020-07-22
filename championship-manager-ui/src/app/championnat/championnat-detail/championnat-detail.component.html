@@ -2,6 +2,14 @@
   <mat-chip-list aria-label="Saisons" [selectable]="true">
     <mat-chip *ngFor="let saison of saisons" (click)="changeSaison(saison)"
               [selected]="saison==this.selectedSaison">{{saison}}</mat-chip>
+    <mat-form-field style="margin-right: 1%; margin-left: 1%">
+      <mat-label>Début de la nouvelle saison</mat-label>
+      <input matInput [matDatepicker]="picker" [formControl]="dateDebutNewSaison">
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+    <button mat-raised-button color="primary" (click)="genererCalendrier()"> + Générer une nouvelle saison</button>
+
   </mat-chip-list>
   <mat-grid-list cols="2" rowHeight="350px">
     <mat-grid-tile *ngFor="let card of cards | async" [colspan]="card.cols" [rowspan]="card.rows">
