@@ -40,3 +40,24 @@ query saisons($championnatId: Int!) {
     }
   }
 }
+
+query saison($championnatId: Int!, $saison: Int!) {
+  saison(championnatId: $championnatId, saison: $saison) {
+      annee
+      journees {
+        matchs {
+          butDomicile
+          butExterieur
+          date
+          domicile {
+            id
+            nom
+          }
+          exterieur {
+            id
+            nom
+          }
+        }
+      }
+  }
+}

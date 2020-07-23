@@ -44,4 +44,9 @@ interface ChampionnatRepository {
      * @param championnatId
      */
     fun findMatchsBySaisonAndChampionnat(championnatId: Int, saison: Int) : List<Match>
+
+    /**
+     * Retourne une saison d'un championnat.
+     */
+    fun getSaison(championnatId: Int, saison: Int) : Saison
 }

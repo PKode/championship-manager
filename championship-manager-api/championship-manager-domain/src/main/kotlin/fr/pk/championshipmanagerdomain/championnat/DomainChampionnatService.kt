@@ -48,7 +48,6 @@ class DomainChampionnatService(private val championnatRepository: ChampionnatRep
         return saison
     }
 
-    // TODO: Handle non played matchs (here and in Match, default value, not 0-0)
     override fun getClassement(id: Int, saison: Int): List<Classement> {
         val matchs = championnatRepository.findMatchsBySaisonAndChampionnat(id, saison)
         val resultatDomicile = matchs.groupBy { it.domicile }
@@ -68,6 +67,10 @@ class DomainChampionnatService(private val championnatRepository: ChampionnatRep
                             bc = it.value.butPris
                     )
                 }.sortedDescending()
+    }
+
+    override fun getSaison(id: Int, saison: Int): Saison {
+        return championnatRepository.getSaison(id, saison)
     }
 
     @ExperimentalStdlibApi

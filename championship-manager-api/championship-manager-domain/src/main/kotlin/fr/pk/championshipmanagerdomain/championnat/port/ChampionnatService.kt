@@ -40,4 +40,11 @@ interface ChampionnatService {
      * @param saison annee
      */
     fun getClassement(id: Int, saison: Int): List<Classement>
+
+    /**
+     * @return une saison.
+     * @param id du championnat.
+     * @param saison annee de la saison.
+     */
+    fun getSaison(id: Int, saison: Int) : Saison
 }

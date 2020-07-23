@@ -6,6 +6,7 @@ import fr.pk.championshipmanagerdomain.championnat.Saison
 import jetbrains.exodus.entitystore.Entity
 import kotlinx.dnq.*
 import kotlinx.dnq.query.XdMutableQuery
+import kotlinx.dnq.query.XdQuery
 import kotlinx.dnq.query.toList
 import java.time.LocalDateTime
 import java.time.ZoneOffset
@@ -36,7 +37,7 @@ class XdMatch(entity: Entity) : XdEntity(entity) {
 }
 
 
-fun XdMutableQuery<XdMatch>.toSaisons(): List<Saison> {
+fun XdQuery<XdMatch>.toSaisons(): List<Saison> {
     return this.toList().groupBy { it.saison }
             .map { Saison(it.key, matchByJournee(it.value)) }
 }

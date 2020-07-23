@@ -23,23 +23,14 @@ internal class ChampionnatQueryTest {
     private val ASSE = Equipe(4, "ASSE")
 
     private val NOW = LocalDateTime.now()
+
     @Nested
     inner class GetQuery {
 
         @Test
         fun `doit retourner la liste des championnats`() {
             // Given
-            val domainList = listOf(
-                    Championnat(1, "Ligue 1", listOf(
-                            Saison(2020, listOf(
-                                    Journee(1, listOf(
-                                            Match(PSG, OL, date = NOW),
-                                            Match(OL, PSG, date = NOW)
-                                    ))
-                            ))
-                    )),
-                    Championnat(2, "Ligue 2")
-            )
+            val domainList = domainChampionnats()
 
             // When
             `when`(championnatService.getAll()).thenReturn(domainList)
@@ -47,14 +38,7 @@ internal class ChampionnatQueryTest {
             val championnats = query.championnats()
 
             // Then
-            val dtoList = listOf(ChampionnatDto(1, "Ligue 1", listOf(
-                    SaisonDto(2020, listOf(
-                            JourneeDto(1, listOf(
-                                    MatchDto(EquipeDto(PSG), EquipeDto(OL), date = NOW.toFrDateString()),
-                                    MatchDto(EquipeDto(OL), EquipeDto(PSG), date = NOW.toFrDateString())
-                            ))
-                    ))
-            )), ChampionnatDto(2, "Ligue 2"))
+            val dtoList = dtoChampionnats()
 
             assertThat(championnats).isEqualTo(dtoList)
             verify(championnatService, times(1)).getAll()
@@ -76,6 +60,48 @@ internal class ChampionnatQueryTest {
             assertThat(championnat).isEqualTo(expectedDto)
             verify(championnatService, times(1)).getById(1)
         }
+
+        @Test
+        fun `doit retourner une saison`() {
+            // Given
+            val domainList = domainChampionnats()
+
+            // When
+            `when`(championnatService.getSaison(1, 2020)).thenReturn(domainList.find { it.id == 1 }?.saisons?.find { it.annee == 2020 })
+
+            val saison = query.saison(1, 2020)
+
+            // Then
+            val dtoList = dtoChampionnats().find { it.id == 1 }?.saisons?.find { it.annee == 2020 }
+
+            assertThat(saison).isEqualTo(dtoList)
+            verify(championnatService, times(1)).getSaison(1, 2020)
+        }
+    }
+
+    private fun dtoChampionnats(): List<ChampionnatDto> {
+        return listOf(ChampionnatDto(1, "Ligue 1", listOf(
+                SaisonDto(2020, listOf(
+                        JourneeDto(1, listOf(
+                                MatchDto(EquipeDto(PSG), EquipeDto(OL), date = NOW.toFrDateString()),
+                                MatchDto(EquipeDto(OL), EquipeDto(PSG), date = NOW.toFrDateString())
+                        ))
+                ))
+        )), ChampionnatDto(2, "Ligue 2"))
+    }
+
+    private fun domainChampionnats(): List<Championnat> {
+        return listOf(
+                Championnat(1, "Ligue 1", listOf(
+                        Saison(2020, listOf(
+                                Journee(1, listOf(
+                                        Match(PSG, OL, date = NOW),
+                                        Match(OL, PSG, date = NOW)
+                                ))
+                        ))
+                )),
+                Championnat(2, "Ligue 2")
+        )
     }
 
     @Nested

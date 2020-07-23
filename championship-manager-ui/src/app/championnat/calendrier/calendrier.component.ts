@@ -5,7 +5,7 @@ import {MatTable} from '@angular/material/table';
 import {CalendrierDataSource} from './calendrier-datasource';
 import {JourneeMatPaginatorIntl} from "./journee-mat-paginator";
 import {ChampionnatService} from "../championnat.service";
-import {MatchDto, SaisonDto} from "../../generated/graphql";
+import {MatchDto} from "../../generated/graphql";
 import {ActivatedRoute} from "@angular/router";
 import {MatDialog} from "@angular/material/dialog";
 import {MatchFormComponent} from "./match-form/match-form.component";
@@ -29,33 +29,27 @@ export class CalendrierComponent implements OnInit {
   displayedColumns = ['date', 'domicile', 'score', 'exterieur', 'jouer'];
 
   championnatId: number;
-  saisons: SaisonDto[];
-  saisonFilter: number;
+  saison: number;
 
   constructor(private championnatService: ChampionnatService,
               private route: ActivatedRoute,
               private dialog: MatDialog) {
   }
 
-  // TODO: rework to get only one saison and not all the championnat (parent is in charge to change saison by navigate)
   ngOnInit() {
     this.route.paramMap.subscribe(params => {
       this.championnatId = Number.parseInt(params.get("id"));
-      this.saisonFilter = Number.parseInt(params.get("saison"));
-      this.championnatService.getChampionnatById(this.championnatId).subscribe(
-        data => {
-          let matchs: MatchDto[];
-          let matchPerDay = 0;
-          if (data.saisons.length == 0) {
-            matchs = [];
-          } else {
-            this.saisons = data.saisons.map(s => s as SaisonDto);
-            // @ts-ignore
-            matchs = this.filterBySaison();
-            matchPerDay = this.matchsPerDay();
-          }
-          this.updateDataSource(matchs, matchPerDay);
-        });
+      this.saison = Number.parseInt(params.get("saison"));
+      if (!isNaN(this.saison)) {
+        this.championnatService.getSaison(this.championnatId, this.saison).subscribe(
+          data => {
+            let matchs: MatchDto[];
+            let matchPerDay: number;
+            matchs = data.journees?.flatMap(j => j.matchs.map(m => m as MatchDto));
+            matchPerDay = data.journees[0].matchs.length;
+            this.updateDataSource(matchs, matchPerDay);
+          });
+      }
     });
   }
 
@@ -67,25 +61,10 @@ export class CalendrierComponent implements OnInit {
     this.table.dataSource = this.dataSource;
   }
 
-  indexOfSaisonSelected() {
-    return this.saisons.findIndex(value => value.annee == this.saisonFilter);
-  }
-
-  matchsPerDay() {
-    let journees = this.saisons[this.indexOfSaisonSelected()].journees;
-    return journees[0].matchs.length;
-  }
-
-  filterBySaison() {
-    let journees = this.saisons[this.indexOfSaisonSelected()].journees;
-    // @ts-ignore
-    return journees?.flatMap(j => j.matchs.map(m => m as MatchDto));
-  }
-
   play(row: MatchDto) {
     const dialogRef = this.dialog.open(MatchFormComponent, {
       width: '500px',
-      data: {match: row, championnatId: this.championnatId, saison: this.saisonFilter}
+      data: {match: row, championnatId: this.championnatId, saison: this.saison}
     });
 
     dialogRef.afterClosed().subscribe(result => {

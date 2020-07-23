@@ -102,9 +102,11 @@ internal class XdChampionnatRepositoryTest : XdRepositoryTest() {
         assertThat(championnat.saisons).isEqualTo(listOf(saison(2020)))
 
         val matchs = repository.findMatchsBySaisonAndChampionnat(1, 2020)
+        val saisonGet = repository.getSaison(1, 2020)
 
         assertThat(matchs).size().isEqualTo(2)
         assertThat(matchs).containsExactly(Match(PSG, OL), Match(OL, PSG))
+        assertThat(saisonGet).isEqualTo(saison)
     }
 
     private fun saison(annee: Int): Saison {

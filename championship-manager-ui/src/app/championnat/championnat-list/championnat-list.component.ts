@@ -62,4 +62,12 @@ export class ChampionnatListComponent implements OnInit {
       console.log('The dialog was closed');
     });
   }
+
+  goToChampionnatDetail(row: ChampionnatDto) {
+    if (row.saisons.length > 0) {
+      this.router.navigate(['/championnat/' + row.id + '/saison/' + row.saisons[row.saisons.length - 1]?.annee])
+    } else {
+      this.router.navigate(['/championnat/' + row.id])
+    }
+  }
 }

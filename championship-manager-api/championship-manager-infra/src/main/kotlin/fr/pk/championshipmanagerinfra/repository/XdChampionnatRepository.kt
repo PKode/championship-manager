@@ -7,14 +7,14 @@ import fr.pk.championshipmanagerdomain.championnat.port.ChampionnatRepository
 import fr.pk.championshipmanagerinfra.entities.XdChampionnat
 import fr.pk.championshipmanagerinfra.entities.XdEquipe
 import fr.pk.championshipmanagerinfra.entities.XdMatch
+import fr.pk.championshipmanagerinfra.entities.toSaisons
 import jetbrains.exodus.database.TransientEntityStore
 import jetbrains.exodus.util.Random
 import kotlinx.dnq.query.addAll
 import kotlinx.dnq.query.and
 import kotlinx.dnq.query.eq
-import org.joda.time.DateTime
+import kotlinx.dnq.query.query
 import org.springframework.stereotype.Component
-import java.time.ZoneOffset
 
 @Component
 class XdChampionnatRepository(private val xdStore: TransientEntityStore) : ChampionnatRepository {
@@ -86,4 +86,14 @@ class XdChampionnatRepository(private val xdStore: TransientEntityStore) : Champ
             { it.toMatch() }
         }
     }
+
+    override fun getSaison(championnatId: Int, saison: Int): Saison {
+        return xdStore.transactional {
+            XdMatch.query(
+                    (XdMatch::championnatId eq championnatId)
+                            and (XdMatch::saison eq saison)
+            ).toSaisons().first()
+        }
+    }
 }
+

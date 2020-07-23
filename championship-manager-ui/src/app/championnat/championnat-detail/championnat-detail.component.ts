@@ -55,7 +55,7 @@ export class ChampionnatDetailComponent implements OnInit {
       this.championnatId = Number.parseInt(params.get("id"));
       this.selectedSaison = Number.parseInt(params.get("saison"));
       this.championnatService.getSaisons(this.championnatId).subscribe(data => {
-        this.saisons = data.map(it => (it as SaisonDto).annee).sort();
+        this.saisons = data.map(it => (it as SaisonDto)?.annee).sort();
       });
     });
   }
@@ -65,6 +65,7 @@ export class ChampionnatDetailComponent implements OnInit {
     this.router.navigate(['/championnat/' + this.championnatId + '/saison/' + saison]).then()
   }
 
+  // TODO: print error when no team to generate calendrier ?
   genererCalendrier() {
     this.championnatService.genererCalendrier(this.championnatId, this.dateDebutNewSaison.value.format('DD/MM/YYYY'))
       .subscribe(value => this.changeSaison((value.data.calendrier as SaisonDto).annee))

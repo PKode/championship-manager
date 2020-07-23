@@ -126,6 +126,7 @@ export type Query = {
   readonly championnat: ChampionnatDto;
   readonly championnats: ReadonlyArray<ChampionnatDto>;
   readonly classement: ReadonlyArray<ClassementDto>;
+  readonly saison: SaisonDto;
   readonly equipe: EquipeDto;
   readonly equipes: ReadonlyArray<EquipeDto>;
   readonly equipesOfChampionnat: ReadonlyArray<EquipeDto>;
@@ -138,6 +139,12 @@ export type QueryChampionnatArgs = {
 
 
 export type QueryClassementArgs = {
+  championnatId: Scalars['Int'];
+  saison: Scalars['Int'];
+};
+
+
+export type QuerySaisonArgs = {
   championnatId: Scalars['Int'];
   saison: Scalars['Int'];
 };
@@ -277,6 +284,34 @@ export type SaisonsQuery = (
       { readonly __typename?: 'SaisonDto' }
       & Pick<SaisonDto, 'annee'>
     )>> }
+  ) }
+);
+
+export type SaisonQueryVariables = {
+  championnatId: Scalars['Int'];
+  saison: Scalars['Int'];
+};
+
+
+export type SaisonQuery = (
+  { readonly __typename?: 'Query' }
+  & { readonly saison: (
+    { readonly __typename?: 'SaisonDto' }
+    & Pick<SaisonDto, 'annee'>
+    & { readonly journees: ReadonlyArray<(
+      { readonly __typename?: 'JourneeDto' }
+      & { readonly matchs: ReadonlyArray<(
+        { readonly __typename?: 'MatchDto' }
+        & Pick<MatchDto, 'butDomicile' | 'butExterieur' | 'date'>
+        & { readonly domicile: (
+          { readonly __typename?: 'EquipeDto' }
+          & Pick<EquipeDto, 'id' | 'nom'>
+        ), readonly exterieur: (
+          { readonly __typename?: 'EquipeDto' }
+          & Pick<EquipeDto, 'id' | 'nom'>
+        ) }
+      )> }
+    )> }
   ) }
 );
 
@@ -503,6 +538,36 @@ export const SaisonsDocument = gql`
   })
   export class SaisonsGQL extends Apollo.Query<SaisonsQuery, SaisonsQueryVariables> {
     document = SaisonsDocument;
+    
+  }
+export const SaisonDocument = gql`
+    query saison($championnatId: Int!, $saison: Int!) {
+  saison(championnatId: $championnatId, saison: $saison) {
+    annee
+    journees {
+      matchs {
+        butDomicile
+        butExterieur
+        date
+        domicile {
+          id
+          nom
+        }
+        exterieur {
+          id
+          nom
+        }
+      }
+    }
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class SaisonGQL extends Apollo.Query<SaisonQuery, SaisonQueryVariables> {
+    document = SaisonDocument;
     
   }
 export const ClassementDocument = gql`
