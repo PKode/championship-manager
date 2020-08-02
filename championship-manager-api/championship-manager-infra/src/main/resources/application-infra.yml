@@ -1,0 +1,5 @@
+xodus:
+  path: ${user.home}
+  dbName: championshipmanager
+  environmentName: db
+

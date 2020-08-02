@@ -38,8 +38,8 @@ export class ChampionnatDetailComponent implements OnInit {
       return [
         {title: 'Calendrier', cols: 1, rows: 2, component: CalendrierComponent},
         {title: 'Classement', cols: 1, rows: 2, component: ClassementComponent},
-        {title: 'Classement Buteur', cols: 1, rows: 1, component: ClassementButeurComponent},
-        {title: 'Equipes', cols: 1, rows: 1, component: EquipeListComponent}
+        {title: 'Classement Buteur', cols: 1, rows: 2, component: ClassementButeurComponent},
+        {title: 'Equipes', cols: 1, rows: 2, component: EquipeListComponent}
       ];
     })
   );

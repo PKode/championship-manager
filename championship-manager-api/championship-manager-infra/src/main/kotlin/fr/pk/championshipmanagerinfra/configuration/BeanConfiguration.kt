@@ -13,12 +13,22 @@ import jetbrains.exodus.database.TransientEntityStore
 import kotlinx.dnq.XdModel
 import kotlinx.dnq.store.container.StaticStoreContainer
 import kotlinx.dnq.util.initMetaData
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import java.io.File
 
 @Configuration
 class BeanConfiguration {
+
+    @Value("\${xodus.path}")
+    private lateinit var xodusPath: String
+
+    @Value("\${xodus.dbName}")
+    private lateinit var xodusName: String
+
+    @Value("\${xodus.environmentName}")
+    private lateinit var xodusEnvironmentName: String
 
     @Bean
     fun championnatService(championnatRepository: ChampionnatRepository, equipeRepository: EquipeRepository): ChampionnatService {
@@ -41,8 +51,8 @@ class BeanConfiguration {
 
         // Initialize Xodus persistent storage
         val xodusStore = StaticStoreContainer.init(
-                dbFolder = File(System.getProperty("user.home"), "championshipmanager"),
-                environmentName = "db"
+                dbFolder = File(xodusPath, xodusName),
+                environmentName = xodusEnvironmentName
         )
 
         // Initialize Xodus-DNQ metadata

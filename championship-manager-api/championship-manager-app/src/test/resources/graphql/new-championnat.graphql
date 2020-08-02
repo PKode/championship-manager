@@ -1,0 +1,5 @@
+mutation {
+    championnat(championnat: { nom: "test", id: null, saisons: [] }) {
+        nom
+    }
+}

@@ -1,0 +1,4 @@
+xodus:
+  path: target
+  dbName: championshipmanager
+  environmentName: db

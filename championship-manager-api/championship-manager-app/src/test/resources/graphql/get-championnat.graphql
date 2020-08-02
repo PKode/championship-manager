@@ -1,0 +1,9 @@
+query championnats {
+    championnats {
+        id
+        nom
+        saisons {
+            annee
+        }
+    }
+}
