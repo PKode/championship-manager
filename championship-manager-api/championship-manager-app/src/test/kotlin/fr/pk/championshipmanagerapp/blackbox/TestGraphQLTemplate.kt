@@ -2,6 +2,9 @@ package fr.pk.championshipmanagerapp.blackbox
 
 import com.expediagroup.graphql.spring.model.GraphQLRequest
 import com.expediagroup.graphql.spring.model.GraphQLResponse
+import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
+import com.fasterxml.jackson.module.kotlin.readValue
+import org.json.JSONObject
 import org.springframework.boot.test.web.client.TestRestTemplate
 import org.springframework.context.annotation.Profile
 import org.springframework.http.HttpEntity
@@ -15,7 +18,7 @@ import java.net.URL
 @Profile("blackbox")
 class TestGraphQLTemplate(private val restTemplate: TestRestTemplate) {
 
-    fun post(query: URL, variables: Map<String, String> = mapOf()): GraphQLResponse? {
+    fun post(query: URL, variables: Map<String, String> = mapOf()): GraphQLResponse {
         val headers = HttpHeaders().apply { contentType = MediaType.APPLICATION_JSON }
 
         val payload = variables.entries.fold(
@@ -29,6 +32,11 @@ class TestGraphQLTemplate(private val restTemplate: TestRestTemplate) {
                 "http://localhost:8080/graphql",
                 HttpMethod.POST,
                 request,
-                GraphQLResponse::class.java).body
+                GraphQLResponse::class.java).body ?: error("No response for request:: $request")
     }
+}
+
+
+inline fun <reified T> GraphQLResponse.pluck(property: String): T {
+    return jacksonObjectMapper().readValue(JSONObject(this.data as Map<*, *>)[property].toString())
 }
