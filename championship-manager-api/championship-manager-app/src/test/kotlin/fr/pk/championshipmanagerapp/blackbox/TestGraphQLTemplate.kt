@@ -36,7 +36,7 @@ class TestGraphQLTemplate(private val restTemplate: TestRestTemplate) {
     }
 }
 
-
+// TODO: see if and how we want to go more deeper like pluck in rxjs
 inline fun <reified T> GraphQLResponse.pluck(property: String): T {
     return jacksonObjectMapper().readValue(JSONObject(this.data as Map<*, *>)[property].toString())
 }

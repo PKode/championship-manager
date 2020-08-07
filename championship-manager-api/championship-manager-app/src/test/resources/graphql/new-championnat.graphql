@@ -1,5 +1,6 @@
 mutation {
-    championnat(championnat: { nom: "$nom", id: null, saisons: [] }) {
+    championnat(championnat: { nom: "$nom", id: $id, saisons: [] }) {
+        id
         nom
     }
 }

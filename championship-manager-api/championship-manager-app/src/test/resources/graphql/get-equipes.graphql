@@ -1,0 +1,10 @@
+query equipes {
+    equipes {
+        id
+        nom
+        championnat {
+            id
+            nom
+        }
+    }
+}
