@@ -21,10 +21,12 @@ class TestGraphQLTemplate(private val restTemplate: TestRestTemplate) {
     fun post(query: URL, variables: Map<String, String> = mapOf()): GraphQLResponse {
         val headers = HttpHeaders().apply { contentType = MediaType.APPLICATION_JSON }
 
+        // TODO: maybe see template engine like thymeleaf or velocity ?
         val payload = variables.entries.fold(
                 query.readText(),
-                { p, map -> p.replace("\$${map.key}", map.value) }
-        )
+                { q, map -> q.replace("\$${map.key}", map.value) }
+        ).replace("\\$[a-zA-Z]+".toRegex(), "null")
+
 
         val request = HttpEntity(GraphQLRequest(payload), headers)
 

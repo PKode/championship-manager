@@ -1,8 +1,8 @@
 package fr.pk.championshipmanagerapp.blackbox
 
-import fr.pk.championshipmanagerapplication.dto.EquipeDto
 import io.cucumber.datatable.DataTable
 import io.cucumber.java8.En
+import org.assertj.core.api.Assertions
 import org.assertj.core.api.Assertions.assertThat
 import org.springframework.beans.factory.annotation.Value
 import java.net.URL
@@ -24,11 +24,14 @@ class EquipeStepDefs(private val graphqlTemplate: TestGraphQLTemplate,
         }
 
         Then("l'utilisateur affiche les équipes") { data: DataTable ->
-            val equipes: List<EquipeDto> = this.graphqlTemplate.post(getEquipeQuery).pluck("equipes")
+            val equipes: List<Map<String, Any>> = this.graphqlTemplate.post(getEquipeQuery).pluck("equipes")
 
-            val expectedEquipeName = data.asList()
-            assertThat(equipes.find { it.nom in expectedEquipeName }).isNotNull
-            assertThat(equipes.size).isEqualTo(expectedEquipeName.size)
+            val expectedEquipe = data.asMaps()
+
+            expectedEquipe.forEach {
+                assertThat(equipes.contains(it))
+            }
+            assertThat(equipes.size).isEqualTo(expectedEquipe.size)
         }
     }
 }
