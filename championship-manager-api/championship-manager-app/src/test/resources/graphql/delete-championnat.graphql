@@ -1,0 +1,6 @@
+mutation {
+    deleteChampionnat(id: $id) {
+        id
+        nom
+    }
+}

@@ -1,0 +1,6 @@
+mutation {
+    deleteEquipe(id: $id) {
+        id
+        nom
+    }
+}

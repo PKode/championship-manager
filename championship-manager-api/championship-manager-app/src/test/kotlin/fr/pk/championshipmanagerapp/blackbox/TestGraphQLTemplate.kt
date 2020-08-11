@@ -16,13 +16,14 @@ import java.net.URL
 
 @Component
 @Profile("blackbox")
-class TestGraphQLTemplate(private val restTemplate: TestRestTemplate) {
+class TestGraphQLTemplate(private val restTemplate: TestRestTemplate,
+                          private val scenarioContext: ScenarioContext) {
 
     fun post(query: URL, variables: Map<String, String> = mapOf()): GraphQLResponse {
         val headers = HttpHeaders().apply { contentType = MediaType.APPLICATION_JSON }
 
         // TODO: maybe see template engine like thymeleaf or velocity ?
-        val payload = variables.entries.fold(
+        val payload = scenarioContext.replacePlaceHolders(variables.toMutableMap()).entries.fold(
                 query.readText(),
                 { q, map -> q.replace("\$${map.key}", map.value) }
         ).replace("\\$[a-zA-Z]+".toRegex(), "null")

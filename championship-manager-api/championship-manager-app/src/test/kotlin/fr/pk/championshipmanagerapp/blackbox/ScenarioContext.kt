@@ -22,5 +22,6 @@ class ScenarioContext {
 }
 
 enum class ContextKey {
-    LAST_CHAMPIONNAT_ID
+    LAST_CHAMPIONNAT_ID,
+    LAST_EQUIPE_ID
 }

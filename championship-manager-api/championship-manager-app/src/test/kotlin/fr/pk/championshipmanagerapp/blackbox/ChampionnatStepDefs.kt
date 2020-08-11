@@ -1,6 +1,6 @@
 package fr.pk.championshipmanagerapp.blackbox
 
-import fr.pk.championshipmanagerapp.blackbox.ContextKey.*
+import fr.pk.championshipmanagerapp.blackbox.ContextKey.LAST_CHAMPIONNAT_ID
 import fr.pk.championshipmanagerapplication.dto.ChampionnatDto
 import io.cucumber.datatable.DataTable
 import io.cucumber.java8.En
@@ -17,6 +17,9 @@ class ChampionnatStepDefs(private val graphqlTemplate: TestGraphQLTemplate,
     @Value("classpath:graphql/get-championnat.graphql")
     private lateinit var getChampionnatQuery: URL
 
+    @Value("classpath:graphql/delete-championnat.graphql")
+    private lateinit var deleteChampionnatQuery: URL
+
     init {
         When("l'utilisateur crée les championnats avec les informations suivantes") { data: DataTable ->
             data.asMaps().forEach {
@@ -25,12 +28,23 @@ class ChampionnatStepDefs(private val graphqlTemplate: TestGraphQLTemplate,
             }
         }
 
-        Then("l'utilisateur affiche les championnats") { data: DataTable ->
+        When("l'utilisateur supprime le championnat avec l'id {string}") { championnatId: String ->
+            this.graphqlTemplate.post(deleteChampionnatQuery, mapOf("id" to championnatId))
+        }
+
+        Then("l'utilisateur retrouve les championnats suivants dans la liste des championnats") { data: DataTable ->
             val championnats: List<ChampionnatDto> = this.graphqlTemplate.post(getChampionnatQuery).pluck("championnats")
 
             val expectedChampionnatName = data.asList()
             assertThat(championnats.find { it.nom in expectedChampionnatName }).isNotNull
             assertThat(championnats.size).isEqualTo(expectedChampionnatName.size)
+        }
+
+        Then("l'utilisateur ne retrouve aucun des championnats suivants dans la liste des championnats") { data: DataTable ->
+            val championnats: List<ChampionnatDto> = this.graphqlTemplate.post(getChampionnatQuery).pluck("championnats")
+
+            val expectedChampionnatName = data.asList()
+            assertThat(championnats.find { it.nom in expectedChampionnatName }).isNull()
         }
     }
 }
