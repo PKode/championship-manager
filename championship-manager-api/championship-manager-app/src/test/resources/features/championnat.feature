@@ -5,7 +5,14 @@ Feature: Gestion des championnats
       | nom               |
       | Ligue 1 Conforama |
     Then l'utilisateur retrouve les championnats suivants dans la liste des championnats
-      | Ligue 1 Conforama |
+    """
+    [
+      {
+        "nom": "Ligue 1 Conforama",
+        "id": $LAST_CHAMPIONNAT_ID
+      }
+    ]
+    """
 
   Scenario: Supprimer un championnat
     Given l'utilisateur crée les championnats avec les informations suivantes

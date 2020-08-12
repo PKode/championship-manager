@@ -1,5 +1,7 @@
 package fr.pk.championshipmanagerapp.blackbox
 
+import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
+import com.fasterxml.jackson.module.kotlin.readValue
 import fr.pk.championshipmanagerapp.blackbox.ContextKey.LAST_CHAMPIONNAT_ID
 import fr.pk.championshipmanagerapplication.dto.ChampionnatDto
 import io.cucumber.datatable.DataTable
@@ -32,12 +34,14 @@ class ChampionnatStepDefs(private val graphqlTemplate: TestGraphQLTemplate,
             this.graphqlTemplate.post(deleteChampionnatQuery, mapOf("id" to championnatId))
         }
 
-        Then("l'utilisateur retrouve les championnats suivants dans la liste des championnats") { data: DataTable ->
+        Then("l'utilisateur retrouve les championnats suivants dans la liste des championnats") { expectedChampionnatPayload: String ->
             val championnats: List<ChampionnatDto> = this.graphqlTemplate.post(getChampionnatQuery).pluck("championnats")
 
-            val expectedChampionnatName = data.asList()
-            assertThat(championnats.find { it.nom in expectedChampionnatName }).isNotNull
-            assertThat(championnats.size).isEqualTo(expectedChampionnatName.size)
+            // TODO: If not json string try to open file with expectedChampionnatPayload as name.
+            //TODO: Generalise !! jacksonObjectMapper to objectMapper ?
+            val expectedChampionnat: List<ChampionnatDto> = jacksonObjectMapper().readValue(scenarioContext.replacePlaceHolders(expectedChampionnatPayload))
+
+            assertThat(championnats).containsAll(expectedChampionnat)
         }
 
         Then("l'utilisateur ne retrouve aucun des championnats suivants dans la liste des championnats") { data: DataTable ->

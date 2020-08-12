@@ -11,11 +11,18 @@ class ScenarioContext {
     }
 
     fun get(key: ContextKey) = context[key]
+
     fun replacePlaceHolders(map: MutableMap<String, String>): Map<String, String> {
         return map.map { (key, value) ->
             if(value.startsWith(VARIABLE_DELIMITER)) key to get(enumValueOf(value.substringAfter(VARIABLE_DELIMITER))).toString()
             else key to value
         }.toMap()
+    }
+
+    fun replacePlaceHolders(payload: String) : String {
+        return payload.replace("\\$[a-zA-Z_]+".toRegex()) {
+            get(enumValueOf(it.value.substringAfter(VARIABLE_DELIMITER))).toString()
+        }
     }
 
     private val VARIABLE_DELIMITER = "$"
