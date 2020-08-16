@@ -24,7 +24,7 @@ class ChampionnatStepDefs(private val graphqlTemplate: TestGraphQLTemplate,
     private lateinit var deleteChampionnatQuery: URL
 
     init {
-        When("l'utilisateur crée les championnats avec les informations suivantes") { data: DataTable ->
+        When("l'utilisateur crée/modifie le(s) championnat(s) avec les informations suivantes") { data: DataTable ->
             data.asMaps().forEach {
                 val result: ChampionnatDto = this.graphqlTemplate.post(newChampionnatQuery, it).pluck("championnat")
                 scenarioContext.put(LAST_CHAMPIONNAT_ID, result.id!!)

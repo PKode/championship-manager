@@ -20,7 +20,7 @@ class EquipeStepDefs(private val graphqlTemplate: TestGraphQLTemplate,
     private lateinit var deleteEquipeQuery: URL
 
     init {
-        When("l'utilisateur crée les équipes avec les informations suivantes") { data: DataTable ->
+        When("l'utilisateur crée/modifie les équipes avec les informations suivantes") { data: DataTable ->
             data.asMaps().forEach {
                 val result: EquipeDto = this.graphqlTemplate.post(newEquipeQuery, it).pluck("equipe")
                 scenarioContext.put(ContextKey.LAST_EQUIPE_ID, result.id!!)
