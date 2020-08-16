@@ -1,0 +1,21 @@
+mutation {
+    calendrier(championnatId: $championnatId, dateDebut: "$dateDebut") {
+        annee
+        journees {
+            numero
+            matchs {
+                domicile {
+                    id
+                    nom
+                }
+                exterieur {
+                    id
+                    nom
+                }
+                butDomicile
+                butExterieur
+                date
+            }
+        }
+    }
+}

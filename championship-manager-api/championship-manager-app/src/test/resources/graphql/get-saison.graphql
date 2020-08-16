@@ -1,0 +1,20 @@
+query saison {
+    saison(championnatId: $championnatId, saison: $saison) {
+        annee
+        journees {
+            matchs {
+                butDomicile
+                butExterieur
+                date
+                domicile {
+                    id
+                    nom
+                }
+                exterieur {
+                    id
+                    nom
+                }
+            }
+        }
+    }
+}
