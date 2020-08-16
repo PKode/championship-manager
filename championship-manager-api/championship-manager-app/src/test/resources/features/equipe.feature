@@ -8,7 +8,18 @@ Feature: Gestion des équipes
       | nom | championnatNom | championnatId        |
       | PSG | Ligue 1        | $LAST_CHAMPIONNAT_ID |
     Then l'utilisateur affiche les équipes
-      | PSG |
+    """
+    [
+      {
+        "nom": "PSG",
+        "id": $LAST_EQUIPE_ID,
+        "championnat": {
+          "id": $LAST_CHAMPIONNAT_ID,
+          "nom": "Ligue 1"
+        }
+      }
+    ]
+    """
 
   Scenario: Supprimer une équipe
     Given l'utilisateur crée les championnats avec les informations suivantes

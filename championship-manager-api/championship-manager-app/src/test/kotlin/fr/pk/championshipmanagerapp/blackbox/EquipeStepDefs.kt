@@ -30,14 +30,12 @@ class EquipeStepDefs(private val graphqlTemplate: TestGraphQLTemplate,
             this.graphqlTemplate.post(deleteEquipeQuery, mapOf("id" to equipeId))
         }
 
-        Then("l'utilisateur affiche les équipes") { data: DataTable ->
+        Then("l'utilisateur affiche les équipes") { expectedEquipePayload: String ->
             val equipes: List<EquipeDto> = this.graphqlTemplate.post(getEquipeQuery).pluck("equipes")
 
-            //TODO: Find better way to assert more global for all this kind of assert whatever part we assert.
-            val expectedEquipeName = data.asList()
+            val expectedEquipe: List<EquipeDto> = expectedEquipePayload.extractExpected(scenarioContext::replacePlaceHolders)
 
-            assertThat(equipes.find { it.nom in expectedEquipeName }).isNotNull
-            assertThat(equipes.size).isEqualTo(expectedEquipeName.size)
+            assertThat(equipes).containsAll(expectedEquipe)
         }
 
         Then("l'utilisateur ne retrouve aucune des équipes suivantes dans la liste des équipes") { data: DataTable ->

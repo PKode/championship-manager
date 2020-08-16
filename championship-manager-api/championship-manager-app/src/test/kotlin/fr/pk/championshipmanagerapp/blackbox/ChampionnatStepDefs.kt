@@ -1,5 +1,6 @@
 package fr.pk.championshipmanagerapp.blackbox
 
+import com.fasterxml.jackson.core.JsonParseException
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
 import fr.pk.championshipmanagerapp.blackbox.ContextKey.LAST_CHAMPIONNAT_ID
@@ -37,9 +38,7 @@ class ChampionnatStepDefs(private val graphqlTemplate: TestGraphQLTemplate,
         Then("l'utilisateur retrouve les championnats suivants dans la liste des championnats") { expectedChampionnatPayload: String ->
             val championnats: List<ChampionnatDto> = this.graphqlTemplate.post(getChampionnatQuery).pluck("championnats")
 
-            // TODO: If not json string try to open file with expectedChampionnatPayload as name.
-            //TODO: Generalise !! jacksonObjectMapper to objectMapper ?
-            val expectedChampionnat: List<ChampionnatDto> = jacksonObjectMapper().readValue(scenarioContext.replacePlaceHolders(expectedChampionnatPayload))
+            val expectedChampionnat: List<ChampionnatDto> = expectedChampionnatPayload.extractExpected(scenarioContext::replacePlaceHolders)
 
             assertThat(championnats).containsAll(expectedChampionnat)
         }

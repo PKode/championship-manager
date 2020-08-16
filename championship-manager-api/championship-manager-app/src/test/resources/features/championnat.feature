@@ -9,7 +9,8 @@ Feature: Gestion des championnats
     [
       {
         "nom": "Ligue 1 Conforama",
-        "id": $LAST_CHAMPIONNAT_ID
+        "id": $LAST_CHAMPIONNAT_ID,
+        "saisons": []
       }
     ]
     """
