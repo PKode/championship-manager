@@ -1,0 +1,15 @@
+query {
+    classement(championnatId: $championnatId, saison: $saison) {
+        equipe {
+            nom
+        }
+        v
+        n
+        d
+        bp
+        bc
+        mj
+        pts
+        diff
+    }
+}

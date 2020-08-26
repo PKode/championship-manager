@@ -19,13 +19,13 @@ import java.net.URL
 class TestGraphQLTemplate(private val restTemplate: TestRestTemplate,
                           private val scenarioContext: ScenarioContext) {
 
-    fun post(query: URL, variables: Map<String, String> = mapOf()): GraphQLResponse {
+    fun post(query: URL, variables: Map<String, Any> = mapOf()): GraphQLResponse {
         val headers = HttpHeaders().apply { contentType = MediaType.APPLICATION_JSON }
 
         // TODO: maybe see template engine like thymeleaf or velocity ?
         val payload = scenarioContext.replacePlaceHolders(variables.toMutableMap()).entries.fold(
                 query.readText(),
-                { q, map -> q.replace("\$${map.key}", map.value) }
+                { q, map -> q.replace("\$${map.key}", map.value.serialize()) }
         ).replace("\\$[a-zA-Z]+".toRegex(), "null")
 
 
@@ -37,6 +37,10 @@ class TestGraphQLTemplate(private val restTemplate: TestRestTemplate,
                 request,
                 GraphQLResponse::class.java).body ?: error("No response for request:: $request")
     }
+}
+
+fun Any.serialize(): String {
+    return if (this is String) this.toString() else jacksonObjectMapper.writeValueAsString(this)
 }
 
 // TODO: see if and how we want to go more deeper like pluck in rxjs

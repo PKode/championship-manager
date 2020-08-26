@@ -21,10 +21,13 @@ class EquipeStepDefs(private val graphqlTemplate: TestGraphQLTemplate,
 
     init {
         When("l'utilisateur crée/modifie les équipes avec les informations suivantes") { data: DataTable ->
+            val idsNewEquipeByName = mutableMapOf<String, Int>()
             data.asMaps().forEach {
                 val result: EquipeDto = this.graphqlTemplate.post(newEquipeQuery, it).pluck("equipe")
                 scenarioContext.put(ContextKey.LAST_EQUIPE_ID, result.id!!)
+                idsNewEquipeByName[result.nom] = result.id!!
             }
+            scenarioContext.put(ContextKey.LAST_EQUIPE_ID_BY_NAME, idsNewEquipeByName)
         }
         When("l'utilisateur supprime l'équipe avec l'id {string}") { equipeId: String ->
             this.graphqlTemplate.post(deleteEquipeQuery, mapOf("id" to equipeId))

@@ -19,7 +19,8 @@ data class ChampionnatDto(val id: Int? = null, val nom: String, val saisons: Lis
 
 data class SaisonDto(
         val annee: Int = LocalDate.now().year,
-        val journees: List<JourneeDto> = emptyList()
+        val journees: List<JourneeDto> = emptyList(),
+        val matchs : List<MatchDto> = journees.flatMap { it.matchs }
 ) {
     constructor(saison: Saison) : this(saison.annee, saison.journees.map { JourneeDto(it) })
 }

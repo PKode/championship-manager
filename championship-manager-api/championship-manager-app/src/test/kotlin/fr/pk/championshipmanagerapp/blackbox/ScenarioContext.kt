@@ -12,9 +12,9 @@ class ScenarioContext {
 
     fun get(key: ContextKey) = context[key]
 
-    fun replacePlaceHolders(map: MutableMap<String, String>): Map<String, String> {
-        return map.map { (key, value) ->
-            if(value.startsWith(VARIABLE_DELIMITER)) key to get(enumValueOf(value.substringAfter(VARIABLE_DELIMITER))).toString()
+    fun replacePlaceHolders(variables: MutableMap<String, Any>): Map<String, Any> {
+        return variables.map { (key, value) ->
+            if(value.toString().startsWith(VARIABLE_DELIMITER)) key to get(enumValueOf(value.toString().substringAfter(VARIABLE_DELIMITER))).toString()
             else key to value
         }.toMap()
     }
@@ -30,5 +30,7 @@ class ScenarioContext {
 
 enum class ContextKey {
     LAST_CHAMPIONNAT_ID,
-    LAST_EQUIPE_ID
+    LAST_EQUIPE_ID,
+    LAST_EQUIPE_ID_BY_NAME,
+    LAST_CALENDAR
 }
