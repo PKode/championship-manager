@@ -6,6 +6,8 @@ import kotlinx.dnq.XdModel
 import kotlinx.dnq.store.container.StaticStoreContainer
 import kotlinx.dnq.util.initMetaData
 import java.io.File
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 
 abstract class XdRepositoryTest {
 
@@ -23,4 +25,8 @@ abstract class XdRepositoryTest {
         initMetaData(XdModel.hierarchy, xodusStore)
         return xodusStore
     }
+}
+
+fun String.toLocalDate(): LocalDate {
+    return LocalDate.parse(this, DateTimeFormatter.ofPattern("d/MM/yyyy"))
 }

@@ -5,6 +5,7 @@ import kotlinx.dnq.XdEntity
 import kotlinx.dnq.XdEntityType
 import kotlinx.dnq.query.*
 import org.joda.time.DateTime
+import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.ZoneOffset
 
@@ -55,3 +56,4 @@ inline fun <reified T : XdEntity, O : Any> XdQuery<T>.map(mapper: (T) -> O): Lis
 }
 
 fun LocalDateTime.toDateTime() = DateTime(this.toEpochSecond(ZoneOffset.UTC))
+fun LocalDate.toDate() = DateTime(this.toEpochDay())

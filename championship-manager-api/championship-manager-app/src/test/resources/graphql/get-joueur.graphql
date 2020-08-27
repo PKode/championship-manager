@@ -1,0 +1,12 @@
+query joueurs {
+    joueurs {
+        id
+        nom
+        prenom
+        poste
+        nationalite
+        dateNaissance
+        taille
+        poids
+    }
+}

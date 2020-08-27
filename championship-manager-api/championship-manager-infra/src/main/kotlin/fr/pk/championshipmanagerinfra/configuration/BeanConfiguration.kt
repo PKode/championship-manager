@@ -9,6 +9,9 @@ import fr.pk.championshipmanagerdomain.championnat.port.MatchService
 import fr.pk.championshipmanagerdomain.equipe.DomainEquipeService
 import fr.pk.championshipmanagerdomain.equipe.port.EquipeRepository
 import fr.pk.championshipmanagerdomain.equipe.port.EquipeService
+import fr.pk.championshipmanagerdomain.joueur.DomainJoueurService
+import fr.pk.championshipmanagerdomain.joueur.port.JoueurRepository
+import fr.pk.championshipmanagerdomain.joueur.port.JoueurService
 import jetbrains.exodus.database.TransientEntityStore
 import kotlinx.dnq.XdModel
 import kotlinx.dnq.store.container.StaticStoreContainer
@@ -43,6 +46,11 @@ class BeanConfiguration {
     @Bean
     fun matchService(matchRepository: MatchRepository): MatchService {
         return DomainMatchService(matchRepository)
+    }
+
+    @Bean
+    fun joueurService(joueurRepository: JoueurRepository): JoueurService {
+        return DomainJoueurService(joueurRepository)
     }
 
     @Bean

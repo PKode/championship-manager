@@ -7,7 +7,6 @@ import fr.pk.championshipmanagerdomain.championnat.Saison
 import fr.pk.championshipmanagerdomain.equipe.Equipe
 import java.time.LocalDate
 import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
 
 data class ChampionnatDto(val id: Int? = null, val nom: String, val saisons: List<SaisonDto>? = emptyList()) {
     constructor(championnat: Championnat) : this(
@@ -54,12 +53,4 @@ fun MatchDto.toMatch(): Match {
             butDomicile = this.butDomicile,
             butExterieur = this.butExterieur
     )
-}
-
-fun LocalDateTime.toFrDateString(): String {
-    return this.format(DateTimeFormatter.ofPattern("dd/MM/YYYY H:mm"))
-}
-
-fun String.toLocalDateTime(): LocalDateTime {
-    return LocalDateTime.parse(this, DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm"))
 }

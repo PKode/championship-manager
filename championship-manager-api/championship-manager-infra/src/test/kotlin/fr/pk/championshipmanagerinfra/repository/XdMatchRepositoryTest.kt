@@ -13,8 +13,6 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
 import org.springframework.boot.test.context.SpringBootTest
 import java.io.File
-import java.time.LocalDate
-import java.time.format.DateTimeFormatter
 
 @SpringBootTest(classes = [TestConfiguration::class])
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
@@ -63,8 +61,4 @@ internal class XdMatchRepositoryTest : XdRepositoryTest() {
         val updatedMatch = repository.saveOrUpdate(matchWithScore)
         assertThat(repository.findByEquipesIdsAndDate(PSG.id!!, OL.id!!, dateMatch)).isEqualTo(matchWithScore).isEqualTo(updatedMatch)
     }
-}
-
-private fun String.toLocalDate(): LocalDate {
-    return LocalDate.parse(this, DateTimeFormatter.ofPattern("d/MM/yyyy"))
 }
