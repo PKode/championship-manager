@@ -2,6 +2,7 @@ package fr.pk.championshipmanagerinfra.repository
 
 import fr.pk.championshipmanagerdomain.joueur.Joueur
 import fr.pk.championshipmanagerdomain.joueur.port.JoueurRepository
+import fr.pk.championshipmanagerinfra.entities.XdEquipe
 import fr.pk.championshipmanagerinfra.entities.XdJoueur
 import jetbrains.exodus.database.TransientEntityStore
 import jetbrains.exodus.util.Random
@@ -34,6 +35,7 @@ class XdJoueurRepository(private val xdStore: TransientEntityStore) : JoueurRepo
                         j.dateNaissance = joueur.dateNaissance.toDate()
                         j.taille = joueur.taille
                         j.poids = joueur.poids
+                        j.equipe = joueur.equipe?.let { XdEquipe.findFirstByMapped(XdEquipe::id eq it.id) { eq -> eq } }
                         j
                     },
                     ifNew = { n ->
@@ -45,6 +47,7 @@ class XdJoueurRepository(private val xdStore: TransientEntityStore) : JoueurRepo
                         n.dateNaissance = joueur.dateNaissance.toDate()
                         n.taille = joueur.taille
                         n.poids = joueur.poids
+                        n.equipe = joueur.equipe?.let { XdEquipe.findFirstByMapped(XdEquipe::id eq it.id) { eq -> eq } }
                     }) {
                 it.toJoueur()
             }

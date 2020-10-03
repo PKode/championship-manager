@@ -10,7 +10,8 @@ data class JoueurDto(
         val nationalite: String,
         val dateNaissance: String,
         val taille: Int,
-        val poids: Int
+        val poids: Int,
+        val equipe: EquipeDto? = null
 ) {
     constructor(joueur: Joueur) : this(
             joueur.id,
@@ -20,7 +21,8 @@ data class JoueurDto(
             joueur.nationalite,
             joueur.dateNaissance.toFrDateString(),
             joueur.taille,
-            joueur.poids
+            joueur.poids,
+            joueur.equipe?.let { EquipeDto(it) }
     )
 }
 

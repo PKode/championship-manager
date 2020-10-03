@@ -23,6 +23,7 @@ import {
   MAT_MOMENT_DATE_FORMATS,
   MomentDateAdapter
 } from "@angular/material-moment-adapter";
+import {JoueurModule} from "./joueur/joueur.module";
 
 @NgModule({
   declarations: [
@@ -39,6 +40,7 @@ import {
     HttpClientModule,
     ChampionnatModule,
     EquipeModule,
+    JoueurModule,
     MatDialogModule,
     MatButtonModule,
     MatSidenavModule,

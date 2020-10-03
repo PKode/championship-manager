@@ -1,0 +1,13 @@
+mutation joueur($joueur: JoueurDtoInput!){
+  joueur(joueur: $joueur) {
+    id
+    nom
+  }
+}
+
+mutation deleteJoueur($id: Int!){
+  deleteJoueur(id: $id) {
+    id
+    nom
+  }
+}

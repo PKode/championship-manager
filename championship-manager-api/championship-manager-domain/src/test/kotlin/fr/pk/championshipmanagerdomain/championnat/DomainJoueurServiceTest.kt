@@ -1,5 +1,6 @@
 package fr.pk.championshipmanagerdomain.championnat
 
+import fr.pk.championshipmanagerdomain.equipe.Equipe
 import fr.pk.championshipmanagerdomain.joueur.DomainJoueurService
 import fr.pk.championshipmanagerdomain.joueur.Joueur
 import fr.pk.championshipmanagerdomain.joueur.port.JoueurRepository
@@ -48,7 +49,7 @@ internal class DomainJoueurServiceTest {
 
         @Test
         fun `doit retourner le joueur correspondant a un id`() {
-            val expected = RONALDO.copy(id = 7)
+            val expected = RONALDO.copy(id = 7, equipe = Equipe(1, "Juventus"))
 
             `when`(repository.findById(7)).thenReturn(expected)
 
@@ -62,7 +63,7 @@ internal class DomainJoueurServiceTest {
     inner class CreateFeature {
         @Test
         fun `doit creer un joueur`() {
-            val expectedCreatedJoueur = RONALDO
+            val expectedCreatedJoueur = RONALDO.copy(equipe = Equipe(1, "Juventus"))
 
             `when`(repository.saveOrUpdate(expectedCreatedJoueur)).thenReturn(expectedCreatedJoueur)
 

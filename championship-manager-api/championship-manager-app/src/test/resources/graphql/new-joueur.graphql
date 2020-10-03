@@ -1,6 +1,6 @@
 mutation {
     joueur(joueur: { nom: "$nom", prenom: "$prenom", dateNaissance: "$dateNaissance", nationalite: "$nationalite", poste: "$poste",
-        poids: $poids, taille: $taille}) {
+        poids: $poids, taille: $taille, equipe: $equipe}) {
         id
         nom
         prenom

@@ -1,6 +1,7 @@
 package fr.pk.championshipmanagerapplication.mutation
 
 import fr.pk.championshipmanagerapplication.dto.JoueurDto
+import fr.pk.championshipmanagerdomain.equipe.Equipe
 import fr.pk.championshipmanagerdomain.joueur.Joueur
 import fr.pk.championshipmanagerdomain.joueur.port.JoueurService
 import org.assertj.core.api.Assertions.assertThat
@@ -33,6 +34,18 @@ internal class JoueurMutationTest {
 
             assertThat(joueur).isEqualTo(JoueurDto(RONALDO_WITH_ID))
             verify(joueurService, times(1)).createOrEdit(RONALDO)
+        }
+
+        @Test
+        fun `doit creer un nouveau joueur avec une équipe`() {
+
+            val withEquipe = RONALDO.copy(equipe = Equipe(1, "Juventus"))
+            `when`(joueurService.createOrEdit(withEquipe)).thenReturn(RONALDO_WITH_ID.copy(equipe = Equipe(1, "Juventus")))
+
+            val joueur = mutation.joueur(JoueurDto(withEquipe))
+
+            assertThat(joueur).isEqualTo(JoueurDto(RONALDO_WITH_ID.copy(equipe = Equipe(1, "Juventus"))))
+            verify(joueurService, times(1)).createOrEdit(withEquipe)
         }
     }
 

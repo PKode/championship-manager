@@ -1,5 +1,6 @@
 package fr.pk.championshipmanagerdomain.joueur
 
+import fr.pk.championshipmanagerdomain.equipe.Equipe
 import java.time.LocalDate
 
 data class Joueur(
@@ -10,5 +11,6 @@ data class Joueur(
         val nationalite: String,
         val dateNaissance: LocalDate,
         val taille: Int,
-        val poids: Int
+        val poids: Int,
+        val equipe: Equipe? = null
 )

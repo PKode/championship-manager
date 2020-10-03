@@ -1,8 +1,12 @@
 package fr.pk.championshipmanagerinfra.repository
 
+import fr.pk.championshipmanagerdomain.equipe.Equipe
 import fr.pk.championshipmanagerdomain.joueur.Joueur
 import fr.pk.championshipmanagerinfra.TestConfiguration
+import fr.pk.championshipmanagerinfra.entities.XdChampionnat
+import fr.pk.championshipmanagerinfra.entities.XdEquipe
 import fr.pk.championshipmanagerinfra.entities.XdJoueur
+import fr.pk.championshipmanagerinfra.entities.XdMatch
 import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.Assertions.assertThatThrownBy
 import org.joda.time.DateTime
@@ -18,13 +22,18 @@ import java.time.LocalDate
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 internal class XdJoueurRepositoryTest : XdRepositoryTest() {
 
-    private val xdStore = xodusStore(XdJoueur)
+    private val xdStore = xodusStore(XdJoueur, XdEquipe, XdChampionnat, XdMatch)
 
     private val repository = XdJoueurRepository(xdStore)
 
     @BeforeAll
     fun init() {
         xdStore.transactional {
+            val CACV = XdEquipe.new {
+                this.id = 1
+                this.nom = "CACV"
+            }
+
             XdJoueur.new {
                 this.id = 10
                 this.nom = "Kerirzin"
@@ -34,6 +43,7 @@ internal class XdJoueurRepositoryTest : XdRepositoryTest() {
                 this.dateNaissance = DateTime("30/04/1993".toLocalDate().toEpochDay())
                 this.taille = 180
                 this.poids = 75
+                this.equipe = CACV
             }
             XdJoueur.new {
                 this.id = 7
@@ -68,7 +78,7 @@ internal class XdJoueurRepositoryTest : XdRepositoryTest() {
 
         // Create
         val new = Joueur(nom = "Zidane", prenom = "Zinedine", dateNaissance = LocalDate.of(1972, 6, 23),
-                poste = "MO", taille = 185, poids = 80, nationalite = "Français")
+                poste = "MO", taille = 185, poids = 80, nationalite = "Français", equipe = Equipe(1, "Real Madrid"))
 
         val joueur = repository.saveOrUpdate(new)
 
@@ -106,6 +116,7 @@ internal class XdJoueurRepositoryTest : XdRepositoryTest() {
                             poste = "ATT", taille = 187, poids = 84, nationalite = "Portugais"),
                     Joueur(id = 10, nom = "Kerirzin", prenom = "Pierrick",
                             dateNaissance = LocalDate.of(1993, 4, 30),
-                            poste = "MO", taille = 180, poids = 75, nationalite = "Français")
+                            poste = "MO", taille = 180, poids = 75, nationalite = "Français",
+                            equipe = Equipe(1, "CACV"))
             )
 }

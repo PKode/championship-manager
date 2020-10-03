@@ -24,7 +24,9 @@ class XdJoueur(entity: Entity) : XdEntity(entity) {
 
     var poids by xdRequiredIntProp()
 
+    var equipe by xdLink0_1(XdEquipe)
+
     fun toJoueur() = Joueur(id = this.id, nom = this.nom, prenom = this.prenom, poste = this.poste,
             nationalite = this.nationalite, dateNaissance = LocalDate.ofEpochDay(this.dateNaissance.millis),
-            taille = this.taille, poids = this.poids)
+            taille = this.taille, poids = this.poids, equipe = this.equipe?.toEquipeWithoutChampionnat())
 }

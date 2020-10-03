@@ -1,6 +1,7 @@
 import gql from 'graphql-tag';
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import * as Apollo from 'apollo-angular';
+
 export type Maybe<T> = T | null;
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
@@ -52,6 +53,31 @@ export type EquipeDtoInput = {
   readonly nom: Scalars['String'];
 };
 
+export type JoueurDto = {
+  readonly __typename?: 'JoueurDto';
+  readonly dateNaissance: Scalars['String'];
+  readonly equipe: Maybe<EquipeDto>;
+  readonly id: Maybe<Scalars['Int']>;
+  readonly nationalite: Scalars['String'];
+  readonly nom: Scalars['String'];
+  readonly poids: Scalars['Int'];
+  readonly poste: Scalars['String'];
+  readonly prenom: Scalars['String'];
+  readonly taille: Scalars['Int'];
+};
+
+export type JoueurDtoInput = {
+  readonly dateNaissance: Scalars['String'];
+  readonly equipe: Maybe<EquipeDtoInput>;
+  readonly id: Maybe<Scalars['Int']>;
+  readonly nationalite: Scalars['String'];
+  readonly nom: Scalars['String'];
+  readonly poids: Scalars['Int'];
+  readonly poste: Scalars['String'];
+  readonly prenom: Scalars['String'];
+  readonly taille: Scalars['Int'];
+};
+
 export type JourneeDto = {
   readonly __typename?: 'JourneeDto';
   readonly matchs: ReadonlyArray<MatchDto>;
@@ -87,6 +113,8 @@ export type Mutation = {
   readonly deleteChampionnat: ChampionnatDto;
   readonly deleteEquipe: EquipeDto;
   readonly equipe: EquipeDto;
+  readonly deleteJoueur: JoueurDto;
+  readonly joueur: JoueurDto;
   readonly match: MatchDto;
 };
 
@@ -117,6 +145,16 @@ export type MutationEquipeArgs = {
 };
 
 
+export type MutationDeleteJoueurArgs = {
+  id: Scalars['Int'];
+};
+
+
+export type MutationJoueurArgs = {
+  joueur: JoueurDtoInput;
+};
+
+
 export type MutationMatchArgs = {
   match: MatchDtoInput;
 };
@@ -130,6 +168,8 @@ export type Query = {
   readonly equipe: EquipeDto;
   readonly equipes: ReadonlyArray<EquipeDto>;
   readonly equipesOfChampionnat: ReadonlyArray<EquipeDto>;
+  readonly joueur: JoueurDto;
+  readonly joueurs: ReadonlyArray<JoueurDto>;
 };
 
 
@@ -159,15 +199,22 @@ export type QueryEquipesOfChampionnatArgs = {
   championnatId: Scalars['Int'];
 };
 
+
+export type QueryJoueurArgs = {
+  id: Scalars['Int'];
+};
+
 export type SaisonDto = {
   readonly __typename?: 'SaisonDto';
   readonly annee: Scalars['Int'];
   readonly journees: ReadonlyArray<JourneeDto>;
+  readonly matchs: ReadonlyArray<MatchDto>;
 };
 
 export type SaisonDtoInput = {
   readonly annee: Scalars['Int'];
   readonly journees: ReadonlyArray<JourneeDtoInput>;
+  readonly matchs: ReadonlyArray<MatchDtoInput>;
 };
 
 export type ChampionnatMutationVariables = {
@@ -387,6 +434,47 @@ export type EquipesOfChampionnatQuery = (
   )> }
 );
 
+export type JoueurMutationVariables = {
+  joueur: JoueurDtoInput;
+};
+
+
+export type JoueurMutation = (
+  { readonly __typename?: 'Mutation' }
+  & { readonly joueur: (
+    { readonly __typename?: 'JoueurDto' }
+    & Pick<JoueurDto, 'id' | 'nom'>
+  ) }
+);
+
+export type DeleteJoueurMutationVariables = {
+  id: Scalars['Int'];
+};
+
+
+export type DeleteJoueurMutation = (
+  { readonly __typename?: 'Mutation' }
+  & { readonly deleteJoueur: (
+    { readonly __typename?: 'JoueurDto' }
+    & Pick<JoueurDto, 'id' | 'nom'>
+  ) }
+);
+
+export type JoueursQueryVariables = {};
+
+
+export type JoueursQuery = (
+  { readonly __typename?: 'Query' }
+  & { readonly joueurs: ReadonlyArray<(
+    { readonly __typename?: 'JoueurDto' }
+    & Pick<JoueurDto, 'id' | 'nom' | 'prenom' | 'poste' | 'nationalite' | 'dateNaissance' | 'taille' | 'poids'>
+    & { readonly equipe: Maybe<(
+      { readonly __typename?: 'EquipeDto' }
+      & Pick<EquipeDto, 'id' | 'nom'>
+    )> }
+  )> }
+);
+
 export type MatchMutationVariables = {
   match: MatchDtoInput;
 };
@@ -421,7 +509,7 @@ export const ChampionnatDocument = gql`
   })
   export class ChampionnatGQL extends Apollo.Mutation<ChampionnatMutation, ChampionnatMutationVariables> {
     document = ChampionnatDocument;
-    
+
   }
 export const DeleteChampionnatDocument = gql`
     mutation deleteChampionnat($id: Int!) {
@@ -437,7 +525,7 @@ export const DeleteChampionnatDocument = gql`
   })
   export class DeleteChampionnatGQL extends Apollo.Mutation<DeleteChampionnatMutation, DeleteChampionnatMutationVariables> {
     document = DeleteChampionnatDocument;
-    
+
   }
 export const CalendrierDocument = gql`
     mutation calendrier($championnatId: Int!, $dateDebut: String!) {
@@ -468,7 +556,7 @@ export const CalendrierDocument = gql`
   })
   export class CalendrierGQL extends Apollo.Mutation<CalendrierMutation, CalendrierMutationVariables> {
     document = CalendrierDocument;
-    
+
   }
 export const ChampionnatsDocument = gql`
     query championnats {
@@ -487,7 +575,7 @@ export const ChampionnatsDocument = gql`
   })
   export class ChampionnatsGQL extends Apollo.Query<ChampionnatsQuery, ChampionnatsQueryVariables> {
     document = ChampionnatsDocument;
-    
+
   }
 export const ChampionnatByIdDocument = gql`
     query championnatById($id: Int!) {
@@ -521,7 +609,7 @@ export const ChampionnatByIdDocument = gql`
   })
   export class ChampionnatByIdGQL extends Apollo.Query<ChampionnatByIdQuery, ChampionnatByIdQueryVariables> {
     document = ChampionnatByIdDocument;
-    
+
   }
 export const SaisonsDocument = gql`
     query saisons($championnatId: Int!) {
@@ -538,7 +626,7 @@ export const SaisonsDocument = gql`
   })
   export class SaisonsGQL extends Apollo.Query<SaisonsQuery, SaisonsQueryVariables> {
     document = SaisonsDocument;
-    
+
   }
 export const SaisonDocument = gql`
     query saison($championnatId: Int!, $saison: Int!) {
@@ -568,7 +656,7 @@ export const SaisonDocument = gql`
   })
   export class SaisonGQL extends Apollo.Query<SaisonQuery, SaisonQueryVariables> {
     document = SaisonDocument;
-    
+
   }
 export const ClassementDocument = gql`
     query classement($championnatId: Int!, $saison: Int!) {
@@ -593,7 +681,7 @@ export const ClassementDocument = gql`
   })
   export class ClassementGQL extends Apollo.Query<ClassementQuery, ClassementQueryVariables> {
     document = ClassementDocument;
-    
+
   }
 export const EquipeDocument = gql`
     mutation equipe($equipe: EquipeDtoInput!) {
@@ -609,7 +697,7 @@ export const EquipeDocument = gql`
   })
   export class EquipeGQL extends Apollo.Mutation<EquipeMutation, EquipeMutationVariables> {
     document = EquipeDocument;
-    
+
   }
 export const DeleteEquipeDocument = gql`
     mutation deleteEquipe($id: Int!) {
@@ -625,7 +713,7 @@ export const DeleteEquipeDocument = gql`
   })
   export class DeleteEquipeGQL extends Apollo.Mutation<DeleteEquipeMutation, DeleteEquipeMutationVariables> {
     document = DeleteEquipeDocument;
-    
+
   }
 export const EquipesDocument = gql`
     query equipes {
@@ -645,7 +733,7 @@ export const EquipesDocument = gql`
   })
   export class EquipesGQL extends Apollo.Query<EquipesQuery, EquipesQueryVariables> {
     document = EquipesDocument;
-    
+
   }
 export const EquipesOfChampionnatDocument = gql`
     query equipesOfChampionnat($championnatId: Int!) {
@@ -661,7 +749,65 @@ export const EquipesOfChampionnatDocument = gql`
   })
   export class EquipesOfChampionnatGQL extends Apollo.Query<EquipesOfChampionnatQuery, EquipesOfChampionnatQueryVariables> {
     document = EquipesOfChampionnatDocument;
-    
+
+  }
+export const JoueurDocument = gql`
+    mutation joueur($joueur: JoueurDtoInput!) {
+  joueur(joueur: $joueur) {
+    id
+    nom
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class JoueurGQL extends Apollo.Mutation<JoueurMutation, JoueurMutationVariables> {
+    document = JoueurDocument;
+
+  }
+export const DeleteJoueurDocument = gql`
+    mutation deleteJoueur($id: Int!) {
+  deleteJoueur(id: $id) {
+    id
+    nom
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class DeleteJoueurGQL extends Apollo.Mutation<DeleteJoueurMutation, DeleteJoueurMutationVariables> {
+    document = DeleteJoueurDocument;
+
+  }
+export const JoueursDocument = gql`
+    query joueurs {
+  joueurs {
+    id
+    nom
+    prenom
+    poste
+    nationalite
+    dateNaissance
+    taille
+    poids
+    equipe {
+      id
+      nom
+    }
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class JoueursGQL extends Apollo.Query<JoueursQuery, JoueursQueryVariables> {
+    document = JoueursDocument;
+
   }
 export const MatchDocument = gql`
     mutation match($match: MatchDtoInput!) {
@@ -684,5 +830,5 @@ export const MatchDocument = gql`
   })
   export class MatchGQL extends Apollo.Mutation<MatchMutation, MatchMutationVariables> {
     document = MatchDocument;
-    
+
   }

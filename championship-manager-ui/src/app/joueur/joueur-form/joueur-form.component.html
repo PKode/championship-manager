@@ -1,0 +1,85 @@
+<form [formGroup]="joueurForm" novalidate (ngSubmit)="onSubmit()">
+  <mat-card class="shipping-card">
+    <mat-card-header>
+      <mat-card-title>Nouveau joueur</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <div class="row">
+        <div class="col">
+          <mat-form-field class="full-width">
+            <input matInput placeholder="Prénom" formControlName="prenom">
+            <mat-error *ngIf="joueurForm.controls['prenom'].hasError('required')">
+              Prénom est <strong>obligatoire</strong>
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col">
+          <mat-form-field class="full-width">
+            <input matInput placeholder="Nom" formControlName="nom">
+            <mat-error *ngIf="joueurForm.controls['nom'].hasError('required')">
+              Nom est <strong>obligatoire</strong>
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <mat-form-field class="full-width">
+            <mat-label>Date de naissance</mat-label>
+            <input matInput [matDatepicker]="picker" formControlName="dateNaissance">
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+          </mat-form-field>
+        </div>
+        <div class="col">
+          <mat-form-field class="full-width">
+            <mat-select placeholder="Nationalité" formControlName="nationalite">
+              <mat-option *ngFor="let nationalite of nationalites" [value]="nationalite.name">
+                {{ nationalite.name }}
+                <img width="18" height="12" src="{{nationalite.flag}}">
+              </mat-option>
+            </mat-select>
+            <mat-error *ngIf="joueurForm.controls['nationalite'].hasError('required')">
+              Nationalité est <strong>obligatoire</strong>
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <mat-form-field class="full-width">
+            <mat-select placeholder="Poste" formControlName="poste">
+              <mat-option *ngFor="let poste of postes" [value]="poste">
+                {{ poste }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="col">
+          <mat-form-field class="full-width">
+            <mat-select placeholder="Equipe" formControlName="equipe">
+              <mat-option *ngFor="let equipe of equipes" [value]="equipe">
+                {{ equipe.nom }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <mat-form-field class="full-width">
+            <input matInput maxlength="3" placeholder="Taille" type="number" formControlName="taille">
+          </mat-form-field>
+        </div>
+        <div class="col">
+          <mat-form-field class="full-width">
+            <input matInput maxlength="3" placeholder="Poids" type="number" formControlName="poids">
+          </mat-form-field>
+        </div>
+      </div>
+    </mat-card-content>
+    <mat-card-actions>
+      <button mat-raised-button color="primary" type="submit">{{data?.id ? 'Modifier' : 'Créer'}}</button>
+    </mat-card-actions>
+  </mat-card>
+</form>

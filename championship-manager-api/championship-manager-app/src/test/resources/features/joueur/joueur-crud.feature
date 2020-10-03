@@ -1,9 +1,15 @@
 Feature: Gestion des joueurs
 
   Scenario: Création d'un joueur
+    Given l'utilisateur crée le championnat avec les informations suivantes
+      | nom     |
+      | Serie A |
+    And l'utilisateur crée les équipes avec les informations suivantes
+      | nom      | championnatNom | championnatId        |
+      | Juventus | Serie A        | $LAST_CHAMPIONNAT_ID |
     When l'utilisateur crée le joueur avec les informations suivantes
-      | nom     | prenom    | poste | nationalite | dateNaissance | taille | poids |
-      | Ronaldo | Cristiano | ATT   | Portugais   | 05/02/1985    | 187    | 84    |
+      | nom     | prenom    | poste | nationalite | dateNaissance | taille | poids | equipe                                 |
+      | Ronaldo | Cristiano | ATT   | Portugais   | 05/02/1985    | 187    | 84    | {"id":$LAST_EQUIPE_ID, nom:"Juventus"} |
     Then l'utilisateur affiche les joueurs
     """
     [
@@ -15,7 +21,11 @@ Feature: Gestion des joueurs
         "nationalite": "Portugais",
         "dateNaissance": "05/02/1985",
         "taille": 187,
-        "poids": 84
+        "poids": 84,
+        "equipe": {
+          "id": $LAST_EQUIPE_ID,
+          "nom": "Juventus"
+        }
       }
     ]
     """
