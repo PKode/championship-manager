@@ -57,7 +57,7 @@
         </div>
         <div class="col">
           <mat-form-field class="full-width">
-            <mat-select placeholder="Equipe" formControlName="equipe">
+            <mat-select placeholder="Equipe" formControlName="equipe" [compareWith]="equipeEquals">
               <mat-option *ngFor="let equipe of equipes" [value]="equipe">
                 {{ equipe.nom }}
               </mat-option>

@@ -5,6 +5,7 @@ import {EquipeService} from "../equipe.service";
 import {Equipe} from "../equipe";
 import {ChampionnatService} from "../../championnat/championnat.service";
 import {Championnat} from "../../championnat/championnat";
+import {ChampionnatDto} from "../../generated/graphql";
 
 @Component({
   selector: 'app-equipe-form',
@@ -35,5 +36,9 @@ export class EquipeFormComponent implements OnInit {
   ngOnInit(): void {
     this.championnatService.getAllChampionnats()
       .subscribe(value => this.championnats = value.map(d => new Championnat(d.nom, d.id)))
+  }
+
+  championnatEquals(championnat1: ChampionnatDto, championnat2: ChampionnatDto) {
+    return championnat1.id == championnat2.id
   }
 }

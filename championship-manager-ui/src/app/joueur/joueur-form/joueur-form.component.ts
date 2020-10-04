@@ -31,6 +31,8 @@ export class JoueurFormComponent implements OnInit {
 
   equipes: EquipeDto[];
 
+  selectedEquipe: EquipeDto;
+
   constructor(private fb: FormBuilder,
               private httpClient: HttpClient,
               private joueurService: JoueurService,
@@ -50,7 +52,6 @@ export class JoueurFormComponent implements OnInit {
   }
 
   onSubmit() {
-    console.log(this.joueurForm.value.equipe);
     this.joueurService.createOrUpdateJoueur({
         id: this.data?.id,
         nom: this.joueurForm.value.nom,
@@ -71,6 +72,12 @@ export class JoueurFormComponent implements OnInit {
       .subscribe(data => this.nationalites = data.map(p => new Pays(p.translations.fr, p.flag)));
 
     this.equipeService.getAllEquipes()
-      .subscribe(data => this.equipes = data.map(e => e as EquipeDto))
+      .subscribe(data => {
+        this.equipes = data.map(e => e as EquipeDto);
+      });
+  }
+
+  equipeEquals(equipe1: EquipeDto, equipe2: EquipeDto) {
+    return equipe1.id == equipe2.id
   }
 }

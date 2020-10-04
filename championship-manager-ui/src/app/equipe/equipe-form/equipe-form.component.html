@@ -14,7 +14,7 @@
       <div class="col">
         <mat-form-field class="full-width">
           <mat-label>Championnat</mat-label>
-          <mat-select formControlName="championnat">
+          <mat-select formControlName="championnat" [compareWith]="championnatEquals">
             <mat-option *ngFor="let championnat of championnats"
                         [value]="championnat">{{championnat.nom}} </mat-option>
           </mat-select>
