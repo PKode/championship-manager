@@ -73,6 +73,16 @@ class DomainChampionnatService(private val championnatRepository: ChampionnatRep
         return championnatRepository.getSaison(id, saison)
     }
 
+    override fun getClassementJoueur(id: Int, saison: Int): List<ClassementJoueur> {
+        val matchs = championnatRepository.findMatchsBySaisonAndChampionnat(id, saison)
+
+        return matchs.flatMap { it.joueurs }
+                .groupBy { it.joueur }
+                .mapValues { it.value.sumInClassementJoueur() }
+                .values
+                .toList()
+    }
+
     @ExperimentalStdlibApi
     private fun generateJournee(numero: Int, top: MutableList<Equipe>, bottom: MutableList<Equipe>, dateDebut: LocalDateTime): Journee {
         val journee = Journee(numero, matchForJournee(top, bottom, dateDebut))
@@ -84,6 +94,17 @@ class DomainChampionnatService(private val championnatRepository: ChampionnatRep
     private fun matchForJournee(top: MutableList<Equipe>, bottom: MutableList<Equipe>, dateDebut: LocalDateTime): List<Match> {
         return top.mapIndexed { index, equipe -> Match(domicile = equipe, exterieur = bottom[index], date = dateDebut) reverseIf index.even() }
     }
+}
+
+private fun List<JoueurStat>.sumInClassementJoueur(): ClassementJoueur {
+    return ClassementJoueur(
+            joueur = this.first().joueur,
+            nbButs = this.sumBy { it.nbButs },
+            nbPasses = this.sumBy { it.nbPasses },
+            nbCartonsJaunes = this.sumBy { it.nbCartonsJaunes },
+            nbCartonsRouges = this.sumBy { it.nbCartonsRouges },
+            nbMatchs = this.size
+    )
 }
 
 private fun Match.statDomicile() = Stat(

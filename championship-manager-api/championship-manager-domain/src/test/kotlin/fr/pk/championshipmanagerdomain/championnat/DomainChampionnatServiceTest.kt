@@ -3,6 +3,7 @@ package fr.pk.championshipmanagerdomain.championnat
 import fr.pk.championshipmanagerdomain.championnat.port.ChampionnatRepository
 import fr.pk.championshipmanagerdomain.equipe.Equipe
 import fr.pk.championshipmanagerdomain.equipe.port.EquipeRepository
+import fr.pk.championshipmanagerdomain.joueur.Joueur
 import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.internal.bytebuddy.utility.RandomString
 import org.junit.jupiter.api.Nested
@@ -10,7 +11,9 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.ValueSource
-import org.mockito.Mockito.*
+import org.mockito.Mockito.`when`
+import org.mockito.Mockito.mock
+import java.time.LocalDate
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 internal class DomainChampionnatServiceTest {
@@ -23,6 +26,15 @@ internal class DomainChampionnatServiceTest {
     val OM = Equipe(2, "OM")
     val OL = Equipe(3, "OL")
     val ASSE = Equipe(4, "ASSE")
+
+    private val RONALDO = Joueur(nom = "Ronaldo", prenom = "Cristiano", dateNaissance = LocalDate.of(1985, 2, 5),
+            poste = "ATT", taille = 187, poids = 84, nationalite = "Portugais")
+
+    private val MESSI = Joueur(nom = "Messi", prenom = "Lionel", dateNaissance = LocalDate.of(1985, 2, 5),
+            poste = "ATT", taille = 160, poids = 60, nationalite = "Argentin")
+
+    private val RAMOS = Joueur(nom = "Ramos", prenom = "Sergio", dateNaissance = LocalDate.of(1985, 2, 5),
+            poste = "DC", taille = 185, poids = 76, nationalite = "Espagnol")
 
     @Nested
     inner class CalendrierFeature {
@@ -75,17 +87,33 @@ internal class DomainChampionnatServiceTest {
                     Classement(OM, v = 0, n = 3, d = 3, bc = 17, bp = 7, pts = 3, mj = 6, diff = -10)
             )
         }
+
+        @Test
+        fun `doit generer les stats d'un joueur sur une saison d'un championnat`() {
+            val championnat = championnatWithSaison()
+
+            `when`(repository.findMatchsBySaisonAndChampionnat(1, 2020)).thenReturn(championnat.saisons.flatMap { s -> s.journees.flatMap { it.matchs } })
+
+            val classementJoueur = service.getClassementJoueur(1, 2020)
+
+            assertThat(classementJoueur).containsExactly(
+                    ClassementJoueur(RONALDO, 6, 1, 0, 0, 2, 3.0f),
+                    ClassementJoueur(MESSI, 1, 5, 0, 0, 2, 0.5f),
+                    ClassementJoueur(RAMOS, 0, 0, 1, 0, 2, 0.0f)
+            )
+        }
     }
 
     private fun championnatWithSaison(): Championnat {
         return Championnat(id = 1, nom = "Ligue 1", saisons = listOf(
                 Saison(2020, journees = listOf(
                         Journee(1, matchs = listOf(
-                                Match(PSG, OM, 3, 0),
+                                Match(PSG, OM, 3, 0, joueurs = listOf(JoueurStat(RONALDO, nbButs = 3), JoueurStat(MESSI, nbPasses = 2), JoueurStat(RAMOS))),
                                 Match(OL, ASSE, 1, 1)
                         )),
                         Journee(2, matchs = listOf(
-                                Match(PSG, OL, 4, 1),
+                                Match(PSG, OL, 4, 1,
+                                        joueurs = listOf(JoueurStat(RONALDO, nbButs = 3, nbPasses = 1), JoueurStat(MESSI, nbPasses = 3, nbButs = 1), JoueurStat(RAMOS, nbCartonsJaunes = 1))),
                                 Match(OM, ASSE, 1, 3)
                         )),
                         Journee(3, matchs = listOf(
