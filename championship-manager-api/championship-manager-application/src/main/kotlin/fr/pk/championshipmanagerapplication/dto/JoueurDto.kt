@@ -26,3 +26,7 @@ data class JoueurDto(
     )
 }
 
+fun JoueurDto.toJoueur(): Joueur {
+    return Joueur(this.id, this.nom, this.prenom, this.poste, this.nationalite, this.dateNaissance.toLocalDate(), this.taille, this.poids)
+}
+

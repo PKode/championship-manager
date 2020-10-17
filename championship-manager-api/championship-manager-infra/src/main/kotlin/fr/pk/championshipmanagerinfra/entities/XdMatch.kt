@@ -5,7 +5,6 @@ import fr.pk.championshipmanagerdomain.championnat.Match
 import fr.pk.championshipmanagerdomain.championnat.Saison
 import jetbrains.exodus.entitystore.Entity
 import kotlinx.dnq.*
-import kotlinx.dnq.query.XdMutableQuery
 import kotlinx.dnq.query.XdQuery
 import kotlinx.dnq.query.toList
 import java.time.LocalDateTime
@@ -30,9 +29,11 @@ class XdMatch(entity: Entity) : XdEntity(entity) {
 
     var championnatId by xdIntProp()
 
+    val joueurs by xdLink0_N(XdJoueurStat)
+
     fun toMatch(): Match {
         return Match(this.domicile.toEquipeWithoutChampionnat(), this.exterieur.toEquipeWithoutChampionnat(), this.butDomicile, this.butExterieur,
-                LocalDateTime.ofEpochSecond(this.date.millis,0, ZoneOffset.UTC))
+                LocalDateTime.ofEpochSecond(this.date.millis, 0, ZoneOffset.UTC), joueurs.toJoueursStat())
     }
 }
 

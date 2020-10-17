@@ -3,9 +3,7 @@ package fr.pk.championshipmanagerinfra.repository
 import fr.pk.championshipmanagerdomain.championnat.Championnat
 import fr.pk.championshipmanagerdomain.equipe.Equipe
 import fr.pk.championshipmanagerinfra.TestConfiguration
-import fr.pk.championshipmanagerinfra.entities.XdChampionnat
-import fr.pk.championshipmanagerinfra.entities.XdEquipe
-import fr.pk.championshipmanagerinfra.entities.XdMatch
+import fr.pk.championshipmanagerinfra.entities.*
 import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.Assertions.assertThatThrownBy
 import org.junit.jupiter.api.AfterAll
@@ -19,7 +17,7 @@ import java.io.File
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 internal class XdEquipeRepositoryTest : XdRepositoryTest() {
 
-    private val xdStore = xodusStore(XdChampionnat, XdEquipe, XdMatch)
+    private val xdStore = xodusStore(XdChampionnat, XdEquipe, XdMatch, XdJoueur, XdJoueurStat)
 
     private val repository = XdEquipeRepository(xdStore)
 

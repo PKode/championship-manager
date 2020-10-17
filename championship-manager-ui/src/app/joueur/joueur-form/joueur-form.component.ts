@@ -42,7 +42,7 @@ export class JoueurFormComponent implements OnInit {
     this.joueurForm = this.fb.group({
       prenom: [data?.prenom ? data.prenom : null, Validators.required],
       nom: [data?.nom ? data.nom : null, Validators.required],
-      equipe: [data?.equipe ? data.equipe : null, Validators.required],
+      equipe: [data?.equipe ? data.equipe : null],
       poste: [data?.poste ? data.poste : null, Validators.required],
       nationalite: [data?.nationalite ? data.nationalite : null, Validators.required],
       dateNaissance: [data?.dateNaissance ? moment(data.dateNaissance, 'DD/MM/YYYY') : null, Validators.required],
@@ -61,7 +61,11 @@ export class JoueurFormComponent implements OnInit {
         dateNaissance: this.joueurForm.value.dateNaissance.format('DD/MM/YYYY'),
         taille: this.joueurForm.value.taille,
         poids: this.joueurForm.value.poids,
-        equipe: {id: this.joueurForm.value.equipe.id, nom: this.joueurForm.value.equipe.nom, championnat: null}
+        equipe: this.joueurForm.value.equipe ? {
+          id: this.joueurForm.value.equipe?.id,
+          nom: this.joueurForm.value.equipe?.nom,
+          championnat: null
+        } : null
       }
     );
     this.dialogRef.close();

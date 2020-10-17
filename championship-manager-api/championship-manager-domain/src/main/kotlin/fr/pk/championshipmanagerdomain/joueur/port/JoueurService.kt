@@ -24,4 +24,5 @@ interface JoueurService {
      * @param id du joueur à supprimer.
      */
     fun delete(id: Int): Joueur
+
 }

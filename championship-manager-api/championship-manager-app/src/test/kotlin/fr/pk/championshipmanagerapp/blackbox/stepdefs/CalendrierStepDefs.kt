@@ -1,5 +1,9 @@
-package fr.pk.championshipmanagerapp.blackbox
+package fr.pk.championshipmanagerapp.blackbox.stepdefs
 
+import fr.pk.championshipmanagerapp.blackbox.ContextKey
+import fr.pk.championshipmanagerapp.blackbox.ScenarioContext
+import fr.pk.championshipmanagerapp.blackbox.TestGraphQLTemplate
+import fr.pk.championshipmanagerapp.blackbox.pluck
 import fr.pk.championshipmanagerapplication.dto.MatchDto
 import fr.pk.championshipmanagerapplication.dto.SaisonDto
 import io.cucumber.datatable.DataTable

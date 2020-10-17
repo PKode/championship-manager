@@ -2,29 +2,33 @@ package fr.pk.championshipmanagerdomain.championnat
 
 import fr.pk.championshipmanagerdomain.championnat.port.MatchRepository
 import fr.pk.championshipmanagerdomain.equipe.Equipe
+import fr.pk.championshipmanagerdomain.joueur.Joueur
 import org.assertj.core.api.Assertions
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
-import org.mockito.Mockito
+import org.mockito.Mockito.`when`
+import org.mockito.Mockito.mock
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 internal class DomainMatchServiceTest {
-    private val repository = Mockito.mock(MatchRepository::class.java)
+    private val repository = mock(MatchRepository::class.java)
     private val service = DomainMatchService(repository)
 
     private val PSG = Equipe(1, "PSG")
     private val OL = Equipe(2, "OL")
+    private val RONALDO = Joueur(nom = "Ronaldo", prenom = "Cristiano", dateNaissance = LocalDate.of(1985, 2, 5),
+            poste = "ATT", taille = 187, poids = 84, nationalite = "Portugais")
 
     @Nested
     inner class CreateFeature {
         @Test
-        fun `doit creer un championnat`() {
+        fun `doit creer un match`() {
             val expectedCreatedMatch = Match(domicile = PSG, exterieur = OL, date = "20/08/2020".toLocalDate().atTime(21, 0))
 
-            Mockito.`when`(repository.saveOrUpdate(expectedCreatedMatch)).thenReturn(expectedCreatedMatch)
+            `when`(repository.saveOrUpdate(expectedCreatedMatch)).thenReturn(expectedCreatedMatch)
 
             val match = service.createOrEdit(expectedCreatedMatch)
 
@@ -35,11 +39,11 @@ internal class DomainMatchServiceTest {
     @Nested
     inner class EditFeature {
         @Test
-        fun `doit editer un championnat`() {
+        fun `doit editer un match`() {
             val expectedCreatedMatch = Match(domicile = PSG, exterieur = OL, date = "20/08/2020".toLocalDate().atTime(21, 0),
-                    butDomicile = 2, butExterieur = 1)
+                    butDomicile = 2, butExterieur = 1, joueurs = listOf(JoueurStat(RONALDO)))
 
-            Mockito.`when`(repository.saveOrUpdate(expectedCreatedMatch)).thenReturn(expectedCreatedMatch)
+            `when`(repository.saveOrUpdate(expectedCreatedMatch)).thenReturn(expectedCreatedMatch)
 
             val match = service.createOrEdit(expectedCreatedMatch)
 

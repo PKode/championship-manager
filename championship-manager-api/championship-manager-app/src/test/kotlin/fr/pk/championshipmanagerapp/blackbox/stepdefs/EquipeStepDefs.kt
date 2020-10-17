@@ -1,5 +1,6 @@
-package fr.pk.championshipmanagerapp.blackbox
+package fr.pk.championshipmanagerapp.blackbox.stepdefs
 
+import fr.pk.championshipmanagerapp.blackbox.*
 import fr.pk.championshipmanagerapplication.dto.EquipeDto
 import io.cucumber.datatable.DataTable
 import io.cucumber.java8.En

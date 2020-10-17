@@ -1,6 +1,7 @@
-package fr.pk.championshipmanagerapp.blackbox
+package fr.pk.championshipmanagerapp.blackbox.stepdefs
 
 import fr.pk.championshipmanagerapp.ChampionshipManagerAppApplication
+import fr.pk.championshipmanagerapp.blackbox.BlackBoxConfiguration
 import io.cucumber.java8.En
 import io.cucumber.spring.CucumberContextConfiguration
 import jetbrains.exodus.database.TransientEntityStore

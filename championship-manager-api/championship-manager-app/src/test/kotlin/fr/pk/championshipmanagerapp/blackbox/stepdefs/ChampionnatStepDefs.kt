@@ -1,6 +1,10 @@
-package fr.pk.championshipmanagerapp.blackbox
+package fr.pk.championshipmanagerapp.blackbox.stepdefs
 
 import fr.pk.championshipmanagerapp.blackbox.ContextKey.LAST_CHAMPIONNAT_ID
+import fr.pk.championshipmanagerapp.blackbox.ScenarioContext
+import fr.pk.championshipmanagerapp.blackbox.TestGraphQLTemplate
+import fr.pk.championshipmanagerapp.blackbox.extractExpected
+import fr.pk.championshipmanagerapp.blackbox.pluck
 import fr.pk.championshipmanagerapplication.dto.ChampionnatDto
 import fr.pk.championshipmanagerapplication.dto.ClassementDto
 import io.cucumber.datatable.DataTable
