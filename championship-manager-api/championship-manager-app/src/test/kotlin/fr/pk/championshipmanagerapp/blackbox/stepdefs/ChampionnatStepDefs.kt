@@ -7,6 +7,7 @@ import fr.pk.championshipmanagerapp.blackbox.extractExpected
 import fr.pk.championshipmanagerapp.blackbox.pluck
 import fr.pk.championshipmanagerapplication.dto.ChampionnatDto
 import fr.pk.championshipmanagerapplication.dto.ClassementDto
+import fr.pk.championshipmanagerapplication.dto.ClassementJoueurDto
 import io.cucumber.datatable.DataTable
 import io.cucumber.java8.En
 import org.assertj.core.api.Assertions.assertThat
@@ -27,6 +28,9 @@ class ChampionnatStepDefs(private val graphqlTemplate: TestGraphQLTemplate,
 
     @Value("classpath:graphql/get-classement.graphql")
     private lateinit var getClassementQuery: URL
+
+    @Value("classpath:graphql/get-classement-joueur.graphql")
+    private lateinit var getClassementJoueurQuery: URL
 
     init {
         When("l'utilisateur crée/modifie le(s) championnat(s) avec les informations suivantes") { data: DataTable ->
@@ -59,6 +63,14 @@ class ChampionnatStepDefs(private val graphqlTemplate: TestGraphQLTemplate,
             val classement: List<ClassementDto> = this.graphqlTemplate.post(getClassementQuery, mapOf("saison" to saison, "championnatId" to championnatId)).pluck("classement")
 
             val expectedClassement: List<ClassementDto> = expectedClassementPayload.extractExpected(scenarioContext::replacePlaceHolders)
+
+            assertThat(classement).containsAll(expectedClassement)
+        }
+
+        Then("l'utilisateur affiche le classement des joueurs de la saison {int} du championnat {string}") { saison: Int, championnatId: String, expectedClassementPayload: String ->
+            val classement: List<ClassementJoueurDto> = this.graphqlTemplate.post(getClassementJoueurQuery, mapOf("saison" to saison, "championnatId" to championnatId)).pluck("classementJoueur")
+
+            val expectedClassement: List<ClassementJoueurDto> = expectedClassementPayload.extractExpected(scenarioContext::replacePlaceHolders)
 
             assertThat(classement).containsAll(expectedClassement)
         }

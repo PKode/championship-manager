@@ -1,0 +1,20 @@
+[
+  {
+    "joueur": {
+      "id": $LAST_JOUEUR_ID,
+      "nom": "Ronaldo",
+      "prenom": "Cristiano",
+      "dateNaissance": "02/05/1985",
+      "poste": "ATT",
+      "taille": 187,
+      "poids": 84,
+      "nationalite": "Portugais"
+    },
+    "nbButs": 3,
+    "nbPasses": 1,
+    "nbMatchs": 1,
+    "nbCartonsJaunes": 0,
+    "nbCartonsRouges": 0,
+    "ratioBut": 3.0
+  }
+]

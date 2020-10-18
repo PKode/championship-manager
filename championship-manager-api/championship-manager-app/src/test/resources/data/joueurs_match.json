@@ -1,0 +1,16 @@
+[
+  {
+    "joueur": {
+      "id": $LAST_JOUEUR_ID,
+      "nom": "Ronaldo",
+      "prenom": "Cristiano",
+      "dateNaissance": "02/05/1985",
+      "poste": "ATT",
+      "taille": 186,
+      "poids": 84,
+      "nationalite": "Portugais"
+    },
+    "nbButs": 3,
+    "nbPasses": 1
+  }
+]

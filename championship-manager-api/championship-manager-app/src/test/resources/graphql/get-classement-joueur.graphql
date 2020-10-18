@@ -1,0 +1,20 @@
+query {
+    classementJoueur(championnatId: $championnatId, saison: $saison) {
+        joueur {
+            id
+            nom
+            prenom
+            poste
+            nationalite
+            dateNaissance
+            taille
+            poids
+        }
+        nbButs
+        nbPasses
+        nbMatchs
+        nbCartonsJaunes
+        nbCartonsRouges
+        ratioBut
+    }
+}

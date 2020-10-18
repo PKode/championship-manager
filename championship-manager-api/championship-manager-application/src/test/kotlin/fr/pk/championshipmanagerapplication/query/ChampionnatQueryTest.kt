@@ -4,11 +4,13 @@ import fr.pk.championshipmanagerapplication.dto.*
 import fr.pk.championshipmanagerdomain.championnat.*
 import fr.pk.championshipmanagerdomain.championnat.port.ChampionnatService
 import fr.pk.championshipmanagerdomain.equipe.Equipe
+import fr.pk.championshipmanagerdomain.joueur.Joueur
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
 import org.mockito.Mockito.*
+import java.time.LocalDate
 import java.time.LocalDateTime
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
@@ -23,6 +25,9 @@ internal class ChampionnatQueryTest {
     private val ASSE = Equipe(4, "ASSE")
 
     private val NOW = LocalDateTime.now()
+
+    private val RONALDO = Joueur(nom = "Ronaldo", prenom = "Cristiano", dateNaissance = LocalDate.of(1985, 2, 5),
+            poste = "ATT", taille = 187, poids = 84, nationalite = "Portugais")
 
     @Nested
     inner class GetQuery {
@@ -128,6 +133,23 @@ internal class ChampionnatQueryTest {
                     ClassementDto(EquipeDto(OM), v = 0, n = 3, d = 3, bc = 17, bp = 7, pts = 3, mj = 6, diff = -10)
             )
             verify(championnatService, times(1)).getClassement(id, 2020)
+        }
+
+        @Test
+        fun `doit retourner le classement des joueurs d un championnat`() {
+
+            val id = 1
+
+            `when`(championnatService.getClassementJoueur(id, 2020)).thenReturn(listOf(
+                    ClassementJoueur(RONALDO, 5, 2, nbMatchs = 4)
+            ))
+
+            val classement = query.classementJoueur(id, 2020)
+
+            assertThat(classement).containsExactly(
+                    ClassementJoueurDto(JoueurDto(RONALDO), 5, 2, nbMatchs = 4)
+            )
+            verify(championnatService, times(1)).getClassementJoueur(id, 2020)
         }
     }
 }

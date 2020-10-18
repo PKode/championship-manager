@@ -3,6 +3,7 @@ package fr.pk.championshipmanagerapplication.query
 import com.expediagroup.graphql.spring.operations.Query
 import fr.pk.championshipmanagerapplication.dto.ChampionnatDto
 import fr.pk.championshipmanagerapplication.dto.ClassementDto
+import fr.pk.championshipmanagerapplication.dto.ClassementJoueurDto
 import fr.pk.championshipmanagerapplication.dto.SaisonDto
 import fr.pk.championshipmanagerdomain.championnat.port.ChampionnatService
 import org.springframework.stereotype.Component
@@ -31,13 +32,22 @@ class ChampionnatQuery(private val championnatService: ChampionnatService) : Que
      * @param championnatId
      */
     fun classement(championnatId: Int, saison: Int): List<ClassementDto> {
-        return championnatService.getClassement(championnatId, saison).map { ClassementDto(it) }
+        return championnatService.getClassement(championnatId, saison).map(::ClassementDto)
+    }
+
+    /**
+     * Calcule et retourne le "classement" des joueurs (stats par joueur).
+     * @param saison du championnat
+     * @param championnatId
+     */
+    fun classementJoueur(championnatId: Int, saison: Int): List<ClassementJoueurDto> {
+        return championnatService.getClassementJoueur(championnatId, saison).map(::ClassementJoueurDto)
     }
 
     /**
      * Retourne une saison.
      */
-    fun saison(championnatId: Int, saison: Int) : SaisonDto {
+    fun saison(championnatId: Int, saison: Int): SaisonDto {
         return SaisonDto(championnatService.getSaison(championnatId, saison))
     }
 }
