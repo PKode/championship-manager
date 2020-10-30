@@ -7,6 +7,7 @@ import fr.pk.championshipmanagerinfra.entities.XdJoueur
 import jetbrains.exodus.database.TransientEntityStore
 import jetbrains.exodus.util.Random
 import kotlinx.dnq.query.eq
+import kotlinx.dnq.query.filter
 import org.springframework.stereotype.Component
 
 @Component
@@ -57,6 +58,12 @@ class XdJoueurRepository(private val xdStore: TransientEntityStore) : JoueurRepo
     override fun remove(id: Int): Joueur {
         return xdStore.transactional {
             XdJoueur.removeMapped(XdJoueur::id eq id) { it.toJoueur() }
+        }
+    }
+
+    override fun findAllJoueursByEquipe(equipeId: Int): List<Joueur> {
+        return xdStore.transactional {
+            XdJoueur.filter { it.equipe?.id eq equipeId }.map { j -> j.toJoueur() }
         }
     }
 }

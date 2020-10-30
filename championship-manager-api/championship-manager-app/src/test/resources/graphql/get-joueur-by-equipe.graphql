@@ -1,0 +1,12 @@
+query  {
+    joueurByEquipe(equipeId: $equipeId) {
+        id
+        nom
+        prenom
+        poste
+        nationalite
+        dateNaissance
+        taille
+        poids
+    }
+}

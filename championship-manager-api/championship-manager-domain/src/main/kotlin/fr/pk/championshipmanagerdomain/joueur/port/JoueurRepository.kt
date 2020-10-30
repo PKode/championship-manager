@@ -26,4 +26,11 @@ interface JoueurRepository {
      * @param id du joueur à supprimer.
      */
     fun remove(id: Int): Joueur
+
+
+    /**
+     * @param equipeId id de l'équipe.
+     * @return la liste des joueurs de l'équipe correspondant à l'id.
+     */
+    fun findAllJoueursByEquipe(equipeId: Int): List<Joueur>
 }

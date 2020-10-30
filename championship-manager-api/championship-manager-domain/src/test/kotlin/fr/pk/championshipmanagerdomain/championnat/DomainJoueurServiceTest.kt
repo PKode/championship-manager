@@ -39,6 +39,21 @@ internal class DomainJoueurServiceTest {
         }
 
         @Test
+        fun `doit retourner tous les joueurs d une equipe`() {
+            val expected = listOf(
+                    RONALDO,
+                    Joueur(nom = "M'Bappé", prenom = "Kylian", dateNaissance = LocalDate.of(1998, 12, 20),
+                            poste = "ATT", taille = 178, poids = 74, nationalite = "Français")
+            )
+
+            `when`(repository.findAllJoueursByEquipe(1)).thenReturn(expected)
+
+            val allJoueurs = service.getJoueursByEquipe(1)
+
+            assertThat(allJoueurs).isEqualTo(expected)
+        }
+
+        @Test
         fun `doit retourner une liste vide si aucun joueur`() {
             `when`(repository.findAll()).thenReturn(emptyList())
 

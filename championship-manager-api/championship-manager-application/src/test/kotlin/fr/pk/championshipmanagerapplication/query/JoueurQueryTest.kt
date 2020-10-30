@@ -59,5 +59,22 @@ internal class JoueurQueryTest {
             assertThat(joueur).isEqualTo(expectedDto)
             verify(joueurService, times(1)).getById(1)
         }
+
+        @Test
+        fun `doit retourner le joueur d une equipe`() {
+            // Given
+            val domainJoueur = RONALDO
+
+            // When
+            `when`(joueurService.getJoueursByEquipe(1)).thenReturn(listOf(RONALDO))
+
+            val joueur = query.joueurByEquipe(1)
+
+            // Then
+            val expectedDto = listOf(JoueurDto(RONALDO))
+
+            assertThat(joueur).containsAll(expectedDto)
+            verify(joueurService, times(1)).getJoueursByEquipe(1)
+        }
     }
 }

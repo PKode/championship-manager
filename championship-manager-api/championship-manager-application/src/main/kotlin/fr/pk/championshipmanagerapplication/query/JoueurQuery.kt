@@ -16,10 +16,19 @@ class JoueurQuery(private val joueurService: JoueurService) : Query {
     }
 
     /**
-     * Query for getting joueur based on his id.
+     * Query for getting joueur based on his
+     * @param id
      */
     fun joueur(id: Int): JoueurDto {
         val joueur = joueurService.getById(id)
         return JoueurDto(joueur)
+    }
+
+    /**
+     * Query for getting joueur of one equipe based on
+     * @param equipeId
+     */
+    fun joueurByEquipe(equipeId: Int): List<JoueurDto> {
+        return joueurService.getJoueursByEquipe(equipeId).map { JoueurDto(it) }
     }
 }

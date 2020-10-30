@@ -20,4 +20,8 @@ class DomainJoueurService(private val joueurRepository: JoueurRepository) : Joue
         return joueurRepository.remove(id)
     }
 
+    override fun getJoueursByEquipe(equipeId: Int): List<Joueur> {
+        return joueurRepository.findAllJoueursByEquipe(equipeId)
+    }
+
 }

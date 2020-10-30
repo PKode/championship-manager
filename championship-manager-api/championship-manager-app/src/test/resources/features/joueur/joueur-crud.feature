@@ -29,6 +29,25 @@ Feature: Gestion des joueurs
       }
     ]
     """
+    Then l'utilisateur affiche les joueurs de l'équipe '$LAST_EQUIPE_ID'
+    """
+    [
+      {
+        "id": "$LAST_JOUEUR_ID",
+        "nom": "Ronaldo",
+        "prenom": "Cristiano",
+        "poste": "ATT",
+        "nationalite": "Portugais",
+        "dateNaissance": "05/02/1985",
+        "taille": 187,
+        "poids": 84,
+        "equipe": {
+          "id": $LAST_EQUIPE_ID,
+          "nom": "Juventus"
+        }
+      }
+    ]
+    """
 
   Scenario: Modifier un joueur
     Given l'utilisateur crée le joueur avec les informations suivantes

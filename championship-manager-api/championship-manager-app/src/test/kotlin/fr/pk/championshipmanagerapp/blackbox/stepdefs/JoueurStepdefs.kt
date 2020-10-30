@@ -17,6 +17,9 @@ class JoueurStepdefs(private val graphqlTemplate: TestGraphQLTemplate,
     @Value("classpath:graphql/get-joueur.graphql")
     private lateinit var getJoueurQuery: URL
 
+    @Value("classpath:graphql/get-joueur-by-equipe.graphql")
+    private lateinit var getJoueurByEquipeQuery: URL
+
     @Value("classpath:graphql/delete-joueur.graphql")
     private lateinit var deleteJoueurMutation: URL
 
@@ -33,6 +36,14 @@ class JoueurStepdefs(private val graphqlTemplate: TestGraphQLTemplate,
 
         Then("l'utilisateur affiche les joueurs") { expectedJoueurPayload: String ->
             val joueurs: List<JoueurDto> = this.graphqlTemplate.post(getJoueurQuery).pluck("joueurs")
+
+            val expectedJoueur: List<JoueurDto> = expectedJoueurPayload.extractExpected(scenarioContext::replacePlaceHolders)
+
+            Assertions.assertThat(joueurs).containsAll(expectedJoueur)
+        }
+
+        Then("l'utilisateur affiche les joueurs de l'équipe") { equipeId: String, expectedJoueurPayload: String ->
+            val joueurs: List<JoueurDto> = this.graphqlTemplate.post(getJoueurByEquipeQuery, mapOf("equipeId" to equipeId)).pluck("joueurs")
 
             val expectedJoueur: List<JoueurDto> = expectedJoueurPayload.extractExpected(scenarioContext::replacePlaceHolders)
 

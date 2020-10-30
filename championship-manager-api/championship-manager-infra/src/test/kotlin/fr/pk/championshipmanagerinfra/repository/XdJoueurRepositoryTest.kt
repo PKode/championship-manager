@@ -3,10 +3,7 @@ package fr.pk.championshipmanagerinfra.repository
 import fr.pk.championshipmanagerdomain.equipe.Equipe
 import fr.pk.championshipmanagerdomain.joueur.Joueur
 import fr.pk.championshipmanagerinfra.TestConfiguration
-import fr.pk.championshipmanagerinfra.entities.XdChampionnat
-import fr.pk.championshipmanagerinfra.entities.XdEquipe
-import fr.pk.championshipmanagerinfra.entities.XdJoueur
-import fr.pk.championshipmanagerinfra.entities.XdMatch
+import fr.pk.championshipmanagerinfra.entities.*
 import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.Assertions.assertThatThrownBy
 import org.joda.time.DateTime
@@ -22,7 +19,7 @@ import java.time.LocalDate
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 internal class XdJoueurRepositoryTest : XdRepositoryTest() {
 
-    private val xdStore = xodusStore(XdJoueur, XdEquipe, XdChampionnat, XdMatch)
+    private val xdStore = xodusStore(XdJoueur, XdEquipe, XdChampionnat, XdMatch, XdJoueurStat)
 
     private val repository = XdJoueurRepository(xdStore)
 
@@ -71,6 +68,14 @@ internal class XdJoueurRepositoryTest : XdRepositoryTest() {
         val joueurs = repository.findAll()
 
         assertThat(joueurs).containsExactlyInAnyOrderElementsOf(joueurs())
+    }
+
+    @Test
+    fun `doit retourner tous les joueurs d une equipe`() {
+
+        val joueurs = repository.findAllJoueursByEquipe(1)
+
+        assertThat(joueurs).containsExactlyInAnyOrderElementsOf(joueurs().filter { it.nom == "Kerirzin" })
     }
 
     @Test

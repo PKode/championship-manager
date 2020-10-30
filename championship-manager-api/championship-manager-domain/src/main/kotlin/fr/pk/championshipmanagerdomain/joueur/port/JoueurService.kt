@@ -25,4 +25,9 @@ interface JoueurService {
      */
     fun delete(id: Int): Joueur
 
+    /**
+     * @param equipeId id de l'équipe.
+     * @return la liste de tous les joueurs de l'équipe correspondant à l'id.
+     */
+    fun getJoueursByEquipe(equipeId: Int) : List<Joueur>
 }
