@@ -68,7 +68,7 @@ internal class JoueurQueryTest {
             // When
             `when`(joueurService.getJoueursByEquipe(1)).thenReturn(listOf(RONALDO))
 
-            val joueur = query.joueurByEquipe(1)
+            val joueur = query.joueursByEquipe(1)
 
             // Then
             val expectedDto = listOf(JoueurDto(RONALDO))

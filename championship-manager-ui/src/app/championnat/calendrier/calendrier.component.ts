@@ -63,7 +63,8 @@ export class CalendrierComponent implements OnInit {
 
   play(row: MatchDto) {
     const dialogRef = this.dialog.open(MatchFormComponent, {
-      width: '500px',
+      width: '1000px',
+      maxHeight: '750px',
       data: {match: row, championnatId: this.championnatId, saison: this.saison}
     });
 

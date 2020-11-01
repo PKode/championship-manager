@@ -14,3 +14,16 @@ query joueurs {
     }
   }
 }
+
+query joueursByEquipe($equipeId: Int!) {
+  joueursByEquipe(equipeId: $equipeId) {
+    id
+    nom
+    prenom
+    poste
+    nationalite
+    dateNaissance
+    taille
+    poids
+  }
+}

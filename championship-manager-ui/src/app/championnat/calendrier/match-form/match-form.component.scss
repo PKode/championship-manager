@@ -18,10 +18,19 @@
 }
 
 .col {
-  flex: 1;
+  flex: 2;
   margin-right: 20px;
+}
+
+.equipe{
+  text-align: center;
 }
 
 .col:last-child {
   margin-right: 0;
+}
+
+.score {
+  text-align: center;
+  width: 30px;
 }

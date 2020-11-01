@@ -140,6 +140,7 @@ $mat-dark-theme-background: (
   unselected-chip:          $dark-bg-lighter-20,
   disabled-list-option:     $dark-bg-lighter-10,
 );
+$primary-color: #007749;
 
 // Compute font config
 @include mat-core($fontConfig);
@@ -147,7 +148,7 @@ $mat-dark-theme-background: (
 // Theme Config
 
 body {
-  --primary-color: #007749;
+  --primary-color: $primary-color;
   --primary-lighter-color: #b3d6c8;
   --primary-darker-color: #005a31;
   --text-primary-color: #{$light-primary-text};
@@ -156,7 +157,7 @@ body {
 }
 
 $mat-primary: (
-  main: #007749,
+  main: $primary-color,
   lighter: #b3d6c8,
   darker: #005a31,
   200: #007749, // For slide toggle,
@@ -177,8 +178,9 @@ body {
   --text-accent-darker-color: #{$dark-primary-text};
 }
 
+
 $mat-accent: (
-  main: #ffffff,
+  main: $primary-color,
   lighter: #ffffff,
   darker: #ffffff,
   200: #ffffff, // For slide toggle,

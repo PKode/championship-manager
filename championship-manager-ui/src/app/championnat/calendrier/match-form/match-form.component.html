@@ -1,30 +1,46 @@
 <form [formGroup]="matchForm" novalidate (ngSubmit)="onSubmit()">
-  <mat-card class="shipping-card">
-    <mat-card-header style="margin-bottom: 5%">
-      <mat-card-title>Résultat du match {{data.match.domicile.nom}} - {{data.match.exterieur.nom}}</mat-card-title>
-    </mat-card-header>
-    <mat-card-content>
-      <div class="row">
-        <div class="col">
-          <mat-form-field class="">
-            <input matInput [placeholder]="data.match.domicile.nom" formControlName="butDomicile" type="number">
-            <mat-error *ngIf="matchForm.controls['butDomicile'].hasError('required')">
-              Domicile is <strong>required</strong>
-            </mat-error>
-          </mat-form-field>
-        </div>
-        <div class="col">
-          <mat-form-field class="">
-            <input matInput [placeholder]="data.match.exterieur.nom" formControlName="butExterieur" type="number">
-            <mat-error *ngIf="matchForm.controls['butExterieur'].hasError('required')">
-              Exterieur is <strong>required</strong>
-            </mat-error>
-          </mat-form-field>
-        </div>
+  <mat-card-header style="margin-bottom: 5%; justify-content: center">
+    <mat-card-title>{{data.match.domicile.nom}} - {{data.match.exterieur.nom}} le {{data.match.date}}</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <div class="row">
+      <div class="col equipe">
+        <span style="font-size: 20px">{{data.match.domicile.nom}}</span>
+        <mat-form-field class="score" style="float: right">
+          <input matInput formControlName="butDomicile" type="number">
+          <mat-error *ngIf="matchForm.controls['butDomicile'].hasError('required')">
+          </mat-error>
+        </mat-form-field>
       </div>
-    </mat-card-content>
-    <mat-card-actions>
-      <button mat-raised-button color="primary" type="submit">Enregistrer le résultat</button>
-    </mat-card-actions>
-  </mat-card>
+      <mat-divider [vertical]="true"></mat-divider>
+      <div class="col equipe">
+        <span style="font-size: 20px">{{data.match.exterieur.nom}}</span>
+        <mat-form-field class="score" style="float: left; margin-left: 20px">
+          <input matInput formControlName="butExterieur" type="number">
+          <mat-error *ngIf="matchForm.controls['butExterieur'].hasError('required')">
+          </mat-error>
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        <mat-selection-list formControlName="selectedJoueursDomicile">
+          <mat-list-option [value]="joueurDomicile"
+            *ngFor="let joueurDomicile of joueursDomicile">{{joueurDomicile.prenom}} {{joueurDomicile.nom}}
+          </mat-list-option>
+        </mat-selection-list>
+      </div>
+      <mat-divider [vertical]="true"></mat-divider>
+      <div class="col">
+        <mat-selection-list formControlName="selectedJoueursExterieur">
+          <mat-list-option [value]="joueurExterieur"
+            *ngFor="let joueurExterieur of joueursExterieur">{{joueurExterieur.prenom}} {{joueurExterieur.nom}}
+          </mat-list-option>
+        </mat-selection-list>
+      </div>
+    </div>
+  </mat-card-content>
+  <mat-card-actions>
+    <button mat-raised-button color="primary" type="submit">Enregistrer le résultat</button>
+  </mat-card-actions>
 </form>

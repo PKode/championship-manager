@@ -40,6 +40,17 @@ export type ClassementDto = {
   readonly v: Scalars['Int'];
 };
 
+export type ClassementJoueurDto = {
+  readonly __typename?: 'ClassementJoueurDto';
+  readonly joueur: JoueurDto;
+  readonly nbButs: Scalars['Int'];
+  readonly nbCartonsJaunes: Scalars['Int'];
+  readonly nbCartonsRouges: Scalars['Int'];
+  readonly nbMatchs: Scalars['Int'];
+  readonly nbPasses: Scalars['Int'];
+  readonly ratioBut: Scalars['Float'];
+};
+
 export type EquipeDto = {
   readonly __typename?: 'EquipeDto';
   readonly championnat: Maybe<ChampionnatDto>;
@@ -78,6 +89,23 @@ export type JoueurDtoInput = {
   readonly taille: Scalars['Int'];
 };
 
+export type JoueurStatDto = {
+  readonly __typename?: 'JoueurStatDto';
+  readonly joueur: JoueurDto;
+  readonly nbButs: Scalars['Int'];
+  readonly nbCartonsJaunes: Scalars['Int'];
+  readonly nbCartonsRouges: Scalars['Int'];
+  readonly nbPasses: Scalars['Int'];
+};
+
+export type JoueurStatDtoInput = {
+  readonly joueur: JoueurDtoInput;
+  readonly nbButs: Scalars['Int'];
+  readonly nbCartonsJaunes: Scalars['Int'];
+  readonly nbCartonsRouges: Scalars['Int'];
+  readonly nbPasses: Scalars['Int'];
+};
+
 export type JourneeDto = {
   readonly __typename?: 'JourneeDto';
   readonly matchs: ReadonlyArray<MatchDto>;
@@ -96,6 +124,7 @@ export type MatchDto = {
   readonly date: Scalars['String'];
   readonly domicile: EquipeDto;
   readonly exterieur: EquipeDto;
+  readonly joueurs: ReadonlyArray<JoueurStatDto>;
 };
 
 export type MatchDtoInput = {
@@ -104,6 +133,7 @@ export type MatchDtoInput = {
   readonly date: Scalars['String'];
   readonly domicile: EquipeDtoInput;
   readonly exterieur: EquipeDtoInput;
+  readonly joueurs: ReadonlyArray<JoueurStatDtoInput>;
 };
 
 export type Mutation = {
@@ -164,12 +194,14 @@ export type Query = {
   readonly championnat: ChampionnatDto;
   readonly championnats: ReadonlyArray<ChampionnatDto>;
   readonly classement: ReadonlyArray<ClassementDto>;
+  readonly classementJoueur: ReadonlyArray<ClassementJoueurDto>;
   readonly saison: SaisonDto;
   readonly equipe: EquipeDto;
   readonly equipes: ReadonlyArray<EquipeDto>;
   readonly equipesOfChampionnat: ReadonlyArray<EquipeDto>;
   readonly joueur: JoueurDto;
   readonly joueurs: ReadonlyArray<JoueurDto>;
+  readonly joueursByEquipe: ReadonlyArray<JoueurDto>;
 };
 
 
@@ -179,6 +211,12 @@ export type QueryChampionnatArgs = {
 
 
 export type QueryClassementArgs = {
+  championnatId: Scalars['Int'];
+  saison: Scalars['Int'];
+};
+
+
+export type QueryClassementJoueurArgs = {
   championnatId: Scalars['Int'];
   saison: Scalars['Int'];
 };
@@ -202,6 +240,11 @@ export type QueryEquipesOfChampionnatArgs = {
 
 export type QueryJoueurArgs = {
   id: Scalars['Int'];
+};
+
+
+export type QueryJoueursByEquipeArgs = {
+  equipeId: Scalars['Int'];
 };
 
 export type SaisonDto = {
@@ -472,6 +515,19 @@ export type JoueursQuery = (
       { readonly __typename?: 'EquipeDto' }
       & Pick<EquipeDto, 'id' | 'nom'>
     )> }
+  )> }
+);
+
+export type JoueursByEquipeQueryVariables = {
+  equipeId: Scalars['Int'];
+};
+
+
+export type JoueursByEquipeQuery = (
+  { readonly __typename?: 'Query' }
+  & { readonly joueursByEquipe: ReadonlyArray<(
+    { readonly __typename?: 'JoueurDto' }
+    & Pick<JoueurDto, 'id' | 'nom' | 'prenom' | 'poste' | 'nationalite' | 'dateNaissance' | 'taille' | 'poids'>
   )> }
 );
 
@@ -807,6 +863,28 @@ export const JoueursDocument = gql`
   })
   export class JoueursGQL extends Apollo.Query<JoueursQuery, JoueursQueryVariables> {
     document = JoueursDocument;
+
+  }
+export const JoueursByEquipeDocument = gql`
+    query joueursByEquipe($equipeId: Int!) {
+  joueursByEquipe(equipeId: $equipeId) {
+    id
+    nom
+    prenom
+    poste
+    nationalite
+    dateNaissance
+    taille
+    poids
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class JoueursByEquipeGQL extends Apollo.Query<JoueursByEquipeQuery, JoueursByEquipeQueryVariables> {
+    document = JoueursByEquipeDocument;
 
   }
 export const MatchDocument = gql`
