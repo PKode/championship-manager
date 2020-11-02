@@ -393,7 +393,14 @@ export type SaisonQuery = (
       & { readonly matchs: ReadonlyArray<(
         { readonly __typename?: 'MatchDto' }
         & Pick<MatchDto, 'butDomicile' | 'butExterieur' | 'date'>
-        & { readonly domicile: (
+        & { readonly joueurs: ReadonlyArray<(
+          { readonly __typename?: 'JoueurStatDto' }
+          & Pick<JoueurStatDto, 'nbButs' | 'nbPasses' | 'nbCartonsJaunes' | 'nbCartonsRouges'>
+          & { readonly joueur: (
+            { readonly __typename?: 'JoueurDto' }
+            & JoueurWithoutEquipeFragment
+          ) }
+        )>, readonly domicile: (
           { readonly __typename?: 'EquipeDto' }
           & Pick<EquipeDto, 'id' | 'nom'>
         ), readonly exterieur: (
@@ -477,6 +484,11 @@ export type EquipesOfChampionnatQuery = (
   )> }
 );
 
+export type JoueurWithoutEquipeFragment = (
+  { readonly __typename?: 'JoueurDto' }
+  & Pick<JoueurDto, 'id' | 'nom' | 'prenom' | 'poste' | 'nationalite' | 'dateNaissance' | 'taille' | 'poids'>
+);
+
 export type JoueurMutationVariables = {
   joueur: JoueurDtoInput;
 };
@@ -527,7 +539,7 @@ export type JoueursByEquipeQuery = (
   { readonly __typename?: 'Query' }
   & { readonly joueursByEquipe: ReadonlyArray<(
     { readonly __typename?: 'JoueurDto' }
-    & Pick<JoueurDto, 'id' | 'nom' | 'prenom' | 'poste' | 'nationalite' | 'dateNaissance' | 'taille' | 'poids'>
+    & JoueurWithoutEquipeFragment
   )> }
 );
 
@@ -551,6 +563,18 @@ export type MatchMutation = (
   ) }
 );
 
+export const JoueurWithoutEquipeFragmentDoc = gql`
+    fragment JoueurWithoutEquipe on JoueurDto {
+  id
+  nom
+  prenom
+  poste
+  nationalite
+  dateNaissance
+  taille
+  poids
+}
+    `;
 export const ChampionnatDocument = gql`
     mutation championnat($championnat: ChampionnatDtoInput!) {
   championnat(championnat: $championnat) {
@@ -693,6 +717,15 @@ export const SaisonDocument = gql`
         butDomicile
         butExterieur
         date
+        joueurs {
+          joueur {
+            ...JoueurWithoutEquipe
+          }
+          nbButs
+          nbPasses
+          nbCartonsJaunes
+          nbCartonsRouges
+        }
         domicile {
           id
           nom
@@ -705,7 +738,7 @@ export const SaisonDocument = gql`
     }
   }
 }
-    `;
+    ${JoueurWithoutEquipeFragmentDoc}`;
 
   @Injectable({
     providedIn: 'root'
@@ -868,17 +901,10 @@ export const JoueursDocument = gql`
 export const JoueursByEquipeDocument = gql`
     query joueursByEquipe($equipeId: Int!) {
   joueursByEquipe(equipeId: $equipeId) {
-    id
-    nom
-    prenom
-    poste
-    nationalite
-    dateNaissance
-    taille
-    poids
+    ...JoueurWithoutEquipe
   }
 }
-    `;
+    ${JoueurWithoutEquipeFragmentDoc}`;
 
   @Injectable({
     providedIn: 'root'

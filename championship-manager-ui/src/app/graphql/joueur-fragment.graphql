@@ -1,0 +1,11 @@
+# TODO: See how not send all information in certain case and not crash
+fragment JoueurWithoutEquipe on JoueurDto {
+  id
+  nom
+  prenom
+  poste
+  nationalite
+  dateNaissance
+  taille
+  poids
+}

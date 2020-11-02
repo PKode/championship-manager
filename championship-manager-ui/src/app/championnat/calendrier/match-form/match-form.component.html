@@ -24,7 +24,7 @@
     </div>
     <div class="row">
       <div class="col">
-        <mat-selection-list formControlName="selectedJoueursDomicile">
+        <mat-selection-list formControlName="selectedJoueursDomicile" [compareWith]="joueurEquals">
           <mat-list-option [value]="joueurDomicile"
             *ngFor="let joueurDomicile of joueursDomicile">{{joueurDomicile.prenom}} {{joueurDomicile.nom}}
           </mat-list-option>
@@ -32,7 +32,7 @@
       </div>
       <mat-divider [vertical]="true"></mat-divider>
       <div class="col">
-        <mat-selection-list formControlName="selectedJoueursExterieur">
+        <mat-selection-list formControlName="selectedJoueursExterieur" [compareWith]="joueurEquals">
           <mat-list-option [value]="joueurExterieur"
             *ngFor="let joueurExterieur of joueursExterieur">{{joueurExterieur.prenom}} {{joueurExterieur.nom}}
           </mat-list-option>

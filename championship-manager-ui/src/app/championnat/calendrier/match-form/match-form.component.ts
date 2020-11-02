@@ -27,9 +27,12 @@ export class MatchFormComponent implements OnInit {
                 private joueurService: JoueurService,
                 public dialogRef: MatDialogRef<MatchFormComponent>,
                 @Inject(MAT_DIALOG_DATA) public data: { match: MatchDto, championnatId: number, saison: number }) {
+        console.log(this.data.match.joueurs);
         this.matchForm.patchValue({
             butDomicile: this.data.match.butDomicile,
             butExterieur: this.data.match.butExterieur,
+            selectedJoueursDomicile: this.data.match.joueurs.map(js => js.joueur),
+            selectedJoueursExterieur:this.data.match.joueurs.map(js => js.joueur)
         });
     }
 
@@ -57,5 +60,9 @@ export class MatchFormComponent implements OnInit {
         matchUpdate.joueurs = joueurs;
         this.matchService.createOrUpdateMatch(matchUpdate, this.data.championnatId, this.data.saison);
         this.dialogRef.close();
+    }
+
+    joueurEquals(joueur1: JoueurDto, joueur2: JoueurDto) {
+        return joueur1.id == joueur2.id
     }
 }

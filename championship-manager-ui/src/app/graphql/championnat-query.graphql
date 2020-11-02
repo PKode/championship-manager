@@ -49,6 +49,15 @@ query saison($championnatId: Int!, $saison: Int!) {
           butDomicile
           butExterieur
           date
+          joueurs {
+            joueur {
+              ...JoueurWithoutEquipe
+            }
+            nbButs
+            nbPasses
+            nbCartonsJaunes
+            nbCartonsRouges
+          }
           domicile {
             id
             nom

@@ -32,6 +32,7 @@ class XdMatchRepository(private val xdStore: TransientEntityStore) : MatchReposi
     override fun saveOrUpdate(match: Match): Match {
         return xdStore.transactional {
             val joueurs = match.joueurs.map {
+                // TODO: find or new !!
                 XdJoueurStat.new {
                     this.joueur = XdJoueur.findFirstByMapped(XdJoueur::id eq it.joueur.id) { it }
                     this.nbButs = it.nbButs
@@ -56,6 +57,8 @@ class XdMatchRepository(private val xdStore: TransientEntityStore) : MatchReposi
                         it.date = match.date.toDateTime()
                         it.butDomicile = match.butDomicile
                         it.butExterieur = match.butExterieur
+                        // TODO: See intersect
+                        it.joueurs.clear()
                         it.joueurs.addAll(joueurs)
                         it
                     }) { it.toMatch() }
