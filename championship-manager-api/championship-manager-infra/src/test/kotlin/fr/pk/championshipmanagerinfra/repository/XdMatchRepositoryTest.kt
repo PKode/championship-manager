@@ -61,6 +61,7 @@ internal class XdMatchRepositoryTest : XdRepositoryTest() {
         println("Exodus removing environment")
     }
 
+    // TODO: add test to ensure that joueur are not added if already exist in match
     @Test
     fun `doit creer un match et mettre a jour le score d un match`() {
         val dateMatch = "30/04/2020".toLocalDate().atTime(20, 0)

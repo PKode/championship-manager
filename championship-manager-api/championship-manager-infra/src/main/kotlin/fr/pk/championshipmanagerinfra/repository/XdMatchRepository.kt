@@ -31,15 +31,24 @@ class XdMatchRepository(private val xdStore: TransientEntityStore) : MatchReposi
 
     override fun saveOrUpdate(match: Match): Match {
         return xdStore.transactional {
-            val joueurs = match.joueurs.map {
-                // TODO: find or new !!
-                XdJoueurStat.new {
-                    this.joueur = XdJoueur.findFirstByMapped(XdJoueur::id eq it.joueur.id) { it }
-                    this.nbButs = it.nbButs
-                    this.nbPasses = it.nbPasses
-                    this.nbCartonsJaunes = it.nbCartonsJaunes
-                    this.nbCartonsRouges = it.nbCartonsRouges
-                }
+            val joueurs = match.joueurs.distinctBy { it.joueur.id }.map {
+              // TODO: Move into its own repository ?
+                XdJoueurStat.saveOrUpdateAndMap(
+                        clause = { xdStat -> xdStat.joueur.id eq it.joueur.id },
+                        ifNew = { n ->
+                            n.joueur = XdJoueur.findFirstByMapped(XdJoueur::id eq it.joueur.id) { it }
+                            n.nbButs = it.nbButs
+                            n.nbPasses = it.nbPasses
+                            n.nbCartonsJaunes = it.nbCartonsJaunes
+                            n.nbCartonsRouges = it.nbCartonsRouges
+                        },
+                        ifUpdate = { u ->
+                            u.nbButs = it.nbButs
+                            u.nbPasses = it.nbPasses
+                            u.nbCartonsJaunes = it.nbCartonsJaunes
+                            u.nbCartonsRouges = it.nbCartonsRouges
+                            u
+                        }) { it }
             }
             XdMatch.saveOrUpdateAndMap(
                     clause = { xdMatch: XdMatch ->
@@ -57,7 +66,6 @@ class XdMatchRepository(private val xdStore: TransientEntityStore) : MatchReposi
                         it.date = match.date.toDateTime()
                         it.butDomicile = match.butDomicile
                         it.butExterieur = match.butExterieur
-                        // TODO: See intersect
                         it.joueurs.clear()
                         it.joueurs.addAll(joueurs)
                         it
