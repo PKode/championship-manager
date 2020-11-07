@@ -1,7 +1,10 @@
 package fr.pk.championshipmanagerapplication.mutation
 
 import fr.pk.championshipmanagerapplication.dto.*
-import fr.pk.championshipmanagerdomain.championnat.*
+import fr.pk.championshipmanagerdomain.championnat.Championnat
+import fr.pk.championshipmanagerdomain.championnat.Journee
+import fr.pk.championshipmanagerdomain.championnat.Match
+import fr.pk.championshipmanagerdomain.championnat.Saison
 import fr.pk.championshipmanagerdomain.championnat.port.ChampionnatService
 import fr.pk.championshipmanagerdomain.equipe.Equipe
 import org.assertj.core.api.Assertions.assertThat
@@ -90,8 +93,8 @@ internal class ChampionnatMutationTest {
                     Journee(
                             1,
                             listOf(
-                                    Match(Equipe(nom = "PSG"), Equipe(nom = "OM"), butDomicile = 5, butExterieur = 0),
-                                    Match(Equipe(nom = "OM"), Equipe(nom = "PSG"), butDomicile = 0, butExterieur = 3)
+                                    Match(1, Equipe(nom = "PSG"), Equipe(nom = "OM"), butDomicile = 5, butExterieur = 0),
+                                    Match(2, Equipe(nom = "OM"), Equipe(nom = "PSG"), butDomicile = 0, butExterieur = 3)
                             )
                     )
             )
@@ -102,8 +105,8 @@ internal class ChampionnatMutationTest {
                     JourneeDto(
                             1,
                             listOf(
-                                    MatchDto(EquipeDto(nom = "PSG"), EquipeDto(nom = "OM"), butDomicile = 5, butExterieur = 0),
-                                    MatchDto(EquipeDto(nom = "OM"), EquipeDto(nom = "PSG"), butDomicile = 0, butExterieur = 3)
+                                    MatchDto(1, EquipeDto(nom = "PSG"), EquipeDto(nom = "OM"), butDomicile = 5, butExterieur = 0),
+                                    MatchDto(2, EquipeDto(nom = "OM"), EquipeDto(nom = "PSG"), butDomicile = 0, butExterieur = 3)
                             )
                     )
             )

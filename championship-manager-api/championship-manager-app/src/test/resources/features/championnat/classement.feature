@@ -16,13 +16,13 @@ Feature: Classement
     When l'utilisateur génère le calendrier du championnat '$LAST_CHAMPIONNAT_ID' commençant le '01/09/2020'
     And l'utilisateur modifie les matchs suivants
       | domicile | butDomicile | butExterieur | exterieur | joueurs                         |
-      | PSG      | 3           | 0            | OM        |   /data/joueurs_match.json      |
+      | PSG      | 3           | 0            | OM        |                                 |
       | PSG      | 2           | 1            | OL        |                                 |
-      | PSG      | 4           | 2            | ASSE      |                                 |
+      | PSG      | 4           | 2            | ASSE      |  /data/joueurs_match.json       |
       | OM       | 1           | 3            | PSG       |                                 |
       | OM       | 2           | 2            | OL        |                                 |
       | OM       | 0           | 1            | ASSE      |                                 |
-      | OL       | 1           | 4            | PSG       |                                 |
+      | OL       | 1           | 4            | PSG       |  /data/joueurs_match.json       |
       | OL       | 1           | 1            | OM        |                                 |
       | OL       | 0           | 1            | ASSE      |                                 |
       | ASSE     | 0           | 3            | PSG       |                                 |

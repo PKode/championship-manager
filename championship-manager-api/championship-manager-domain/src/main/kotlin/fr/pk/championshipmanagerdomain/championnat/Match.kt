@@ -5,6 +5,7 @@ import fr.pk.championshipmanagerdomain.joueur.Joueur
 import java.time.LocalDateTime
 
 data class Match(
+        val id: Int? = null,
         val domicile: Equipe,
         val exterieur: Equipe,
         val butDomicile: Int? = null,

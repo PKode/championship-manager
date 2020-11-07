@@ -96,22 +96,19 @@ internal class XdChampionnatRepositoryTest : XdRepositoryTest() {
         val saison = saison(2020)
         val championnat = repository.saveNewSaison(1, saison)
 
-        assertThat(championnat.nom).isEqualTo("Ligue 1")
-        assertThat(championnat.saisons).isEqualTo(listOf(saison(2020)))
-
-        val matchs = repository.findMatchsBySaisonAndChampionnat(1, 2020)
+        val matchs = repository.findMatchsBySaisonAndChampionnat(championnat.id!!, 2020)
         val saisonGet = repository.getSaison(1, 2020)
 
         assertThat(matchs).size().isEqualTo(2)
-        assertThat(matchs).containsExactly(Match(PSG, OL), Match(OL, PSG))
-        assertThat(saisonGet).isEqualTo(saison)
+        assertThat(matchs).usingElementComparatorIgnoringFields("id").containsExactly(Match(1, PSG, OL), Match(2, OL, PSG))
+        assertThat(saisonGet.journees.size).isEqualTo(saison.journees.size)
     }
 
     private fun saison(annee: Int): Saison {
         return Saison(annee, listOf(
                 Journee(1, listOf(
-                        Match(PSG, OL),
-                        Match(OL, PSG)
+                        Match(domicile = PSG, exterieur = OL),
+                        Match(domicile = OL, exterieur = PSG)
                 ))
         ))
     }

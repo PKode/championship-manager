@@ -1,7 +1,6 @@
 package fr.pk.championshipmanagerdomain.championnat.port
 
 import fr.pk.championshipmanagerdomain.championnat.Match
-import java.time.LocalDateTime
 
 interface MatchRepository {
 
@@ -13,7 +12,7 @@ interface MatchRepository {
     /**
      * @return le match correspondant.
      */
-    fun findByEquipesIdsAndDate(idDomicile: Int, idExterieur: Int, date: LocalDateTime): Match
+    fun findById(matchId: Int): Match
 
     /**
      * Créer un nouveau match.

@@ -6,6 +6,7 @@ import fr.pk.championshipmanagerdomain.equipe.Equipe
 import java.time.LocalDateTime
 
 data class MatchDto(
+        val id: Int? = null,
         val domicile: EquipeDto,
         val exterieur: EquipeDto,
         val butDomicile: Int? = null,
@@ -13,11 +14,12 @@ data class MatchDto(
         val date: String = LocalDateTime.now().toFrDateString(),
         val joueurs: List<JoueurStatDto> = emptyList()
 ) {
-    constructor(match: Match) : this(EquipeDto(match.domicile), EquipeDto(match.exterieur), match.butDomicile, match.butExterieur, match.date.toFrDateString(), match.joueurs.map { JoueurStatDto(it) })
+    constructor(match: Match) : this(match.id, EquipeDto(match.domicile), EquipeDto(match.exterieur), match.butDomicile, match.butExterieur, match.date.toFrDateString(), match.joueurs.map { JoueurStatDto(it) })
 }
 
 fun MatchDto.toMatch(): Match {
     return Match(
+            id = this.id,
             domicile = Equipe(this.domicile.id, this.domicile.nom),
             exterieur = Equipe(this.exterieur.id, this.exterieur.nom),
             date = this.date.toLocalDateTime(),

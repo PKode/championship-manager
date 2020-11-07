@@ -13,6 +13,8 @@ import java.time.ZoneOffset
 class XdMatch(entity: Entity) : XdEntity(entity) {
     companion object : XdNaturalEntityType<XdMatch>()
 
+    var id by xdRequiredIntProp(unique = true)
+
     var domicile by xdLink1(XdEquipe)
 
     var exterieur by xdLink1(XdEquipe)
@@ -32,7 +34,7 @@ class XdMatch(entity: Entity) : XdEntity(entity) {
     val joueurs by xdLink0_N(XdJoueurStat)
 
     fun toMatch(): Match {
-        return Match(this.domicile.toEquipeWithoutChampionnat(), this.exterieur.toEquipeWithoutChampionnat(), this.butDomicile, this.butExterieur,
+        return Match(this.id, this.domicile.toEquipeWithoutChampionnat(), this.exterieur.toEquipeWithoutChampionnat(), this.butDomicile, this.butExterieur,
                 LocalDateTime.ofEpochSecond(this.date.millis, 0, ZoneOffset.UTC), joueurs.toJoueursStat())
     }
 }

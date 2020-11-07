@@ -58,6 +58,7 @@ class XdChampionnatRepository(private val xdStore: TransientEntityStore) : Champ
             val matchs = saison.journees.flatMap { j ->
                 j.matchs.map { match ->
                     XdMatch.new {
+                        this.id = Random().nextInt()
                         this.championnatId = championnatId
                         this.domicile = XdEquipe.findFirstByMapped(XdEquipe::id eq match.domicile.id) { it }
                         this.exterieur = XdEquipe.findFirstByMapped(XdEquipe::id eq match.exterieur.id) { it }

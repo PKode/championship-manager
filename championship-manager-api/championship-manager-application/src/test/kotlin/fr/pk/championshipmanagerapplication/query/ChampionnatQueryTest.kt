@@ -88,8 +88,8 @@ internal class ChampionnatQueryTest {
         return listOf(ChampionnatDto(1, "Ligue 1", listOf(
                 SaisonDto(2020, listOf(
                         JourneeDto(1, listOf(
-                                MatchDto(EquipeDto(PSG), EquipeDto(OL), date = NOW.toFrDateString()),
-                                MatchDto(EquipeDto(OL), EquipeDto(PSG), date = NOW.toFrDateString())
+                                MatchDto(1, EquipeDto(PSG), EquipeDto(OL), date = NOW.toFrDateString()),
+                                MatchDto(2, EquipeDto(OL), EquipeDto(PSG), date = NOW.toFrDateString())
                         ))
                 ))
         )), ChampionnatDto(2, "Ligue 2"))
@@ -100,8 +100,8 @@ internal class ChampionnatQueryTest {
                 Championnat(1, "Ligue 1", listOf(
                         Saison(2020, listOf(
                                 Journee(1, listOf(
-                                        Match(PSG, OL, date = NOW),
-                                        Match(OL, PSG, date = NOW)
+                                        Match(1, PSG, OL, date = NOW),
+                                        Match(2, OL, PSG, date = NOW)
                                 ))
                         ))
                 )),

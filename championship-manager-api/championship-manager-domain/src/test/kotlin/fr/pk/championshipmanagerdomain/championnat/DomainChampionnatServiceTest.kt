@@ -108,29 +108,29 @@ internal class DomainChampionnatServiceTest {
         return Championnat(id = 1, nom = "Ligue 1", saisons = listOf(
                 Saison(2020, journees = listOf(
                         Journee(1, matchs = listOf(
-                                Match(PSG, OM, 3, 0, joueurs = listOf(JoueurStat(RONALDO, nbButs = 3), JoueurStat(MESSI, nbPasses = 2), JoueurStat(RAMOS))),
-                                Match(OL, ASSE, 1, 1)
+                                Match(1, PSG, OM, 3, 0, joueurs = listOf(JoueurStat(RONALDO, nbButs = 3), JoueurStat(MESSI, nbPasses = 2), JoueurStat(RAMOS))),
+                                Match(2, OL, ASSE, 1, 1)
                         )),
                         Journee(2, matchs = listOf(
-                                Match(PSG, OL, 4, 1,
+                                Match(3, PSG, OL, 4, 1,
                                         joueurs = listOf(JoueurStat(RONALDO, nbButs = 3, nbPasses = 1), JoueurStat(MESSI, nbPasses = 3, nbButs = 1), JoueurStat(RAMOS, nbCartonsJaunes = 1))),
-                                Match(OM, ASSE, 1, 3)
+                                Match(4, OM, ASSE, 1, 3)
                         )),
                         Journee(3, matchs = listOf(
-                                Match(ASSE, PSG, 2, 3),
-                                Match(OL, OM, 2, 2)
+                                Match(5, ASSE, PSG, 2, 3),
+                                Match(6, OL, OM, 2, 2)
                         )),
                         Journee(4, matchs = listOf(
-                                Match(OM, PSG, 0, 5),
-                                Match(ASSE, OL, 0, 0)
+                                Match(7, OM, PSG, 0, 5),
+                                Match(8, ASSE, OL, 0, 0)
                         )),
                         Journee(5, matchs = listOf(
-                                Match(OL, PSG, 2, 2),
-                                Match(ASSE, OM, 1, 1)
+                                Match(9, OL, PSG, 2, 2),
+                                Match(10, ASSE, OM, 1, 1)
                         )),
                         Journee(6, matchs = listOf(
-                                Match(PSG, ASSE, 1, 0),
-                                Match(OM, OL, 3, 3)
+                                Match(11, PSG, ASSE, 1, 0),
+                                Match(12, OM, OL, 3, 3)
                         ))
                 ))
         ))
