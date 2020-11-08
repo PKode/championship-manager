@@ -19,7 +19,7 @@ export class ClassementComponent implements OnInit {
   dataSource: ClassementDataSource;
 
   /** Columns displayed in the table. Columns IDs can be added, removed, or reordered. */
-  displayedColumns = ['equipe', 'pts', 'J.', 'G.', 'N.', 'P.', 'p.', 'c.', 'diff.'];
+  displayedColumns = ['place', 'equipe', 'pts', 'J.', 'G.', 'N.', 'P.', 'p.', 'c.', 'diff.'];
 
   constructor(private championnatService: ChampionnatService,
               private route: ActivatedRoute) {
