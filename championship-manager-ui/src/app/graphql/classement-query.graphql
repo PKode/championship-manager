@@ -1,6 +1,7 @@
 query classement($championnatId: Int!, $saison: Int!) {
   classement(championnatId: $championnatId, saison: $saison) {
     equipe {
+      id
       nom
     }
     v

@@ -46,6 +46,7 @@ query saison($championnatId: Int!, $saison: Int!) {
       annee
       journees {
         matchs {
+          id
           butDomicile
           butExterieur
           date

@@ -15,6 +15,7 @@ import kotlinx.dnq.query.and
 import kotlinx.dnq.query.eq
 import kotlinx.dnq.query.query
 import org.springframework.stereotype.Component
+import java.security.SecureRandom
 
 @Component
 class XdChampionnatRepository(private val xdStore: TransientEntityStore) : ChampionnatRepository {
@@ -58,7 +59,8 @@ class XdChampionnatRepository(private val xdStore: TransientEntityStore) : Champ
             val matchs = saison.journees.flatMap { j ->
                 j.matchs.map { match ->
                     XdMatch.new {
-                        this.id = Random().nextInt()
+                        // TODO: Find better way to deal with id in all app
+                        this.id = SecureRandom().nextInt()
                         this.championnatId = championnatId
                         this.domicile = XdEquipe.findFirstByMapped(XdEquipe::id eq match.domicile.id) { it }
                         this.exterieur = XdEquipe.findFirstByMapped(XdEquipe::id eq match.exterieur.id) { it }
@@ -97,4 +99,3 @@ class XdChampionnatRepository(private val xdStore: TransientEntityStore) : Champ
         }
     }
 }
-

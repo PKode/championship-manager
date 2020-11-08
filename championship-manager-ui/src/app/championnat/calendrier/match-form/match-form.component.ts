@@ -27,20 +27,31 @@ export class MatchFormComponent implements OnInit {
                 private joueurService: JoueurService,
                 public dialogRef: MatDialogRef<MatchFormComponent>,
                 @Inject(MAT_DIALOG_DATA) public data: { match: MatchDto, championnatId: number, saison: number }) {
-        console.log(this.data.match.joueurs);
         this.matchForm.patchValue({
             butDomicile: this.data.match.butDomicile,
-            butExterieur: this.data.match.butExterieur,
-            selectedJoueursDomicile: this.data.match.joueurs.map(js => js.joueur),
-            selectedJoueursExterieur:this.data.match.joueurs.map(js => js.joueur)
+            butExterieur: this.data.match.butExterieur
         });
     }
 
     ngOnInit() {
         this.joueurService.getAllJoueursByEquipe(this.data.match.domicile.id)
-            .subscribe(joueurs => this.joueursDomicile = joueurs.map(j => j as JoueurDto));
+            .subscribe(joueurs => {
+                this.joueursDomicile = joueurs.map(j => j as JoueurDto)
+                this.matchForm.patchValue({
+                    selectedJoueursDomicile: this.data.match.joueurs.map(js => {
+                        return this.joueursDomicile.find(f => this.joueurEquals(f, js.joueur)) ? js.joueur : null;
+                    }).filter(j => j != null)
+                });
+            });
         this.joueurService.getAllJoueursByEquipe(this.data.match.exterieur.id)
-            .subscribe(joueurs => this.joueursExterieur = joueurs.map(j => j as JoueurDto));
+            .subscribe(joueurs => {
+                this.joueursExterieur = joueurs.map(j => j as JoueurDto)
+                this.matchForm.patchValue({
+                    selectedJoueursExterieur: this.data.match.joueurs.map(js => {
+                        return this.joueursExterieur.find(f => this.joueurEquals(f, js.joueur)) ? js.joueur : null;
+                    }).filter(j => j != null)
+                });
+            });
     }
 
     onSubmit() {

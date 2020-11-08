@@ -1,10 +1,13 @@
 mutation match($match: MatchDtoInput!){
   match(match: $match) {
+    id
     date
     domicile {
+      id
       nom
     }
     exterieur {
+      id
       nom
     }
     butDomicile

@@ -18,6 +18,7 @@ mutation calendrier($championnatId: Int!, $dateDebut: String!) {
     journees {
       numero
       matchs {
+        id
         domicile {
           id
           nom

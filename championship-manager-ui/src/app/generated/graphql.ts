@@ -124,6 +124,7 @@ export type MatchDto = {
   readonly date: Scalars['String'];
   readonly domicile: EquipeDto;
   readonly exterieur: EquipeDto;
+  readonly id: Maybe<Scalars['Int']>;
   readonly joueurs: ReadonlyArray<JoueurStatDto>;
 };
 
@@ -133,6 +134,7 @@ export type MatchDtoInput = {
   readonly date: Scalars['String'];
   readonly domicile: EquipeDtoInput;
   readonly exterieur: EquipeDtoInput;
+  readonly id: Maybe<Scalars['Int']>;
   readonly joueurs: ReadonlyArray<JoueurStatDtoInput>;
 };
 
@@ -302,7 +304,7 @@ export type CalendrierMutation = (
       & Pick<JourneeDto, 'numero'>
       & { readonly matchs: ReadonlyArray<(
         { readonly __typename?: 'MatchDto' }
-        & Pick<MatchDto, 'butDomicile' | 'butExterieur' | 'date'>
+        & Pick<MatchDto, 'id' | 'butDomicile' | 'butExterieur' | 'date'>
         & { readonly domicile: (
           { readonly __typename?: 'EquipeDto' }
           & Pick<EquipeDto, 'id' | 'nom'>
@@ -392,7 +394,7 @@ export type SaisonQuery = (
       { readonly __typename?: 'JourneeDto' }
       & { readonly matchs: ReadonlyArray<(
         { readonly __typename?: 'MatchDto' }
-        & Pick<MatchDto, 'butDomicile' | 'butExterieur' | 'date'>
+        & Pick<MatchDto, 'id' | 'butDomicile' | 'butExterieur' | 'date'>
         & { readonly joueurs: ReadonlyArray<(
           { readonly __typename?: 'JoueurStatDto' }
           & Pick<JoueurStatDto, 'nbButs' | 'nbPasses' | 'nbCartonsJaunes' | 'nbCartonsRouges'>
@@ -425,7 +427,7 @@ export type ClassementQuery = (
     & Pick<ClassementDto, 'v' | 'n' | 'd' | 'bp' | 'bc' | 'mj' | 'pts' | 'diff'>
     & { readonly equipe: (
       { readonly __typename?: 'EquipeDto' }
-      & Pick<EquipeDto, 'nom'>
+      & Pick<EquipeDto, 'id' | 'nom'>
     ) }
   )> }
 );
@@ -552,13 +554,13 @@ export type MatchMutation = (
   { readonly __typename?: 'Mutation' }
   & { readonly match: (
     { readonly __typename?: 'MatchDto' }
-    & Pick<MatchDto, 'date' | 'butDomicile' | 'butExterieur'>
+    & Pick<MatchDto, 'id' | 'date' | 'butDomicile' | 'butExterieur'>
     & { readonly domicile: (
       { readonly __typename?: 'EquipeDto' }
-      & Pick<EquipeDto, 'nom'>
+      & Pick<EquipeDto, 'id' | 'nom'>
     ), readonly exterieur: (
       { readonly __typename?: 'EquipeDto' }
-      & Pick<EquipeDto, 'nom'>
+      & Pick<EquipeDto, 'id' | 'nom'>
     ) }
   ) }
 );
@@ -614,6 +616,7 @@ export const CalendrierDocument = gql`
     journees {
       numero
       matchs {
+        id
         domicile {
           id
           nom
@@ -714,6 +717,7 @@ export const SaisonDocument = gql`
     annee
     journees {
       matchs {
+        id
         butDomicile
         butExterieur
         date
@@ -751,6 +755,7 @@ export const ClassementDocument = gql`
     query classement($championnatId: Int!, $saison: Int!) {
   classement(championnatId: $championnatId, saison: $saison) {
     equipe {
+      id
       nom
     }
     v
@@ -916,11 +921,14 @@ export const JoueursByEquipeDocument = gql`
 export const MatchDocument = gql`
     mutation match($match: MatchDtoInput!) {
   match(match: $match) {
+    id
     date
     domicile {
+      id
       nom
     }
     exterieur {
+      id
       nom
     }
     butDomicile
