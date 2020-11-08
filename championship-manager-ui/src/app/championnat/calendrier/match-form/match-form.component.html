@@ -24,19 +24,29 @@
     </div>
     <div class="row">
       <div class="col">
-        <mat-selection-list formControlName="selectedJoueursDomicile" [compareWith]="joueurEquals">
+        <mat-selection-list formControlName="selectedJoueursDomicile" [compareWith]="joueurStatEquals">
           <mat-list-option [value]="joueurDomicile"
                            *ngFor="let joueurDomicile of joueursDomicile">
-            {{joueurDomicile.prenom}} {{joueurDomicile.nom}}
-            <span><mat-icon>sports_soccer</mat-icon></span>
+            {{joueurDomicile.joueur.prenom}} {{joueurDomicile.joueur.nom}}
+            <span>
+              {{joueurDomicile.nbButs}}
+              <mat-icon (click)="incrementButs(joueurDomicile, 'dom')">sports_soccer</mat-icon>
+              {{joueurDomicile.nbPasses}}
+              <mat-icon (click)="incrementPasses(joueurDomicile, 'dom')">person_search</mat-icon>
+              {{joueurDomicile.nbCartonsJaunes}}
+              <mat-icon style="color: gold" (click)="incrementCartonsJaunes(joueurDomicile)">crop_portrait</mat-icon>
+              {{joueurDomicile.nbCartonsRouges}}
+              <mat-icon style="color: red" (click)="incrementCartonsRouges(joueurDomicile)">crop_portrait</mat-icon>
+            </span>
           </mat-list-option>
         </mat-selection-list>
       </div>
       <mat-divider [vertical]="true"></mat-divider>
       <div class="col">
-        <mat-selection-list formControlName="selectedJoueursExterieur" [compareWith]="joueurEquals">
+        <mat-selection-list formControlName="selectedJoueursExterieur" [compareWith]="joueurStatEquals">
           <mat-list-option [value]="joueurExterieur"
-                           *ngFor="let joueurExterieur of joueursExterieur">{{joueurExterieur.prenom}} {{joueurExterieur.nom}}
+                           *ngFor="let joueurExterieur of joueursExterieur">
+            {{joueurExterieur.joueur.prenom}} {{joueurExterieur.joueur.nom}}
           </mat-list-option>
         </mat-selection-list>
       </div>

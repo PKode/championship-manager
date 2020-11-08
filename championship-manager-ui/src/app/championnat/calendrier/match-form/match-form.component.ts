@@ -19,8 +19,8 @@ export class MatchFormComponent implements OnInit {
     });
 
     championnatId: number;
-    joueursDomicile: JoueurDto[];
-    joueursExterieur: JoueurDto[];
+    joueursDomicile: JoueurStatDto[];
+    joueursExterieur: JoueurStatDto[];
 
     constructor(private fb: FormBuilder,
                 private matchService: MatchService,
@@ -36,44 +36,74 @@ export class MatchFormComponent implements OnInit {
     ngOnInit() {
         this.joueurService.getAllJoueursByEquipe(this.data.match.domicile.id)
             .subscribe(joueurs => {
-                this.joueursDomicile = joueurs.map(j => j as JoueurDto)
+                this.joueursDomicile = this.data.match.joueurs
+                joueurs.forEach(j => {
+                    if (this.joueursDomicile.find(it => this.joueurStatEquals(this.toJoueurStat(j), it)) === undefined)
+                        this.joueursDomicile.push(this.toJoueurStat(j))
+                });
                 this.matchForm.patchValue({
-                    selectedJoueursDomicile: this.data.match.joueurs.map(js => {
-                        return this.joueursDomicile.find(f => this.joueurEquals(f, js.joueur)) ? js.joueur : null;
-                    }).filter(j => j != null)
+                    selectedJoueursDomicile: this.data.match.joueurs.filter(j =>
+                        this.joueursDomicile.find(it => this.joueurStatEquals(j, it))
+                    )
                 });
             });
         this.joueurService.getAllJoueursByEquipe(this.data.match.exterieur.id)
             .subscribe(joueurs => {
-                this.joueursExterieur = joueurs.map(j => j as JoueurDto)
+                this.joueursExterieur = joueurs.map(j => this.toJoueurStat(j as JoueurDto))
                 this.matchForm.patchValue({
-                    selectedJoueursExterieur: this.data.match.joueurs.map(js => {
-                        return this.joueursExterieur.find(f => this.joueurEquals(f, js.joueur)) ? js.joueur : null;
-                    }).filter(j => j != null)
+                    selectedJoueursExterieur: this.data.match.joueurs.filter(j =>
+                        this.joueursExterieur.find(it => this.joueurStatEquals(j, it))
+                    )
                 });
             });
     }
 
     onSubmit() {
-        let joueurs = this.matchForm.value.selectedJoueursDomicile.concat(this.matchForm.value.selectedJoueursExterieur)
-            .map(j => {
-                return {
-                    joueur: j,
-                    nbButs: 0,
-                    nbPasses: 0,
-                    nbCartonsJaunes: 0,
-                    nbCartonsRouges: 0
-                } as JoueurStatDto;
-            });
-        const matchUpdate = JSON.parse(JSON.stringify(this.data.match));
-        matchUpdate.butDomicile = this.matchForm.value.butDomicile;
-        matchUpdate.butExterieur = this.matchForm.value.butExterieur;
-        matchUpdate.joueurs = joueurs;
-        this.matchService.createOrUpdateMatch(matchUpdate, this.data.championnatId, this.data.saison);
+        let joueurs = this.matchForm.value.selectedJoueursDomicile.concat(this.matchForm.value.selectedJoueursExterieur);
+        this.data.match.butDomicile = this.matchForm.value.butDomicile;
+        this.data.match.butExterieur = this.matchForm.value.butExterieur;
+        this.data.match.joueurs = joueurs;
+        this.matchService.createOrUpdateMatch(this.data.match, this.data.championnatId, this.data.saison);
         this.dialogRef.close();
     }
 
-    joueurEquals(joueur1: JoueurDto, joueur2: JoueurDto) {
-        return joueur1.id == joueur2.id
+    joueurStatEquals(joueur1: JoueurStatDto, joueur2: JoueurStatDto) {
+        return joueur1.joueur.id == joueur2.joueur.id;
+    }
+
+    toJoueurStat(joueur: JoueurDto): JoueurStatDto {
+        return {
+            joueur: joueur,
+            nbButs: 0,
+            nbPasses: 0,
+            nbCartonsJaunes: 0,
+            nbCartonsRouges: 0
+        }
+    }
+
+    // TODO: limit buts et passes to total number among all joueurs
+    incrementButs(joueur: JoueurStatDto, camp: string) {
+        if (camp == 'dom' && joueur.nbButs < this.matchForm.value.butDomicile)
+            joueur.nbButs++;
+        if (camp == 'ext' && joueur.nbButs < this.matchForm.value.butExterieur)
+            joueur.nbButs++;
+    }
+
+    incrementPasses(joueur: JoueurStatDto, camp: string) {
+        if (camp == 'dom' && joueur.nbPasses < this.matchForm.value.butDomicile)
+            joueur.nbPasses++;
+        if (camp == 'ext' && joueur.nbPasses < this.matchForm.value.butExterieur)
+            joueur.nbPasses++;
+    }
+
+    incrementCartonsJaunes(joueur: JoueurStatDto) {
+        if (joueur.nbCartonsJaunes < 2)
+            joueur.nbCartonsJaunes++;
+        if (joueur.nbCartonsJaunes == 2) joueur.nbCartonsRouges = 1
+    }
+
+    incrementCartonsRouges(joueur: JoueurStatDto) {
+        if (joueur.nbCartonsRouges < 1)
+            joueur.nbCartonsRouges++;
     }
 }

@@ -15,139 +15,130 @@ export type Scalars = {
 
 
 export type ChampionnatDto = {
-  readonly __typename?: 'ChampionnatDto';
-  readonly id: Maybe<Scalars['Int']>;
-  readonly nom: Scalars['String'];
-  readonly saisons: Maybe<ReadonlyArray<SaisonDto>>;
+  id: Maybe<Scalars['Int']>;
+  nom: Scalars['String'];
+  saisons: Maybe<Array<SaisonDto>>;
 };
 
 export type ChampionnatDtoInput = {
-  readonly id: Maybe<Scalars['Int']>;
-  readonly nom: Scalars['String'];
-  readonly saisons: Maybe<ReadonlyArray<SaisonDtoInput>>;
+  id: Maybe<Scalars['Int']>;
+  nom: Scalars['String'];
+  saisons: Maybe<Array<SaisonDtoInput>>;
 };
 
 export type ClassementDto = {
-  readonly __typename?: 'ClassementDto';
-  readonly bc: Scalars['Int'];
-  readonly bp: Scalars['Int'];
-  readonly d: Scalars['Int'];
-  readonly diff: Scalars['Int'];
-  readonly equipe: EquipeDto;
-  readonly mj: Scalars['Int'];
-  readonly n: Scalars['Int'];
-  readonly pts: Scalars['Int'];
-  readonly v: Scalars['Int'];
+  bc: Scalars['Int'];
+  bp: Scalars['Int'];
+  d: Scalars['Int'];
+  diff: Scalars['Int'];
+  equipe: EquipeDto;
+  mj: Scalars['Int'];
+  n: Scalars['Int'];
+  pts: Scalars['Int'];
+  v: Scalars['Int'];
 };
 
 export type ClassementJoueurDto = {
-  readonly __typename?: 'ClassementJoueurDto';
-  readonly joueur: JoueurDto;
-  readonly nbButs: Scalars['Int'];
-  readonly nbCartonsJaunes: Scalars['Int'];
-  readonly nbCartonsRouges: Scalars['Int'];
-  readonly nbMatchs: Scalars['Int'];
-  readonly nbPasses: Scalars['Int'];
-  readonly ratioBut: Scalars['Float'];
+  joueur: JoueurDto;
+  nbButs: Scalars['Int'];
+  nbCartonsJaunes: Scalars['Int'];
+  nbCartonsRouges: Scalars['Int'];
+  nbMatchs: Scalars['Int'];
+  nbPasses: Scalars['Int'];
+  ratioBut: Scalars['Float'];
 };
 
 export type EquipeDto = {
-  readonly __typename?: 'EquipeDto';
-  readonly championnat: Maybe<ChampionnatDto>;
-  readonly id: Maybe<Scalars['Int']>;
-  readonly nom: Scalars['String'];
+  championnat: Maybe<ChampionnatDto>;
+  id: Maybe<Scalars['Int']>;
+  nom: Scalars['String'];
 };
 
 export type EquipeDtoInput = {
-  readonly championnat: Maybe<ChampionnatDtoInput>;
-  readonly id: Maybe<Scalars['Int']>;
-  readonly nom: Scalars['String'];
+  championnat: Maybe<ChampionnatDtoInput>;
+  id: Maybe<Scalars['Int']>;
+  nom: Scalars['String'];
 };
 
 export type JoueurDto = {
-  readonly __typename?: 'JoueurDto';
-  readonly dateNaissance: Scalars['String'];
-  readonly equipe: Maybe<EquipeDto>;
-  readonly id: Maybe<Scalars['Int']>;
-  readonly nationalite: Scalars['String'];
-  readonly nom: Scalars['String'];
-  readonly poids: Scalars['Int'];
-  readonly poste: Scalars['String'];
-  readonly prenom: Scalars['String'];
-  readonly taille: Scalars['Int'];
+  dateNaissance: Scalars['String'];
+  equipe: Maybe<EquipeDto>;
+  id: Maybe<Scalars['Int']>;
+  nationalite: Scalars['String'];
+  nom: Scalars['String'];
+  poids: Scalars['Int'];
+  poste: Scalars['String'];
+  prenom: Scalars['String'];
+  taille: Scalars['Int'];
 };
 
 export type JoueurDtoInput = {
-  readonly dateNaissance: Scalars['String'];
-  readonly equipe: Maybe<EquipeDtoInput>;
-  readonly id: Maybe<Scalars['Int']>;
-  readonly nationalite: Scalars['String'];
-  readonly nom: Scalars['String'];
-  readonly poids: Scalars['Int'];
-  readonly poste: Scalars['String'];
-  readonly prenom: Scalars['String'];
-  readonly taille: Scalars['Int'];
+  dateNaissance: Scalars['String'];
+  equipe: Maybe<EquipeDtoInput>;
+  id: Maybe<Scalars['Int']>;
+  nationalite: Scalars['String'];
+  nom: Scalars['String'];
+  poids: Scalars['Int'];
+  poste: Scalars['String'];
+  prenom: Scalars['String'];
+  taille: Scalars['Int'];
 };
 
 export type JoueurStatDto = {
-  readonly __typename?: 'JoueurStatDto';
-  readonly joueur: JoueurDto;
-  readonly nbButs: Scalars['Int'];
-  readonly nbCartonsJaunes: Scalars['Int'];
-  readonly nbCartonsRouges: Scalars['Int'];
-  readonly nbPasses: Scalars['Int'];
+  joueur: JoueurDto;
+  nbButs: Scalars['Int'];
+  nbCartonsJaunes: Scalars['Int'];
+  nbCartonsRouges: Scalars['Int'];
+  nbPasses: Scalars['Int'];
 };
 
 export type JoueurStatDtoInput = {
-  readonly joueur: JoueurDtoInput;
-  readonly nbButs: Scalars['Int'];
-  readonly nbCartonsJaunes: Scalars['Int'];
-  readonly nbCartonsRouges: Scalars['Int'];
-  readonly nbPasses: Scalars['Int'];
+  joueur: JoueurDtoInput;
+  nbButs: Scalars['Int'];
+  nbCartonsJaunes: Scalars['Int'];
+  nbCartonsRouges: Scalars['Int'];
+  nbPasses: Scalars['Int'];
 };
 
 export type JourneeDto = {
-  readonly __typename?: 'JourneeDto';
-  readonly matchs: ReadonlyArray<MatchDto>;
-  readonly numero: Scalars['Int'];
+  matchs: Array<MatchDto>;
+  numero: Scalars['Int'];
 };
 
 export type JourneeDtoInput = {
-  readonly matchs: ReadonlyArray<MatchDtoInput>;
-  readonly numero: Scalars['Int'];
+  matchs: Array<MatchDtoInput>;
+  numero: Scalars['Int'];
 };
 
 export type MatchDto = {
-  readonly __typename?: 'MatchDto';
-  readonly butDomicile: Maybe<Scalars['Int']>;
-  readonly butExterieur: Maybe<Scalars['Int']>;
-  readonly date: Scalars['String'];
-  readonly domicile: EquipeDto;
-  readonly exterieur: EquipeDto;
-  readonly id: Maybe<Scalars['Int']>;
-  readonly joueurs: ReadonlyArray<JoueurStatDto>;
+  butDomicile: Maybe<Scalars['Int']>;
+  butExterieur: Maybe<Scalars['Int']>;
+  date: Scalars['String'];
+  domicile: EquipeDto;
+  exterieur: EquipeDto;
+  id: Maybe<Scalars['Int']>;
+  joueurs: Array<JoueurStatDto>;
 };
 
 export type MatchDtoInput = {
-  readonly butDomicile: Maybe<Scalars['Int']>;
-  readonly butExterieur: Maybe<Scalars['Int']>;
-  readonly date: Scalars['String'];
-  readonly domicile: EquipeDtoInput;
-  readonly exterieur: EquipeDtoInput;
-  readonly id: Maybe<Scalars['Int']>;
-  readonly joueurs: ReadonlyArray<JoueurStatDtoInput>;
+  butDomicile: Maybe<Scalars['Int']>;
+  butExterieur: Maybe<Scalars['Int']>;
+  date: Scalars['String'];
+  domicile: EquipeDtoInput;
+  exterieur: EquipeDtoInput;
+  id: Maybe<Scalars['Int']>;
+  joueurs: Array<JoueurStatDtoInput>;
 };
 
 export type Mutation = {
-  readonly __typename?: 'Mutation';
-  readonly calendrier: SaisonDto;
-  readonly championnat: ChampionnatDto;
-  readonly deleteChampionnat: ChampionnatDto;
-  readonly deleteEquipe: EquipeDto;
-  readonly equipe: EquipeDto;
-  readonly deleteJoueur: JoueurDto;
-  readonly joueur: JoueurDto;
-  readonly match: MatchDto;
+  calendrier: SaisonDto;
+  championnat: ChampionnatDto;
+  deleteChampionnat: ChampionnatDto;
+  deleteEquipe: EquipeDto;
+  equipe: EquipeDto;
+  deleteJoueur: JoueurDto;
+  joueur: JoueurDto;
+  match: MatchDto;
 };
 
 
@@ -192,18 +183,17 @@ export type MutationMatchArgs = {
 };
 
 export type Query = {
-  readonly __typename?: 'Query';
-  readonly championnat: ChampionnatDto;
-  readonly championnats: ReadonlyArray<ChampionnatDto>;
-  readonly classement: ReadonlyArray<ClassementDto>;
-  readonly classementJoueur: ReadonlyArray<ClassementJoueurDto>;
-  readonly saison: SaisonDto;
-  readonly equipe: EquipeDto;
-  readonly equipes: ReadonlyArray<EquipeDto>;
-  readonly equipesOfChampionnat: ReadonlyArray<EquipeDto>;
-  readonly joueur: JoueurDto;
-  readonly joueurs: ReadonlyArray<JoueurDto>;
-  readonly joueursByEquipe: ReadonlyArray<JoueurDto>;
+  championnat: ChampionnatDto;
+  championnats: Array<ChampionnatDto>;
+  classement: Array<ClassementDto>;
+  classementJoueur: Array<ClassementJoueurDto>;
+  saison: SaisonDto;
+  equipe: EquipeDto;
+  equipes: Array<EquipeDto>;
+  equipesOfChampionnat: Array<EquipeDto>;
+  joueur: JoueurDto;
+  joueurs: Array<JoueurDto>;
+  joueursByEquipe: Array<JoueurDto>;
 };
 
 
@@ -250,16 +240,15 @@ export type QueryJoueursByEquipeArgs = {
 };
 
 export type SaisonDto = {
-  readonly __typename?: 'SaisonDto';
-  readonly annee: Scalars['Int'];
-  readonly journees: ReadonlyArray<JourneeDto>;
-  readonly matchs: ReadonlyArray<MatchDto>;
+  annee: Scalars['Int'];
+  journees: Array<JourneeDto>;
+  matchs: Array<MatchDto>;
 };
 
 export type SaisonDtoInput = {
-  readonly annee: Scalars['Int'];
-  readonly journees: ReadonlyArray<JourneeDtoInput>;
-  readonly matchs: ReadonlyArray<MatchDtoInput>;
+  annee: Scalars['Int'];
+  journees: Array<JourneeDtoInput>;
+  matchs: Array<MatchDtoInput>;
 };
 
 export type ChampionnatMutationVariables = {
@@ -267,26 +256,14 @@ export type ChampionnatMutationVariables = {
 };
 
 
-export type ChampionnatMutation = (
-  { readonly __typename?: 'Mutation' }
-  & { readonly championnat: (
-    { readonly __typename?: 'ChampionnatDto' }
-    & Pick<ChampionnatDto, 'id' | 'nom'>
-  ) }
-);
+export type ChampionnatMutation = { championnat: Pick<ChampionnatDto, 'id' | 'nom'> };
 
 export type DeleteChampionnatMutationVariables = {
   id: Scalars['Int'];
 };
 
 
-export type DeleteChampionnatMutation = (
-  { readonly __typename?: 'Mutation' }
-  & { readonly deleteChampionnat: (
-    { readonly __typename?: 'ChampionnatDto' }
-    & Pick<ChampionnatDto, 'id' | 'nom'>
-  ) }
-);
+export type DeleteChampionnatMutation = { deleteChampionnat: Pick<ChampionnatDto, 'id' | 'nom'> };
 
 export type CalendrierMutationVariables = {
   championnatId: Scalars['Int'];
@@ -294,90 +271,47 @@ export type CalendrierMutationVariables = {
 };
 
 
-export type CalendrierMutation = (
-  { readonly __typename?: 'Mutation' }
-  & { readonly calendrier: (
-    { readonly __typename?: 'SaisonDto' }
-    & Pick<SaisonDto, 'annee'>
-    & { readonly journees: ReadonlyArray<(
-      { readonly __typename?: 'JourneeDto' }
-      & Pick<JourneeDto, 'numero'>
-      & { readonly matchs: ReadonlyArray<(
-        { readonly __typename?: 'MatchDto' }
-        & Pick<MatchDto, 'id' | 'butDomicile' | 'butExterieur' | 'date'>
-        & { readonly domicile: (
-          { readonly __typename?: 'EquipeDto' }
-          & Pick<EquipeDto, 'id' | 'nom'>
-        ), readonly exterieur: (
-          { readonly __typename?: 'EquipeDto' }
-          & Pick<EquipeDto, 'id' | 'nom'>
-        ) }
+export type CalendrierMutation = { calendrier: (
+    Pick<SaisonDto, 'annee'>
+    & { journees: Array<(
+      Pick<JourneeDto, 'numero'>
+      & { matchs: Array<(
+        Pick<MatchDto, 'id' | 'butDomicile' | 'butExterieur' | 'date'>
+        & { domicile: Pick<EquipeDto, 'id' | 'nom'>, exterieur: Pick<EquipeDto, 'id' | 'nom'> }
       )> }
     )> }
-  ) }
-);
+  ) };
 
 export type ChampionnatsQueryVariables = {};
 
 
-export type ChampionnatsQuery = (
-  { readonly __typename?: 'Query' }
-  & { readonly championnats: ReadonlyArray<(
-    { readonly __typename?: 'ChampionnatDto' }
-    & Pick<ChampionnatDto, 'id' | 'nom'>
-    & { readonly saisons: Maybe<ReadonlyArray<(
-      { readonly __typename?: 'SaisonDto' }
-      & Pick<SaisonDto, 'annee'>
-    )>> }
-  )> }
-);
+export type ChampionnatsQuery = { championnats: Array<(
+    Pick<ChampionnatDto, 'id' | 'nom'>
+    & { saisons: Maybe<Array<Pick<SaisonDto, 'annee'>>> }
+  )> };
 
 export type ChampionnatByIdQueryVariables = {
   id: Scalars['Int'];
 };
 
 
-export type ChampionnatByIdQuery = (
-  { readonly __typename?: 'Query' }
-  & { readonly championnat: (
-    { readonly __typename?: 'ChampionnatDto' }
-    & Pick<ChampionnatDto, 'id' | 'nom'>
-    & { readonly saisons: Maybe<ReadonlyArray<(
-      { readonly __typename?: 'SaisonDto' }
-      & Pick<SaisonDto, 'annee'>
-      & { readonly journees: ReadonlyArray<(
-        { readonly __typename?: 'JourneeDto' }
-        & { readonly matchs: ReadonlyArray<(
-          { readonly __typename?: 'MatchDto' }
-          & Pick<MatchDto, 'butDomicile' | 'butExterieur' | 'date'>
-          & { readonly domicile: (
-            { readonly __typename?: 'EquipeDto' }
-            & Pick<EquipeDto, 'id' | 'nom'>
-          ), readonly exterieur: (
-            { readonly __typename?: 'EquipeDto' }
-            & Pick<EquipeDto, 'id' | 'nom'>
-          ) }
-        )> }
-      )> }
+export type ChampionnatByIdQuery = { championnat: (
+    Pick<ChampionnatDto, 'id' | 'nom'>
+    & { saisons: Maybe<Array<(
+      Pick<SaisonDto, 'annee'>
+      & { journees: Array<{ matchs: Array<(
+          Pick<MatchDto, 'butDomicile' | 'butExterieur' | 'date'>
+          & { domicile: Pick<EquipeDto, 'id' | 'nom'>, exterieur: Pick<EquipeDto, 'id' | 'nom'> }
+        )> }> }
     )>> }
-  ) }
-);
+  ) };
 
 export type SaisonsQueryVariables = {
   championnatId: Scalars['Int'];
 };
 
 
-export type SaisonsQuery = (
-  { readonly __typename?: 'Query' }
-  & { readonly championnat: (
-    { readonly __typename?: 'ChampionnatDto' }
-    & { readonly saisons: Maybe<ReadonlyArray<(
-      { readonly __typename?: 'SaisonDto' }
-      & Pick<SaisonDto, 'annee'>
-    )>> }
-  ) }
-);
+export type SaisonsQuery = { championnat: { saisons: Maybe<Array<Pick<SaisonDto, 'annee'>>> } };
 
 export type SaisonQueryVariables = {
   championnatId: Scalars['Int'];
@@ -385,34 +319,16 @@ export type SaisonQueryVariables = {
 };
 
 
-export type SaisonQuery = (
-  { readonly __typename?: 'Query' }
-  & { readonly saison: (
-    { readonly __typename?: 'SaisonDto' }
-    & Pick<SaisonDto, 'annee'>
-    & { readonly journees: ReadonlyArray<(
-      { readonly __typename?: 'JourneeDto' }
-      & { readonly matchs: ReadonlyArray<(
-        { readonly __typename?: 'MatchDto' }
-        & Pick<MatchDto, 'id' | 'butDomicile' | 'butExterieur' | 'date'>
-        & { readonly joueurs: ReadonlyArray<(
-          { readonly __typename?: 'JoueurStatDto' }
-          & Pick<JoueurStatDto, 'nbButs' | 'nbPasses' | 'nbCartonsJaunes' | 'nbCartonsRouges'>
-          & { readonly joueur: (
-            { readonly __typename?: 'JoueurDto' }
-            & JoueurWithoutEquipeFragment
-          ) }
-        )>, readonly domicile: (
-          { readonly __typename?: 'EquipeDto' }
-          & Pick<EquipeDto, 'id' | 'nom'>
-        ), readonly exterieur: (
-          { readonly __typename?: 'EquipeDto' }
-          & Pick<EquipeDto, 'id' | 'nom'>
-        ) }
-      )> }
-    )> }
-  ) }
-);
+export type SaisonQuery = { saison: (
+    Pick<SaisonDto, 'annee'>
+    & { journees: Array<{ matchs: Array<(
+        Pick<MatchDto, 'id' | 'butDomicile' | 'butExterieur' | 'date'>
+        & { joueurs: Array<(
+          Pick<JoueurStatDto, 'nbButs' | 'nbPasses' | 'nbCartonsJaunes' | 'nbCartonsRouges'>
+          & { joueur: JoueurWithoutEquipeFragment }
+        )>, domicile: Pick<EquipeDto, 'id' | 'nom'>, exterieur: Pick<EquipeDto, 'id' | 'nom'> }
+      )> }> }
+  ) };
 
 export type ClassementQueryVariables = {
   championnatId: Scalars['Int'];
@@ -420,150 +336,80 @@ export type ClassementQueryVariables = {
 };
 
 
-export type ClassementQuery = (
-  { readonly __typename?: 'Query' }
-  & { readonly classement: ReadonlyArray<(
-    { readonly __typename?: 'ClassementDto' }
-    & Pick<ClassementDto, 'v' | 'n' | 'd' | 'bp' | 'bc' | 'mj' | 'pts' | 'diff'>
-    & { readonly equipe: (
-      { readonly __typename?: 'EquipeDto' }
-      & Pick<EquipeDto, 'id' | 'nom'>
-    ) }
-  )> }
-);
+export type ClassementQuery = { classement: Array<(
+    Pick<ClassementDto, 'v' | 'n' | 'd' | 'bp' | 'bc' | 'mj' | 'pts' | 'diff'>
+    & { equipe: Pick<EquipeDto, 'id' | 'nom'> }
+  )> };
 
 export type EquipeMutationVariables = {
   equipe: EquipeDtoInput;
 };
 
 
-export type EquipeMutation = (
-  { readonly __typename?: 'Mutation' }
-  & { readonly equipe: (
-    { readonly __typename?: 'EquipeDto' }
-    & Pick<EquipeDto, 'id' | 'nom'>
-  ) }
-);
+export type EquipeMutation = { equipe: Pick<EquipeDto, 'id' | 'nom'> };
 
 export type DeleteEquipeMutationVariables = {
   id: Scalars['Int'];
 };
 
 
-export type DeleteEquipeMutation = (
-  { readonly __typename?: 'Mutation' }
-  & { readonly deleteEquipe: (
-    { readonly __typename?: 'EquipeDto' }
-    & Pick<EquipeDto, 'id' | 'nom'>
-  ) }
-);
+export type DeleteEquipeMutation = { deleteEquipe: Pick<EquipeDto, 'id' | 'nom'> };
 
 export type EquipesQueryVariables = {};
 
 
-export type EquipesQuery = (
-  { readonly __typename?: 'Query' }
-  & { readonly equipes: ReadonlyArray<(
-    { readonly __typename?: 'EquipeDto' }
-    & Pick<EquipeDto, 'id' | 'nom'>
-    & { readonly championnat: Maybe<(
-      { readonly __typename?: 'ChampionnatDto' }
-      & Pick<ChampionnatDto, 'id' | 'nom'>
-    )> }
-  )> }
-);
+export type EquipesQuery = { equipes: Array<(
+    Pick<EquipeDto, 'id' | 'nom'>
+    & { championnat: Maybe<Pick<ChampionnatDto, 'id' | 'nom'>> }
+  )> };
 
 export type EquipesOfChampionnatQueryVariables = {
   championnatId: Scalars['Int'];
 };
 
 
-export type EquipesOfChampionnatQuery = (
-  { readonly __typename?: 'Query' }
-  & { readonly equipesOfChampionnat: ReadonlyArray<(
-    { readonly __typename?: 'EquipeDto' }
-    & Pick<EquipeDto, 'id' | 'nom'>
-  )> }
-);
+export type EquipesOfChampionnatQuery = { equipesOfChampionnat: Array<Pick<EquipeDto, 'id' | 'nom'>> };
 
-export type JoueurWithoutEquipeFragment = (
-  { readonly __typename?: 'JoueurDto' }
-  & Pick<JoueurDto, 'id' | 'nom' | 'prenom' | 'poste' | 'nationalite' | 'dateNaissance' | 'taille' | 'poids'>
-);
+export type JoueurWithoutEquipeFragment = Pick<JoueurDto, 'id' | 'nom' | 'prenom' | 'poste' | 'nationalite' | 'dateNaissance' | 'taille' | 'poids'>;
 
 export type JoueurMutationVariables = {
   joueur: JoueurDtoInput;
 };
 
 
-export type JoueurMutation = (
-  { readonly __typename?: 'Mutation' }
-  & { readonly joueur: (
-    { readonly __typename?: 'JoueurDto' }
-    & Pick<JoueurDto, 'id' | 'nom'>
-  ) }
-);
+export type JoueurMutation = { joueur: Pick<JoueurDto, 'id' | 'nom'> };
 
 export type DeleteJoueurMutationVariables = {
   id: Scalars['Int'];
 };
 
 
-export type DeleteJoueurMutation = (
-  { readonly __typename?: 'Mutation' }
-  & { readonly deleteJoueur: (
-    { readonly __typename?: 'JoueurDto' }
-    & Pick<JoueurDto, 'id' | 'nom'>
-  ) }
-);
+export type DeleteJoueurMutation = { deleteJoueur: Pick<JoueurDto, 'id' | 'nom'> };
 
 export type JoueursQueryVariables = {};
 
 
-export type JoueursQuery = (
-  { readonly __typename?: 'Query' }
-  & { readonly joueurs: ReadonlyArray<(
-    { readonly __typename?: 'JoueurDto' }
-    & Pick<JoueurDto, 'id' | 'nom' | 'prenom' | 'poste' | 'nationalite' | 'dateNaissance' | 'taille' | 'poids'>
-    & { readonly equipe: Maybe<(
-      { readonly __typename?: 'EquipeDto' }
-      & Pick<EquipeDto, 'id' | 'nom'>
-    )> }
-  )> }
-);
+export type JoueursQuery = { joueurs: Array<(
+    Pick<JoueurDto, 'id' | 'nom' | 'prenom' | 'poste' | 'nationalite' | 'dateNaissance' | 'taille' | 'poids'>
+    & { equipe: Maybe<Pick<EquipeDto, 'id' | 'nom'>> }
+  )> };
 
 export type JoueursByEquipeQueryVariables = {
   equipeId: Scalars['Int'];
 };
 
 
-export type JoueursByEquipeQuery = (
-  { readonly __typename?: 'Query' }
-  & { readonly joueursByEquipe: ReadonlyArray<(
-    { readonly __typename?: 'JoueurDto' }
-    & JoueurWithoutEquipeFragment
-  )> }
-);
+export type JoueursByEquipeQuery = { joueursByEquipe: Array<JoueurWithoutEquipeFragment> };
 
 export type MatchMutationVariables = {
   match: MatchDtoInput;
 };
 
 
-export type MatchMutation = (
-  { readonly __typename?: 'Mutation' }
-  & { readonly match: (
-    { readonly __typename?: 'MatchDto' }
-    & Pick<MatchDto, 'id' | 'date' | 'butDomicile' | 'butExterieur'>
-    & { readonly domicile: (
-      { readonly __typename?: 'EquipeDto' }
-      & Pick<EquipeDto, 'id' | 'nom'>
-    ), readonly exterieur: (
-      { readonly __typename?: 'EquipeDto' }
-      & Pick<EquipeDto, 'id' | 'nom'>
-    ) }
-  ) }
-);
+export type MatchMutation = { match: (
+    Pick<MatchDto, 'id' | 'date' | 'butDomicile' | 'butExterieur'>
+    & { domicile: Pick<EquipeDto, 'id' | 'nom'>, exterieur: Pick<EquipeDto, 'id' | 'nom'> }
+  ) };
 
 export const JoueurWithoutEquipeFragmentDoc = gql`
     fragment JoueurWithoutEquipe on JoueurDto {
