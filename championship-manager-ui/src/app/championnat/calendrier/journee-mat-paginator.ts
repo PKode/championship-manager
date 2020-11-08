@@ -25,6 +25,6 @@ export class JourneeMatPaginatorIntl extends MatPaginatorIntl {
     length = Math.max(length, 0);
     const startIndex = page * pageSize;
     const endIndex = startIndex < length ? Math.min(startIndex + pageSize, length) : startIndex + pageSize;
-    return `Journée ${page + 1} / ${length / 2}`;
+    return `Journée ${page + 1} / ${length/pageSize}`;
   }
 }
