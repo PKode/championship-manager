@@ -71,9 +71,9 @@ export class MatchFormComponent implements OnInit {
         return joueur1.joueur.id == joueur2.joueur.id;
     }
 
-    toJoueurStat(joueur: JoueurDto): JoueurStatDto {
+    toJoueurStat(joueur: any): JoueurStatDto {
         return {
-            joueur: joueur,
+            joueur: joueur as JoueurDto,
             nbButs: 0,
             nbPasses: 0,
             nbCartonsJaunes: 0,
@@ -81,18 +81,22 @@ export class MatchFormComponent implements OnInit {
         }
     }
 
-    // TODO: limit buts et passes to total number among all joueurs
+    // TODO: limit for each player total of but+passe
     incrementButs(joueur: JoueurStatDto, camp: string) {
-        if (camp == 'dom' && joueur.nbButs < this.matchForm.value.butDomicile)
+        let totalButsDomicile = sumBy(this.matchForm.value.selectedJoueursDomicile, (j => j.nbButs));
+        let totalButsExterieur = sumBy(this.matchForm.value.selectedJoueursExterieur, (j => j.nbButs));
+        if (camp == 'dom' && totalButsDomicile < this.matchForm.value.butDomicile)
             joueur.nbButs++;
-        if (camp == 'ext' && joueur.nbButs < this.matchForm.value.butExterieur)
+        if (camp == 'ext' && totalButsExterieur < this.matchForm.value.butExterieur)
             joueur.nbButs++;
     }
 
     incrementPasses(joueur: JoueurStatDto, camp: string) {
-        if (camp == 'dom' && joueur.nbPasses < this.matchForm.value.butDomicile)
+        let totalPassesDomicile = sumBy(this.matchForm.value.selectedJoueursDomicile, (j => j.nbPasses));
+        let totalPassesExterieur = sumBy(this.matchForm.value.selectedJoueursExterieur, (j => j.nbPasses));
+        if (camp == 'dom' && totalPassesDomicile < this.matchForm.value.butDomicile)
             joueur.nbPasses++;
-        if (camp == 'ext' && joueur.nbPasses < this.matchForm.value.butExterieur)
+        if (camp == 'ext' && totalPassesExterieur < this.matchForm.value.butExterieur)
             joueur.nbPasses++;
     }
 
@@ -107,3 +111,8 @@ export class MatchFormComponent implements OnInit {
             joueur.nbCartonsRouges++;
     }
 }
+const sumBy = <T = any>(arr: T[], fn: string | ((a: T) => number)) => {
+    return arr
+        .map(typeof fn === "function" ? fn : (val: any) => val[fn])
+        .reduce((acc, val) => acc + val, 0);
+};

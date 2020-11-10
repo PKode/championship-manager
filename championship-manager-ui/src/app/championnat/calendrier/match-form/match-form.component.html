@@ -25,9 +25,11 @@
     <div class="row">
       <div class="col">
         <mat-selection-list formControlName="selectedJoueursDomicile" [compareWith]="joueurStatEquals">
-          <mat-list-option [value]="joueurDomicile"
-                           *ngFor="let joueurDomicile of joueursDomicile">
-            {{joueurDomicile.joueur.prenom}} {{joueurDomicile.joueur.nom}}
+          <ng-template
+            ngFor let-joueurDomicile [ngForOf]="joueursDomicile">
+            <mat-list-option [value]="joueurDomicile">
+              {{joueurDomicile.joueur.prenom}} {{joueurDomicile.joueur.nom}}
+            </mat-list-option>
             <span>
               {{joueurDomicile.nbButs}}
               <mat-icon (click)="incrementButs(joueurDomicile, 'dom')">sports_soccer</mat-icon>
@@ -38,7 +40,7 @@
               {{joueurDomicile.nbCartonsRouges}}
               <mat-icon style="color: red" (click)="incrementCartonsRouges(joueurDomicile)">crop_portrait</mat-icon>
             </span>
-          </mat-list-option>
+          </ng-template>
         </mat-selection-list>
       </div>
       <mat-divider [vertical]="true"></mat-divider>
