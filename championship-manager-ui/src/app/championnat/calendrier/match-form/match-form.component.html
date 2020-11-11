@@ -27,19 +27,38 @@
         <mat-selection-list formControlName="selectedJoueursDomicile" [compareWith]="joueurStatEquals">
           <ng-template
             ngFor let-joueurDomicile [ngForOf]="joueursDomicile">
-            <mat-list-option [value]="joueurDomicile">
+            <mat-list-option checkboxPosition="before" [value]="joueurDomicile"
+                             style="display: inline-flex; width: 50%">
               {{joueurDomicile.joueur.prenom}} {{joueurDomicile.joueur.nom}}
             </mat-list-option>
-            <span>
-              {{joueurDomicile.nbButs}}
-              <mat-icon (click)="incrementButs(joueurDomicile, 'dom')">sports_soccer</mat-icon>
-              {{joueurDomicile.nbPasses}}
-              <mat-icon (click)="incrementPasses(joueurDomicile, 'dom')">person_search</mat-icon>
-              {{joueurDomicile.nbCartonsJaunes}}
-              <mat-icon style="color: gold" (click)="incrementCartonsJaunes(joueurDomicile)">crop_portrait</mat-icon>
-              {{joueurDomicile.nbCartonsRouges}}
-              <mat-icon style="color: red" (click)="incrementCartonsRouges(joueurDomicile)">crop_portrait</mat-icon>
-            </span>
+            <div class="stat">
+              <button type="button" mat-icon-button>
+                <mat-icon class="down" (click)="decrementStats(joueurDomicile, 'nbButs')">sports_soccer</mat-icon>
+              </button>{{joueurDomicile.nbButs}}<button type="button" mat-icon-button>
+                <mat-icon class="up" (click)="incrementStats(joueurDomicile, 'dom', 'nbButs')">sports_soccer</mat-icon>
+              </button>
+
+              <button type="button" mat-icon-button>
+                <mat-icon class="down" (click)="decrementStats(joueurDomicile, 'nbPasses')">person_search</mat-icon>
+              </button>{{joueurDomicile.nbPasses}}<button type="button" mat-icon-button>
+              <mat-icon class="up" (click)="incrementStats(joueurDomicile, 'dom', 'nbPasses')">person_search</mat-icon>
+              </button>
+
+              <button type="button" mat-icon-button>
+                <mat-icon class="down" style="color: gold" (click)="decrementStats(joueurDomicile, 'nbCartonsJaunes')">crop_portrait</mat-icon>
+              </button>{{joueurDomicile.nbCartonsJaunes}}<button type="button" mat-icon-button
+                      (click)="incrementCartonsJaunes(joueurDomicile)">
+                <mat-icon class="up" style="color: gold">crop_portrait</mat-icon>
+              </button>
+
+              <button type="button" mat-icon-button>
+                <mat-icon class="down" style="color: red" (click)="decrementStats(joueurDomicile, 'nbCartonsRouges')">crop_portrait</mat-icon>
+              </button>{{joueurDomicile.nbCartonsRouges}}<button type="button" mat-icon-button
+                      (click)="incrementCartonsRouges(joueurDomicile)">
+                <mat-icon class="up" style="color: red">crop_portrait</mat-icon>
+            </button>
+            </div>
+            <mat-divider></mat-divider>
           </ng-template>
         </mat-selection-list>
       </div>

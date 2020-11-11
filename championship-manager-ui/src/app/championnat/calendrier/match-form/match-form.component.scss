@@ -34,3 +34,19 @@
   text-align: center;
   width: 30px;
 }
+
+.down {
+  font-size: 10px;
+}
+
+.up {
+  font-size: 20px;
+}
+
+.stat {
+  display: inline-block;
+}
+
+.stat > .mat-icon-button {
+  width: unset;
+}

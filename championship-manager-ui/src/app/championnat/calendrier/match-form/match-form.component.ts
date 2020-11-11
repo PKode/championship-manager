@@ -19,8 +19,10 @@ export class MatchFormComponent implements OnInit {
     });
 
     championnatId: number;
-    joueursDomicile: JoueurStatDto[];
+    joueursDomicile: JoueurStatDto[] = [];
     joueursExterieur: JoueurStatDto[];
+
+    limitButs: number
 
     constructor(private fb: FormBuilder,
                 private matchService: MatchService,
@@ -36,14 +38,14 @@ export class MatchFormComponent implements OnInit {
     ngOnInit() {
         this.joueurService.getAllJoueursByEquipe(this.data.match.domicile.id)
             .subscribe(joueurs => {
-                this.joueursDomicile = this.data.match.joueurs
+                this.joueursDomicile.push(...this.data.match.joueurs)
                 joueurs.forEach(j => {
                     if (this.joueursDomicile.find(it => this.joueurStatEquals(this.toJoueurStat(j), it)) === undefined)
                         this.joueursDomicile.push(this.toJoueurStat(j))
                 });
                 this.matchForm.patchValue({
-                    selectedJoueursDomicile: this.data.match.joueurs.filter(j =>
-                        this.joueursDomicile.find(it => this.joueurStatEquals(j, it))
+                    selectedJoueursDomicile: this.joueursDomicile.filter(j =>
+                        this.data.match.joueurs.find(it => this.joueurStatEquals(j, it)) != undefined
                     )
                 });
             });
@@ -56,6 +58,8 @@ export class MatchFormComponent implements OnInit {
                     )
                 });
             });
+
+        this.limitButs = this.data.match.butDomicile;
     }
 
     onSubmit() {
@@ -81,23 +85,27 @@ export class MatchFormComponent implements OnInit {
         }
     }
 
-    // TODO: limit for each player total of but+passe
-    incrementButs(joueur: JoueurStatDto, camp: string) {
-        let totalButsDomicile = sumBy(this.matchForm.value.selectedJoueursDomicile, (j => j.nbButs));
-        let totalButsExterieur = sumBy(this.matchForm.value.selectedJoueursExterieur, (j => j.nbButs));
-        if (camp == 'dom' && totalButsDomicile < this.matchForm.value.butDomicile)
-            joueur.nbButs++;
-        if (camp == 'ext' && totalButsExterieur < this.matchForm.value.butExterieur)
-            joueur.nbButs++;
+    incrementStats(joueur: JoueurStatDto, camp: string, stat: string) {
+        let totalDomicile = sumBy(this.matchForm.value.selectedJoueursDomicile, stat);
+        let totalExterieur = sumBy(this.matchForm.value.selectedJoueursExterieur, stat);
+        if (camp == 'dom' && this.canScoreMore(totalDomicile, this.matchForm.value.butDomicile, joueur))
+            stat == 'nbButs' ? joueur.nbButs++ : joueur.nbPasses++;
+        if (camp == 'ext' && this.canScoreMore(totalExterieur, this.matchForm.value.butExterieur, joueur))
+            stat == 'nbButs' ? joueur.nbButs++ : joueur.nbPasses++;
     }
 
-    incrementPasses(joueur: JoueurStatDto, camp: string) {
-        let totalPassesDomicile = sumBy(this.matchForm.value.selectedJoueursDomicile, (j => j.nbPasses));
-        let totalPassesExterieur = sumBy(this.matchForm.value.selectedJoueursExterieur, (j => j.nbPasses));
-        if (camp == 'dom' && totalPassesDomicile < this.matchForm.value.butDomicile)
-            joueur.nbPasses++;
-        if (camp == 'ext' && totalPassesExterieur < this.matchForm.value.butExterieur)
-            joueur.nbPasses++;
+    decrementStats(joueur: JoueurStatDto, stat: string) {
+        if (stat == 'nbButs' && joueur.nbButs > 0) joueur.nbButs--
+        if (stat == 'nbPasses' && joueur.nbPasses > 0) joueur.nbPasses--
+        if (stat == 'nbCartonsJaunes' && joueur.nbCartonsJaunes > 0) {
+            joueur.nbCartonsJaunes--;
+            joueur.nbCartonsRouges = 0;
+        }
+        if (stat == 'nbCartonsRouges' && joueur.nbCartonsRouges > 0) joueur.nbCartonsRouges--
+    }
+
+    canScoreMore(totalEquipe: number, butEquipe: number, joueur: JoueurStatDto) {
+        return (totalEquipe < butEquipe && (joueur.nbButs + joueur.nbPasses) < butEquipe)
     }
 
     incrementCartonsJaunes(joueur: JoueurStatDto) {
@@ -111,6 +119,7 @@ export class MatchFormComponent implements OnInit {
             joueur.nbCartonsRouges++;
     }
 }
+
 const sumBy = <T = any>(arr: T[], fn: string | ((a: T) => number)) => {
     return arr
         .map(typeof fn === "function" ? fn : (val: any) => val[fn])
