@@ -25,6 +25,7 @@
     <div class="row">
       <div class="col">
         <mat-selection-list formControlName="selectedJoueursDomicile" [compareWith]="joueurStatEquals">
+          <!-- Create a component for the whole ng-template and for a parameterized component for stat filling -->
           <ng-template
             ngFor let-joueurDomicile [ngForOf]="joueursDomicile">
             <mat-list-option checkboxPosition="before" [value]="joueurDomicile"
@@ -32,31 +33,18 @@
               {{joueurDomicile.joueur.prenom}} {{joueurDomicile.joueur.nom}}
             </mat-list-option>
             <div class="stat">
-              <button type="button" mat-icon-button>
-                <mat-icon class="down" (click)="decrementStats(joueurDomicile, 'nbButs')">sports_soccer</mat-icon>
-              </button>{{joueurDomicile.nbButs}}<button type="button" mat-icon-button>
-                <mat-icon class="up" (click)="incrementStats(joueurDomicile, 'dom', 'nbButs')">sports_soccer</mat-icon>
-              </button>
-
-              <button type="button" mat-icon-button>
-                <mat-icon class="down" (click)="decrementStats(joueurDomicile, 'nbPasses')">person_search</mat-icon>
-              </button>{{joueurDomicile.nbPasses}}<button type="button" mat-icon-button>
-              <mat-icon class="up" (click)="incrementStats(joueurDomicile, 'dom', 'nbPasses')">person_search</mat-icon>
-              </button>
-
-              <button type="button" mat-icon-button>
-                <mat-icon class="down" style="color: gold" (click)="decrementStats(joueurDomicile, 'nbCartonsJaunes')">crop_portrait</mat-icon>
-              </button>{{joueurDomicile.nbCartonsJaunes}}<button type="button" mat-icon-button
-                      (click)="incrementCartonsJaunes(joueurDomicile)">
-                <mat-icon class="up" style="color: gold">crop_portrait</mat-icon>
-              </button>
-
-              <button type="button" mat-icon-button>
-                <mat-icon class="down" style="color: red" (click)="decrementStats(joueurDomicile, 'nbCartonsRouges')">crop_portrait</mat-icon>
-              </button>{{joueurDomicile.nbCartonsRouges}}<button type="button" mat-icon-button
-                      (click)="incrementCartonsRouges(joueurDomicile)">
-                <mat-icon class="up" style="color: red">crop_portrait</mat-icon>
-            </button>
+              <app-stat-changer [stat]="joueurDomicile.nbButs" icon="sports_soccer"
+                                (onUp)="incrementStats(joueurDomicile, 'dom', 'nbButs')"
+                                (onDown)="decrementStats(joueurDomicile, 'nbButs')"></app-stat-changer>
+              <app-stat-changer [stat]="joueurDomicile.nbPasses" icon="person_search"
+                                (onUp)="incrementStats(joueurDomicile, 'dom', 'nbPasses')"
+                                (onDown)="decrementStats(joueurDomicile, 'nbPasses')"></app-stat-changer>
+              <app-stat-changer [stat]="joueurDomicile.nbCartonsJaunes" icon="crop_portrait" iconStyle="color:gold"
+                                (onUp)="incrementCartonsJaunes(joueurDomicile)"
+                                (onDown)="decrementStats(joueurDomicile, 'nbCartonsJaunes')"></app-stat-changer>
+              <app-stat-changer [stat]="joueurDomicile.nbCartonsRouges" icon="crop_portrait" iconStyle="color:red"
+                                (onUp)="incrementCartonsRouges(joueurDomicile)"
+                                (onDown)="decrementStats(joueurDomicile, 'nbCartonsRouges')"></app-stat-changer>
             </div>
             <mat-divider></mat-divider>
           </ng-template>

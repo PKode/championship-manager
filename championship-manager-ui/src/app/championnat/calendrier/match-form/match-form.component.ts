@@ -85,7 +85,7 @@ export class MatchFormComponent implements OnInit {
         }
     }
 
-    incrementStats(joueur: JoueurStatDto, camp: string, stat: string) {
+    incrementStats(joueur: JoueurStatDto, camp: string, stat: string) : void{
         let totalDomicile = sumBy(this.matchForm.value.selectedJoueursDomicile, stat);
         let totalExterieur = sumBy(this.matchForm.value.selectedJoueursExterieur, stat);
         if (camp == 'dom' && this.canScoreMore(totalDomicile, this.matchForm.value.butDomicile, joueur))
