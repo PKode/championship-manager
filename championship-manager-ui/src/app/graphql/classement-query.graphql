@@ -14,3 +14,19 @@ query classement($championnatId: Int!, $saison: Int!) {
     diff
   }
 }
+
+query classementJoueur($championnatId: Int!, $saison: Int!) {
+  classementJoueur(championnatId: $championnatId, saison: $saison) {
+    joueur {
+      id
+      nom
+      prenom
+    }
+    nbButs
+    nbPasses
+    nbCartonsJaunes
+    nbCartonsRouges
+    nbMatchs
+    ratioBut
+  }
+}

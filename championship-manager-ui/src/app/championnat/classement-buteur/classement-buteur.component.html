@@ -1,1 +1,74 @@
-<p>classement-buteur works!</p>
+<div style="margin-bottom: 2%">
+  <mat-chip-list aria-label="Classements" [selectable]="true">
+    <mat-chip *ngFor="let classement of classements" (click)="changeClassement(classement)"
+              [selected]="classement==this.selectedClassement">{{classement}}</mat-chip>
+  </mat-chip-list>
+</div>
+<div class="mat-elevation-z8">
+  <table mat-table class="full-width-table" matSort aria-label="Elements">
+    <!-- Place Column -->
+    <ng-container matColumnDef="place">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Place</th>
+      <td mat-cell
+          *matCellDef="let row; let place=index">{{place + (paginator.pageIndex * paginator.pageSize) + 1}}</td>
+    </ng-container>
+
+    <!-- Joueur Column -->
+    <ng-container matColumnDef="joueur">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Joueur</th>
+      <td mat-cell *matCellDef="let row">{{row.joueur.prenom}} {{row.joueur.nom}}</td>
+    </ng-container>
+
+    <!-- Buts Column -->
+    <ng-container matColumnDef="buts">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Buts</th>
+      <td mat-cell *matCellDef="let row">{{row.nbButs}}</td>
+    </ng-container>
+
+    <!-- Ratio Buts Column -->
+    <ng-container matColumnDef="ratioButs">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Ratio</th>
+      <td mat-cell *matCellDef="let row">{{row.nbButs / row.nbMatchs}}</td>
+    </ng-container>
+
+    <!-- Ratio Passes Column -->
+    <ng-container matColumnDef="ratioPasses">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Ratio</th>
+      <td mat-cell *matCellDef="let row">{{row.nbPasses / row.nbMatchs}}</td>
+    </ng-container>
+
+    <!-- Passes Column -->
+    <ng-container matColumnDef="passes">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Passes</th>
+      <td mat-cell *matCellDef="let row">{{row.nbPasses}}</td>
+    </ng-container>
+
+    <!-- nb matchs Column -->
+    <ng-container matColumnDef="nbMatchs">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Joués</th>
+      <td mat-cell *matCellDef="let row">{{row.nbMatchs}}</td>
+    </ng-container>
+
+    <!-- Cartons Jaunes Column -->
+    <ng-container matColumnDef="cartonsJaunes">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>C. Jaunes</th>
+      <td mat-cell *matCellDef="let row">{{row.nbCartonsJaunes}}</td>
+    </ng-container>
+
+    <!-- Cartons Rouges Column -->
+    <ng-container matColumnDef="cartonsRouges">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>C. Rouges</th>
+      <td mat-cell *matCellDef="let row">{{row.nbCartonsRouges}}</td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+
+  <mat-paginator #paginator
+                 [length]="dataSource?.data.length"
+                 [pageIndex]="0"
+                 [pageSize]="10"
+                 [pageSizeOptions]="[25, 50, 100, 250]">
+  </mat-paginator>
+</div>

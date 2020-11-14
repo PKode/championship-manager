@@ -1,6 +1,10 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import {async, ComponentFixture, TestBed} from '@angular/core/testing';
+import {NoopAnimationsModule} from '@angular/platform-browser/animations';
+import {MatPaginatorModule} from '@angular/material/paginator';
+import {MatSortModule} from '@angular/material/sort';
+import {MatTableModule} from '@angular/material/table';
 
-import { ClassementButeurComponent } from './classement-buteur.component';
+import {ClassementButeurComponent} from './classement-buteur.component';
 
 describe('ClassementButeurComponent', () => {
   let component: ClassementButeurComponent;
@@ -8,9 +12,14 @@ describe('ClassementButeurComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ClassementButeurComponent ]
-    })
-    .compileComponents();
+      declarations: [ ClassementButeurComponent ],
+      imports: [
+        NoopAnimationsModule,
+        MatPaginatorModule,
+        MatSortModule,
+        MatTableModule,
+      ]
+    }).compileComponents();
   }));
 
   beforeEach(() => {
@@ -19,7 +28,7 @@ describe('ClassementButeurComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it('should compile', () => {
     expect(component).toBeTruthy();
   });
 });

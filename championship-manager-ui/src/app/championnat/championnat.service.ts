@@ -3,8 +3,12 @@ import {
   CalendrierGQL,
   ChampionnatByIdGQL,
   ChampionnatGQL,
-  ChampionnatsGQL, ClassementGQL,
-  DeleteChampionnatGQL, SaisonGQL, SaisonsGQL
+  ChampionnatsGQL,
+  ClassementGQL,
+  ClassementJoueurGQL,
+  DeleteChampionnatGQL,
+  SaisonGQL,
+  SaisonsGQL
 } from "../generated/graphql";
 import {pluck} from "rxjs/operators";
 import {Championnat} from "./championnat";
@@ -21,6 +25,7 @@ export class ChampionnatService {
               private calendrierMutation: CalendrierGQL,
               public championnatByIdQuery: ChampionnatByIdGQL,
               private classementQuery: ClassementGQL,
+              private classementJoueurQuery: ClassementJoueurGQL,
               private saisonsListQuery: SaisonsGQL,
               private saisonQuery: SaisonGQL) {
   }
@@ -67,6 +72,11 @@ export class ChampionnatService {
   getClassement(championnatId: number, saison: number) {
     return this.classementQuery.watch({championnatId: championnatId, saison: saison})
       .valueChanges.pipe(pluck('data', 'classement'))
+  }
+
+  getClassementJoueur(championnatId: number, saison: number) {
+    return this.classementJoueurQuery.watch({championnatId: championnatId, saison: saison})
+      .valueChanges.pipe(pluck('data', 'classementJoueur'))
   }
 
   getSaisons(championnatId: number) {

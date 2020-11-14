@@ -341,6 +341,17 @@ export type ClassementQuery = { classement: Array<(
     & { equipe: Pick<EquipeDto, 'id' | 'nom'> }
   )> };
 
+export type ClassementJoueurQueryVariables = {
+  championnatId: Scalars['Int'];
+  saison: Scalars['Int'];
+};
+
+
+export type ClassementJoueurQuery = { classementJoueur: Array<(
+    Pick<ClassementJoueurDto, 'nbButs' | 'nbPasses' | 'nbCartonsJaunes' | 'nbCartonsRouges' | 'nbMatchs' | 'ratioBut'>
+    & { joueur: Pick<JoueurDto, 'id' | 'nom' | 'prenom'> }
+  )> };
+
 export type EquipeMutationVariables = {
   equipe: EquipeDtoInput;
 };
@@ -642,6 +653,31 @@ export const ClassementDocument = gql`
   })
   export class ClassementGQL extends Apollo.Query<ClassementQuery, ClassementQueryVariables> {
     document = ClassementDocument;
+
+  }
+export const ClassementJoueurDocument = gql`
+    query classementJoueur($championnatId: Int!, $saison: Int!) {
+  classementJoueur(championnatId: $championnatId, saison: $saison) {
+    joueur {
+      id
+      nom
+      prenom
+    }
+    nbButs
+    nbPasses
+    nbCartonsJaunes
+    nbCartonsRouges
+    nbMatchs
+    ratioBut
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class ClassementJoueurGQL extends Apollo.Query<ClassementJoueurQuery, ClassementJoueurQueryVariables> {
+    document = ClassementJoueurDocument;
 
   }
 export const EquipeDocument = gql`

@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {ClassementGQL, MatchDto, MatchGQL, SaisonGQL} from "../generated/graphql";
+import {ClassementGQL, ClassementJoueurGQL, MatchDto, MatchGQL, SaisonGQL} from "../generated/graphql";
 
 @Injectable({
   providedIn: 'root'
@@ -8,7 +8,8 @@ export class MatchService {
 
   constructor(private matchMutation: MatchGQL,
               private saisonQuery: SaisonGQL,
-              private classementQuery: ClassementGQL) {
+              private classementQuery: ClassementGQL,
+              private classementJoueurQuery: ClassementJoueurGQL) {
   }
 
   createOrUpdateMatch(match: MatchDto, championnatId: number, saison: number) {
@@ -20,7 +21,12 @@ export class MatchService {
           {
             query: this.classementQuery.document,
             variables: {championnatId: championnatId, saison: saison}
-          }]
+          },
+          {
+            query: this.classementJoueurQuery.document,
+            variables: {championnatId: championnatId, saison: saison}
+          }
+        ]
       }
     ).subscribe();
   }
