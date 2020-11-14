@@ -9,3 +9,18 @@ fragment JoueurWithoutEquipe on JoueurDto {
   taille
   poids
 }
+
+fragment Joueur on JoueurDto {
+  id
+  nom
+  prenom
+  poste
+  nationalite
+  dateNaissance
+  taille
+  poids
+  equipe {
+    id
+    nom
+  }
+}

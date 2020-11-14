@@ -325,7 +325,7 @@ export type SaisonQuery = { saison: (
         Pick<MatchDto, 'id' | 'butDomicile' | 'butExterieur' | 'date'>
         & { joueurs: Array<(
           Pick<JoueurStatDto, 'nbButs' | 'nbPasses' | 'nbCartonsJaunes' | 'nbCartonsRouges'>
-          & { joueur: JoueurWithoutEquipeFragment }
+          & { joueur: JoueurFragment }
         )>, domicile: Pick<EquipeDto, 'id' | 'nom'>, exterieur: Pick<EquipeDto, 'id' | 'nom'> }
       )> }> }
   ) };
@@ -371,6 +371,11 @@ export type EquipesOfChampionnatQueryVariables = {
 export type EquipesOfChampionnatQuery = { equipesOfChampionnat: Array<Pick<EquipeDto, 'id' | 'nom'>> };
 
 export type JoueurWithoutEquipeFragment = Pick<JoueurDto, 'id' | 'nom' | 'prenom' | 'poste' | 'nationalite' | 'dateNaissance' | 'taille' | 'poids'>;
+
+export type JoueurFragment = (
+  Pick<JoueurDto, 'id' | 'nom' | 'prenom' | 'poste' | 'nationalite' | 'dateNaissance' | 'taille' | 'poids'>
+  & { equipe: Maybe<Pick<EquipeDto, 'id' | 'nom'>> }
+);
 
 export type JoueurMutationVariables = {
   joueur: JoueurDtoInput;
@@ -421,6 +426,22 @@ export const JoueurWithoutEquipeFragmentDoc = gql`
   dateNaissance
   taille
   poids
+}
+    `;
+export const JoueurFragmentDoc = gql`
+    fragment Joueur on JoueurDto {
+  id
+  nom
+  prenom
+  poste
+  nationalite
+  dateNaissance
+  taille
+  poids
+  equipe {
+    id
+    nom
+  }
 }
     `;
 export const ChampionnatDocument = gql`
@@ -569,7 +590,7 @@ export const SaisonDocument = gql`
         date
         joueurs {
           joueur {
-            ...JoueurWithoutEquipe
+            ...Joueur
           }
           nbButs
           nbPasses
@@ -588,7 +609,7 @@ export const SaisonDocument = gql`
     }
   }
 }
-    ${JoueurWithoutEquipeFragmentDoc}`;
+    ${JoueurFragmentDoc}`;
 
   @Injectable({
     providedIn: 'root'

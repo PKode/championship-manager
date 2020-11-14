@@ -29,6 +29,7 @@ import {MatTooltipModule} from "@angular/material/tooltip";
 import {MatchFormComponent} from './calendrier/match-form/match-form.component';
 import {MatRadioModule} from '@angular/material/radio';
 import {StatChangerComponent} from './calendrier/match-form/stat-changer/stat-changer.component';
+import {JoueurStatComponent} from './calendrier/match-form/joueur-stat/joueur-stat.component';
 
 
 @NgModule({
@@ -41,7 +42,8 @@ import {StatChangerComponent} from './calendrier/match-form/stat-changer/stat-ch
     ClassementComponent,
     ClassementButeurComponent,
     MatchFormComponent,
-    StatChangerComponent
+    StatChangerComponent,
+    JoueurStatComponent
   ],
   imports: [
     CommonModule,

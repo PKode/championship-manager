@@ -43,31 +43,31 @@ query saisons($championnatId: Int!) {
 
 query saison($championnatId: Int!, $saison: Int!) {
   saison(championnatId: $championnatId, saison: $saison) {
-      annee
-      journees {
-        matchs {
+    annee
+    journees {
+      matchs {
+        id
+        butDomicile
+        butExterieur
+        date
+        joueurs {
+          joueur {
+            ...Joueur
+          }
+          nbButs
+          nbPasses
+          nbCartonsJaunes
+          nbCartonsRouges
+        }
+        domicile {
           id
-          butDomicile
-          butExterieur
-          date
-          joueurs {
-            joueur {
-              ...JoueurWithoutEquipe
-            }
-            nbButs
-            nbPasses
-            nbCartonsJaunes
-            nbCartonsRouges
-          }
-          domicile {
-            id
-            nom
-          }
-          exterieur {
-            id
-            nom
-          }
+          nom
+        }
+        exterieur {
+          id
+          nom
         }
       }
+    }
   }
 }

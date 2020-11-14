@@ -1,0 +1,26 @@
+<div [formGroup]="matchForm">
+  <mat-selection-list [formControlName]="mathFormControlName" [compareWith]="joueurStatEquals">
+    <ng-template
+      ngFor let-joueurStat [ngForOf]="joueursStat">
+      <mat-list-option checkboxPosition="before" [value]="joueurStat"
+                       style="display: inline-flex; width: 50%">
+        {{joueurStat.joueur.prenom}} {{joueurStat.joueur.nom}}
+      </mat-list-option>
+      <div class="stat">
+        <app-stat-changer [stat]="joueurStat.nbButs" icon="sports_soccer"
+                          (onUp)="incrementStats(joueurStat, camp, 'nbButs')"
+                          (onDown)="decrementStats(joueurStat, 'nbButs')"></app-stat-changer>
+        <app-stat-changer [stat]="joueurStat.nbPasses" icon="person_search"
+                          (onUp)="incrementStats(joueurStat, camp, 'nbPasses')"
+                          (onDown)="decrementStats(joueurStat, 'nbPasses')"></app-stat-changer>
+        <app-stat-changer [stat]="joueurStat.nbCartonsJaunes" icon="crop_portrait" iconStyle="color:gold"
+                          (onUp)="incrementCartonsJaunes(joueurStat)"
+                          (onDown)="decrementStats(joueurStat, 'nbCartonsJaunes')"></app-stat-changer>
+        <app-stat-changer [stat]="joueurStat.nbCartonsRouges" icon="crop_portrait" iconStyle="color:red"
+                          (onUp)="incrementCartonsRouges(joueurStat)"
+                          (onDown)="decrementStats(joueurStat, 'nbCartonsRouges')"></app-stat-changer>
+      </div>
+      <mat-divider></mat-divider>
+    </ng-template>
+  </mat-selection-list>
+</div>

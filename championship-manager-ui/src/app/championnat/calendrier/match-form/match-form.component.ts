@@ -20,9 +20,7 @@ export class MatchFormComponent implements OnInit {
 
     championnatId: number;
     joueursDomicile: JoueurStatDto[] = [];
-    joueursExterieur: JoueurStatDto[];
-
-    limitButs: number
+    joueursExterieur: JoueurStatDto[] = [];
 
     constructor(private fb: FormBuilder,
                 private matchService: MatchService,
@@ -38,7 +36,7 @@ export class MatchFormComponent implements OnInit {
     ngOnInit() {
         this.joueurService.getAllJoueursByEquipe(this.data.match.domicile.id)
             .subscribe(joueurs => {
-                this.joueursDomicile.push(...this.data.match.joueurs)
+                this.joueursDomicile.push(...this.data.match.joueurs.filter(j=>j.joueur.equipe.id == this.data.match.domicile.id))
                 joueurs.forEach(j => {
                     if (this.joueursDomicile.find(it => this.joueurStatEquals(this.toJoueurStat(j), it)) === undefined)
                         this.joueursDomicile.push(this.toJoueurStat(j))
@@ -51,15 +49,17 @@ export class MatchFormComponent implements OnInit {
             });
         this.joueurService.getAllJoueursByEquipe(this.data.match.exterieur.id)
             .subscribe(joueurs => {
-                this.joueursExterieur = joueurs.map(j => this.toJoueurStat(j as JoueurDto))
+                this.joueursExterieur.push(...this.data.match.joueurs.filter(j=>j.joueur.equipe.id == this.data.match.exterieur.id))
+                joueurs.forEach(j => {
+                    if (this.joueursExterieur.find(it => this.joueurStatEquals(this.toJoueurStat(j), it)) === undefined)
+                        this.joueursExterieur.push(this.toJoueurStat(j))
+                });
                 this.matchForm.patchValue({
-                    selectedJoueursExterieur: this.data.match.joueurs.filter(j =>
-                        this.joueursExterieur.find(it => this.joueurStatEquals(j, it))
+                    selectedJoueursExterieur: this.joueursExterieur.filter(j =>
+                        this.data.match.joueurs.find(it => this.joueurStatEquals(j, it)) != undefined
                     )
                 });
             });
-
-        this.limitButs = this.data.match.butDomicile;
     }
 
     onSubmit() {
@@ -84,44 +84,4 @@ export class MatchFormComponent implements OnInit {
             nbCartonsRouges: 0
         }
     }
-
-    incrementStats(joueur: JoueurStatDto, camp: string, stat: string) : void{
-        let totalDomicile = sumBy(this.matchForm.value.selectedJoueursDomicile, stat);
-        let totalExterieur = sumBy(this.matchForm.value.selectedJoueursExterieur, stat);
-        if (camp == 'dom' && this.canScoreMore(totalDomicile, this.matchForm.value.butDomicile, joueur))
-            stat == 'nbButs' ? joueur.nbButs++ : joueur.nbPasses++;
-        if (camp == 'ext' && this.canScoreMore(totalExterieur, this.matchForm.value.butExterieur, joueur))
-            stat == 'nbButs' ? joueur.nbButs++ : joueur.nbPasses++;
-    }
-
-    decrementStats(joueur: JoueurStatDto, stat: string) {
-        if (stat == 'nbButs' && joueur.nbButs > 0) joueur.nbButs--
-        if (stat == 'nbPasses' && joueur.nbPasses > 0) joueur.nbPasses--
-        if (stat == 'nbCartonsJaunes' && joueur.nbCartonsJaunes > 0) {
-            joueur.nbCartonsJaunes--;
-            joueur.nbCartonsRouges = 0;
-        }
-        if (stat == 'nbCartonsRouges' && joueur.nbCartonsRouges > 0) joueur.nbCartonsRouges--
-    }
-
-    canScoreMore(totalEquipe: number, butEquipe: number, joueur: JoueurStatDto) {
-        return (totalEquipe < butEquipe && (joueur.nbButs + joueur.nbPasses) < butEquipe)
-    }
-
-    incrementCartonsJaunes(joueur: JoueurStatDto) {
-        if (joueur.nbCartonsJaunes < 2)
-            joueur.nbCartonsJaunes++;
-        if (joueur.nbCartonsJaunes == 2) joueur.nbCartonsRouges = 1
-    }
-
-    incrementCartonsRouges(joueur: JoueurStatDto) {
-        if (joueur.nbCartonsRouges < 1)
-            joueur.nbCartonsRouges++;
-    }
 }
-
-const sumBy = <T = any>(arr: T[], fn: string | ((a: T) => number)) => {
-    return arr
-        .map(typeof fn === "function" ? fn : (val: any) => val[fn])
-        .reduce((acc, val) => acc + val, 0);
-};

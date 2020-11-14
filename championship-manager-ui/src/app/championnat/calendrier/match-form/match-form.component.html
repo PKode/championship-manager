@@ -23,42 +23,11 @@
       </div>
     </div>
     <div class="row">
-      <div class="col">
-        <mat-selection-list formControlName="selectedJoueursDomicile" [compareWith]="joueurStatEquals">
-          <!-- Create a component for the whole ng-template and for a parameterized component for stat filling -->
-          <ng-template
-            ngFor let-joueurDomicile [ngForOf]="joueursDomicile">
-            <mat-list-option checkboxPosition="before" [value]="joueurDomicile"
-                             style="display: inline-flex; width: 50%">
-              {{joueurDomicile.joueur.prenom}} {{joueurDomicile.joueur.nom}}
-            </mat-list-option>
-            <div class="stat">
-              <app-stat-changer [stat]="joueurDomicile.nbButs" icon="sports_soccer"
-                                (onUp)="incrementStats(joueurDomicile, 'dom', 'nbButs')"
-                                (onDown)="decrementStats(joueurDomicile, 'nbButs')"></app-stat-changer>
-              <app-stat-changer [stat]="joueurDomicile.nbPasses" icon="person_search"
-                                (onUp)="incrementStats(joueurDomicile, 'dom', 'nbPasses')"
-                                (onDown)="decrementStats(joueurDomicile, 'nbPasses')"></app-stat-changer>
-              <app-stat-changer [stat]="joueurDomicile.nbCartonsJaunes" icon="crop_portrait" iconStyle="color:gold"
-                                (onUp)="incrementCartonsJaunes(joueurDomicile)"
-                                (onDown)="decrementStats(joueurDomicile, 'nbCartonsJaunes')"></app-stat-changer>
-              <app-stat-changer [stat]="joueurDomicile.nbCartonsRouges" icon="crop_portrait" iconStyle="color:red"
-                                (onUp)="incrementCartonsRouges(joueurDomicile)"
-                                (onDown)="decrementStats(joueurDomicile, 'nbCartonsRouges')"></app-stat-changer>
-            </div>
-            <mat-divider></mat-divider>
-          </ng-template>
-        </mat-selection-list>
-      </div>
+      <app-joueur-stat class="col" mathFormControlName="selectedJoueursDomicile" [joueursStat]="joueursDomicile"
+                       [matchForm]="matchForm" camp="dom"></app-joueur-stat>
       <mat-divider [vertical]="true"></mat-divider>
-      <div class="col">
-        <mat-selection-list formControlName="selectedJoueursExterieur" [compareWith]="joueurStatEquals">
-          <mat-list-option [value]="joueurExterieur"
-                           *ngFor="let joueurExterieur of joueursExterieur">
-            {{joueurExterieur.joueur.prenom}} {{joueurExterieur.joueur.nom}}
-          </mat-list-option>
-        </mat-selection-list>
-      </div>
+      <app-joueur-stat class="col" mathFormControlName="selectedJoueursExterieur" [joueursStat]="joueursExterieur"
+                       [matchForm]="matchForm" camp="ext"></app-joueur-stat>
     </div>
   </mat-card-content>
   <mat-card-actions>
