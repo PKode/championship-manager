@@ -9,9 +9,10 @@ import {EquipeListDataSource} from "./equipe-list-datasource";
 import {EquipeFormComponent} from "../equipe-form/equipe-form.component";
 import {EquipeService} from "../equipe.service";
 import {Championnat} from "../../championnat/championnat";
-import {ActivatedRoute} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {map} from "rxjs/operators";
 import {Observable} from "rxjs";
+import {ChampionnatDto} from "../../generated/graphql";
 
 @Component({
   selector: 'app-equipe-list',
@@ -29,7 +30,8 @@ export class EquipeListComponent implements OnInit {
 
   constructor(private equipeService: EquipeService,
               private dialog: MatDialog,
-              private route: ActivatedRoute) {
+              private route: ActivatedRoute,
+              public router: Router) {
   }
 
   ngOnInit() {
@@ -79,5 +81,9 @@ export class EquipeListComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       console.log('The dialog was closed');
     });
+  }
+
+  goToEquipeDetail(row: ChampionnatDto) {
+    this.router.navigate(['/equipe/' + row.id])
   }
 }

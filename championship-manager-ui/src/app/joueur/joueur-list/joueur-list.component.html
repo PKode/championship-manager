@@ -6,16 +6,10 @@
       <td mat-cell *matCellDef="let row">{{row.id}}</td>
     </ng-container>
 
-    <!-- Nom Column -->
+    <!-- PrenomNom Column -->
     <ng-container matColumnDef="nom">
       <th mat-header-cell *matHeaderCellDef mat-sort-header>Nom</th>
-      <td mat-cell *matCellDef="let row">{{row.nom}}</td>
-    </ng-container>
-
-    <!-- Prénom Column -->
-    <ng-container matColumnDef="prenom">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>Prénom</th>
-      <td mat-cell *matCellDef="let row">{{row.prenom}}</td>
+      <td mat-cell *matCellDef="let row">{{row.prenom}} {{row.nom}}</td>
     </ng-container>
 
     <!-- Equipe Column -->
@@ -38,7 +32,7 @@
 
     <!-- Date de naissance Column -->
     <ng-container matColumnDef="dateNaissance">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>Date de naissance</th>
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Né le</th>
       <td mat-cell *matCellDef="let row">{{row.dateNaissance}}</td>
     </ng-container>
 

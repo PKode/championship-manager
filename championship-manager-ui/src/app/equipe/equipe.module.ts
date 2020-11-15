@@ -1,7 +1,7 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { EquipeComponent } from './equipe.component';
-import { EquipeListComponent } from './equipe-list/equipe-list.component';
+import {NgModule} from '@angular/core';
+import {CommonModule} from '@angular/common';
+import {EquipeComponent} from './equipe.component';
+import {EquipeListComponent} from './equipe-list/equipe-list.component';
 import {EquipeFormComponent} from "./equipe-form/equipe-form.component";
 import {MatTableModule} from "@angular/material/table";
 import {MatSortModule} from "@angular/material/sort";
@@ -14,11 +14,15 @@ import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatInputModule} from "@angular/material/input";
 import {MatDialogModule} from "@angular/material/dialog";
 import {MatSelectModule} from "@angular/material/select";
-
+import {EquipeDetailComponent} from './equipe-detail/equipe-detail.component';
+import {MatGridListModule} from '@angular/material/grid-list';
+import {MatMenuModule} from '@angular/material/menu';
+import {LayoutModule} from '@angular/cdk/layout';
+import {MatTabsModule} from "@angular/material/tabs";
 
 
 @NgModule({
-  declarations: [EquipeComponent, EquipeListComponent, EquipeFormComponent],
+  declarations: [EquipeComponent, EquipeListComponent, EquipeFormComponent, EquipeDetailComponent],
     imports: [
         CommonModule,
         MatTableModule,
@@ -31,7 +35,11 @@ import {MatSelectModule} from "@angular/material/select";
         MatFormFieldModule,
         MatInputModule,
         MatDialogModule,
-        MatSelectModule
+        MatSelectModule,
+        MatGridListModule,
+        MatMenuModule,
+        LayoutModule,
+        MatTabsModule
     ]
 })
 export class EquipeModule { }

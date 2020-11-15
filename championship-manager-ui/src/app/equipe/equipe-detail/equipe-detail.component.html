@@ -1,0 +1,5 @@
+<mat-tab-group>
+  <mat-tab *ngFor="let card of cards" [label]="card.title">
+    <ng-container *ngComponentOutlet="card.component"></ng-container>
+  </mat-tab>
+</mat-tab-group>
