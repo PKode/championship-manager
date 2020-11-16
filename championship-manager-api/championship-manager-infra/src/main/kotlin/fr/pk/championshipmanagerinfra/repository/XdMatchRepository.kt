@@ -11,6 +11,7 @@ import jetbrains.exodus.util.Random
 import kotlinx.dnq.query.addAll
 import kotlinx.dnq.query.eq
 import kotlinx.dnq.query.filter
+import kotlinx.dnq.query.sortedBy
 import org.springframework.stereotype.Component
 
 @Component
@@ -55,6 +56,8 @@ class XdMatchRepository(private val xdStore: TransientEntityStore) : MatchReposi
                         n.id = Random().nextInt()
                         n.domicile = XdEquipe.findFirstByMapped(XdEquipe::id eq match.domicile.id) { it }
                         n.exterieur = XdEquipe.findFirstByMapped(XdEquipe::id eq match.exterieur.id) { it }
+                        n.butDomicile = match.butDomicile
+                        n.butExterieur = match.butExterieur
                         n.date = match.date.toDateTime()
                     },
                     ifUpdate = {
@@ -65,6 +68,20 @@ class XdMatchRepository(private val xdStore: TransientEntityStore) : MatchReposi
                         it.joueurs.addAll(joueurs)
                         it
                     }) { it.toMatch() }
+        }
+    }
+
+    override fun findAllByEquipeAndSaison(equipeId: Int, saison: Int): List<Match> {
+        TODO("Not yet implemented")
+    }
+
+    override fun findLastPlayedMatchByEquipe(equipeId: Int): Match {
+        return xdStore.transactional {
+            XdMatch.filter { ((it.domicile.id eq equipeId) or (it.exterieur.id eq equipeId)) }
+                    .filter { ((it.butDomicile ne null) and (it.butExterieur ne null)) }
+                    .sortedBy(XdMatch::date, asc = false)
+                    .map { it.toMatch() }
+                    .first()
         }
     }
 }

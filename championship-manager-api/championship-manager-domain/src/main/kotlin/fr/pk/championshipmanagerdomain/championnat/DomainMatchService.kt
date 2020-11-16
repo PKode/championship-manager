@@ -7,4 +7,8 @@ class DomainMatchService(private val matchRepository: MatchRepository) : MatchSe
     override fun createOrEdit(match: Match): Match {
         return matchRepository.saveOrUpdate(match)
     }
+
+    override fun getAllMatchsByEquipe(equipeId: Int): List<Match> {
+        TODO("Not yet implemented")
+    }
 }

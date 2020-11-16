@@ -20,4 +20,17 @@ interface MatchRepository {
      * @return le nouveau match.
      */
     fun saveOrUpdate(match: Match): Match
+
+    /**
+     * @return la liste de tous les matchs d'une équipe pour une saison.
+     * @param equipeId
+     * @param saison
+     */
+    fun findAllByEquipeAndSaison(equipeId: Int, saison: Int) : List<Match>
+
+    /**
+     * @return le dernier match joué de l'équipe
+     * @param equipeId
+     */
+    fun findLastPlayedMatchByEquipe(equipeId: Int): Match
 }

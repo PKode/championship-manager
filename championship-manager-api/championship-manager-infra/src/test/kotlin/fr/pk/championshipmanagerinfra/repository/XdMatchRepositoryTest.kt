@@ -79,4 +79,21 @@ internal class XdMatchRepositoryTest : XdRepositoryTest() {
                 .isEqualTo(matchWithScore)
                 .isEqualTo(updatedMatch)
     }
+
+    @Test
+    fun `doit recuperer le dernier match joue d une equipe`() {
+        val expectedLastMatchPlayed = Match(null, PSG, OL, 3, 1)
+        val matchs = listOf(
+                Match(null, PSG, OL, 1, 0),
+                Match(null, OL, PSG, 1, 2),
+                expectedLastMatchPlayed,
+                Match(null, OL, PSG)
+        )
+
+        matchs.forEach { repository.saveOrUpdate(it) }
+
+        val lastMatchPlayed = repository.findLastPlayedMatchByEquipe(PSG.id!!)
+
+        assertThat(lastMatchPlayed).isEqualToIgnoringGivenFields(expectedLastMatchPlayed, "id")
+    }
 }
