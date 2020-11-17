@@ -72,7 +72,11 @@ class XdMatchRepository(private val xdStore: TransientEntityStore) : MatchReposi
     }
 
     override fun findAllByEquipeAndSaison(equipeId: Int, saison: Int): List<Match> {
-        TODO("Not yet implemented")
+        return xdStore.transactional {
+            XdMatch.filter { it.saison eq saison }
+                    .filter { ((it.domicile.id eq equipeId) or (it.exterieur.id eq equipeId)) }
+                    .map { it.toMatch() }
+        }
     }
 
     override fun findLastPlayedMatchByEquipe(equipeId: Int): Match {

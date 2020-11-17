@@ -1,7 +1,6 @@
 package fr.pk.championshipmanagerinfra.repository
 
-import fr.pk.championshipmanagerdomain.championnat.JoueurStat
-import fr.pk.championshipmanagerdomain.championnat.Match
+import fr.pk.championshipmanagerdomain.championnat.*
 import fr.pk.championshipmanagerdomain.equipe.Equipe
 import fr.pk.championshipmanagerdomain.joueur.Joueur
 import fr.pk.championshipmanagerinfra.TestConfiguration
@@ -22,6 +21,7 @@ internal class XdMatchRepositoryTest : XdRepositoryTest() {
     private val xdStore = xodusStore(XdMatch, XdEquipe, XdChampionnat, XdJoueurStat, XdJoueur)
 
     private val repository = XdMatchRepository(xdStore)
+    private val championnatRepository = XdChampionnatRepository(xdStore)
 
     private val PSG = Equipe(1, "PSG")
     private val OL = Equipe(2, "OL")
@@ -95,5 +95,27 @@ internal class XdMatchRepositoryTest : XdRepositoryTest() {
         val lastMatchPlayed = repository.findLastPlayedMatchByEquipe(PSG.id!!)
 
         assertThat(lastMatchPlayed).isEqualToIgnoringGivenFields(expectedLastMatchPlayed, "id")
+    }
+
+    @Test
+    fun `doit recuperer tous les matchs d une equipe pour une saison`() {
+        val matchs2020 = listOf(
+                Match(null, PSG, OL, 1, 0),
+                Match(null, OL, PSG, 1, 2),
+                Match(null, PSG, OL, 3, 1)
+        )
+        val matchs2021 = listOf(Match(null, OL, PSG))
+        val saison2020 = Saison(2020, listOf(Journee(1, matchs2020)))
+        val saison2021 = Saison(2021, listOf(Journee(1, matchs2021)))
+
+        val (championnatId) = championnatRepository.saveOrUpdate(Championnat(null, "Ligue 1"))
+        championnatRepository.saveNewSaison(championnatId!!, saison2020)
+        championnatRepository.saveNewSaison(championnatId, saison2021)
+
+        val findAllByEquipeAndSaison = repository.findAllByEquipeAndSaison(PSG.id!!, 2021)
+
+        assertThat(findAllByEquipeAndSaison)
+                .usingElementComparatorIgnoringFields("id")
+                .isEqualTo(saison2021.journees.flatMap { it.matchs })
     }
 }
