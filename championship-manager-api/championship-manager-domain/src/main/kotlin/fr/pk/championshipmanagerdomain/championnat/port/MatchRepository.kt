@@ -32,5 +32,5 @@ interface MatchRepository {
      * @return le dernier match joué de l'équipe
      * @param equipeId
      */
-    fun findLastPlayedMatchByEquipe(equipeId: Int): Match
+    fun findCurrentSaisonByEquipe(equipeId: Int): Int
 }

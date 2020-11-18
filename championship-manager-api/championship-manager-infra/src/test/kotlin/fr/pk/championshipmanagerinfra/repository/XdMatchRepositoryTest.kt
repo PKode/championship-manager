@@ -81,30 +81,14 @@ internal class XdMatchRepositoryTest : XdRepositoryTest() {
     }
 
     @Test
-    fun `doit recuperer le dernier match joue d une equipe`() {
-        val expectedLastMatchPlayed = Match(null, PSG, OL, 3, 1)
-        val matchs = listOf(
-                Match(null, PSG, OL, 1, 0),
-                Match(null, OL, PSG, 1, 2),
-                expectedLastMatchPlayed,
-                Match(null, OL, PSG)
-        )
-
-        matchs.forEach { repository.saveOrUpdate(it) }
-
-        val lastMatchPlayed = repository.findLastPlayedMatchByEquipe(PSG.id!!)
-
-        assertThat(lastMatchPlayed).isEqualToIgnoringGivenFields(expectedLastMatchPlayed, "id")
-    }
-
-    @Test
-    fun `doit recuperer tous les matchs d une equipe pour une saison`() {
+    fun `doit recuperer la saison en cours d une equipe`() {
         val matchs2020 = listOf(
                 Match(null, PSG, OL, 1, 0),
                 Match(null, OL, PSG, 1, 2),
                 Match(null, PSG, OL, 3, 1)
         )
         val matchs2021 = listOf(Match(null, OL, PSG))
+
         val saison2020 = Saison(2020, listOf(Journee(1, matchs2020)))
         val saison2021 = Saison(2021, listOf(Journee(1, matchs2021)))
 
@@ -112,10 +96,17 @@ internal class XdMatchRepositoryTest : XdRepositoryTest() {
         championnatRepository.saveNewSaison(championnatId!!, saison2020)
         championnatRepository.saveNewSaison(championnatId, saison2021)
 
-        val findAllByEquipeAndSaison = repository.findAllByEquipeAndSaison(PSG.id!!, 2021)
+        val currentSaison = repository.findCurrentSaisonByEquipe(PSG.id!!)
+
+        assertThat(currentSaison).isEqualTo(2021)
+
+        // Maybe it's not good to test 2 things in one test ...
+
+        val findAllByEquipeAndSaison = repository.findAllByEquipeAndSaison(PSG.id!!, currentSaison)
 
         assertThat(findAllByEquipeAndSaison)
                 .usingElementComparatorIgnoringFields("id")
                 .isEqualTo(saison2021.journees.flatMap { it.matchs })
+
     }
 }

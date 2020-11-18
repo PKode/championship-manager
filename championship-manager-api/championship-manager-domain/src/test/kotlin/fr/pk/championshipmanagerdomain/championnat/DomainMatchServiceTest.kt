@@ -50,6 +50,25 @@ internal class DomainMatchServiceTest {
             Assertions.assertThat(match).isEqualTo(expectedCreatedMatch)
         }
     }
+
+    @Nested
+    inner class GetFeature {
+        @Test
+        fun `doit recuperer tous les matchs d une equipe de la saison en cours`() {
+            val expectedCreatedMatchs = listOf(Match(domicile = PSG, exterieur = OL, date = "20/08/2020".toLocalDate().atTime(21, 0),
+                    butDomicile = 2, butExterieur = 1, joueurs = listOf(JoueurStat(RONALDO))),
+                    Match(domicile = OL, exterieur = PSG, date = "27/08/2020".toLocalDate().atTime(21, 0))
+            )
+
+            `when`(repository.findCurrentSaisonByEquipe(PSG.id!!)).thenReturn(2020)
+            `when`(repository.findAllByEquipeAndSaison(PSG.id!!, 2020)).thenReturn(expectedCreatedMatchs)
+
+            val matchs = service.getAllMatchsByEquipeForCurrentSaison(PSG.id!!)
+
+            Assertions.assertThat(matchs).usingElementComparatorIgnoringFields("id")
+                    .isEqualTo(expectedCreatedMatchs)
+        }
+    }
 }
 
 private fun String.toLocalDate(): LocalDate {

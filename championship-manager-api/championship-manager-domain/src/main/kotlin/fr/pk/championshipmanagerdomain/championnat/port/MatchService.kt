@@ -12,5 +12,5 @@ interface MatchService {
      * @return tous les matchs de la saison en cours de l'équipe
      * @param equipeId
      */
-    fun getAllMatchsByEquipe(equipeId: Int): List<Match>
+    fun getAllMatchsByEquipeForCurrentSaison(equipeId: Int): List<Match>
 }

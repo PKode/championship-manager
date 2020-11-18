@@ -67,6 +67,8 @@ class XdChampionnatRepository(private val xdStore: TransientEntityStore) : Champ
                         this.journee = j.numero
                         this.saison = saison.annee
                         this.date = match.date.toDateTime()
+                        this.butDomicile = match.butDomicile
+                        this.butExterieur = match.butExterieur
                     }
                 }
             }
@@ -75,7 +77,7 @@ class XdChampionnatRepository(private val xdStore: TransientEntityStore) : Champ
                         c.matchs.addAll(matchs)
                         c
                     },
-                    ifNew = { error("Championnat of id $championnatId doest not exist") }
+                    ifNew = { error("Championnat of id $championnatId does not exist") }
             ) {
                 it.toChampionnat()
             }

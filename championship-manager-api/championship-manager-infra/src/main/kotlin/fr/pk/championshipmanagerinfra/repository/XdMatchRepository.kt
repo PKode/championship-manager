@@ -13,6 +13,7 @@ import kotlinx.dnq.query.eq
 import kotlinx.dnq.query.filter
 import kotlinx.dnq.query.sortedBy
 import org.springframework.stereotype.Component
+import java.time.LocalDateTime
 
 @Component
 class XdMatchRepository(private val xdStore: TransientEntityStore) : MatchRepository {
@@ -79,13 +80,14 @@ class XdMatchRepository(private val xdStore: TransientEntityStore) : MatchReposi
         }
     }
 
-    override fun findLastPlayedMatchByEquipe(equipeId: Int): Match {
+    // TODO: rework to get the first match without score instead of the last with score
+    override fun findCurrentSaisonByEquipe(equipeId: Int): Int {
         return xdStore.transactional {
             XdMatch.filter { ((it.domicile.id eq equipeId) or (it.exterieur.id eq equipeId)) }
-                    .filter { ((it.butDomicile ne null) and (it.butExterieur ne null)) }
-                    .sortedBy(XdMatch::date, asc = false)
-                    .map { it.toMatch() }
-                    .first()
+                    .filter { ((it.butDomicile eq null) and (it.butExterieur eq null)) }
+                    .sortedBy(XdMatch::date, asc = true)
+                    .map { it.saison }
+                    .firstOrNull() ?: LocalDateTime.now().year // TODO: what to do if no match already played
         }
     }
 }
