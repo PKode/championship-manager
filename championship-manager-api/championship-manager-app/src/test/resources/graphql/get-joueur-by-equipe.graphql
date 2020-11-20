@@ -1,5 +1,5 @@
 query  {
-    joueurByEquipe(equipeId: $equipeId) {
+    joueursByEquipe(equipeId: $equipeId) {
         id
         nom
         prenom
@@ -8,5 +8,9 @@ query  {
         dateNaissance
         taille
         poids
+        equipe {
+            id
+            nom
+        }
     }
 }

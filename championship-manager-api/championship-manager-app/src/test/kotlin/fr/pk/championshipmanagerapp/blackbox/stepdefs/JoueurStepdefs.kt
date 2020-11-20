@@ -42,8 +42,8 @@ class JoueurStepdefs(private val graphqlTemplate: TestGraphQLTemplate,
             Assertions.assertThat(joueurs).containsAll(expectedJoueur)
         }
 
-        Then("l'utilisateur affiche les joueurs de l'équipe") { equipeId: String, expectedJoueurPayload: String ->
-            val joueurs: List<JoueurDto> = this.graphqlTemplate.post(getJoueurByEquipeQuery, mapOf("equipeId" to equipeId)).pluck("joueurs")
+        Then("l'utilisateur affiche les joueurs de l'équipe {string}") { equipeId: String, expectedJoueurPayload: String ->
+            val joueurs: List<JoueurDto> = this.graphqlTemplate.post(getJoueurByEquipeQuery, mapOf("equipeId" to equipeId)).pluck("joueursByEquipe")
 
             val expectedJoueur: List<JoueurDto> = expectedJoueurPayload.extractExpected(scenarioContext::replacePlaceHolders)
 

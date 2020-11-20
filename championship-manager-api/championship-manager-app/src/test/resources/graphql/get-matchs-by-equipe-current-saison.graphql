@@ -1,0 +1,16 @@
+query matchsByEquipeAndCurrentSaison {
+    matchsByEquipeAndCurrentSaison(equipeId: $equipeId) {
+        id
+        domicile {
+            id
+            nom
+        }
+        exterieur {
+            id
+            nom
+        }
+        butDomicile
+        butExterieur
+        date
+    }
+}

@@ -8,5 +8,9 @@ query joueurs {
         dateNaissance
         taille
         poids
+        equipe {
+            id
+            nom
+        }
     }
 }

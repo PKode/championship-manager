@@ -3,6 +3,7 @@ query saison {
         annee
         journees {
             matchs {
+                id
                 butDomicile
                 butExterieur
                 date

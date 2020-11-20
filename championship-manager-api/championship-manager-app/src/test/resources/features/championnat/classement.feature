@@ -14,6 +14,7 @@ Feature: Classement
       | nom     | prenom    | poste | nationalite | dateNaissance | taille | poids |
       | Ronaldo | Cristiano | ATT   | Portugais   | 02/05/1985    | 187    | 84    |
     When l'utilisateur génère le calendrier du championnat '$LAST_CHAMPIONNAT_ID' commençant le '01/09/2020'
+    And l'utilisateur affiche le calendrier du championnat '$LAST_CHAMPIONNAT_ID' pour la saison 2020
     And l'utilisateur modifie les matchs suivants
       | domicile | butDomicile | butExterieur | exterieur | joueurs                         |
       | PSG      | 3           | 0            | OM        |                                 |

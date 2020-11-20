@@ -16,7 +16,7 @@ import org.springframework.test.context.ContextConfiguration
         properties = ["spring.main.allow-bean-definition-overriding=true"])
 @ContextConfiguration(classes = [ChampionshipManagerAppApplication::class, BlackBoxConfiguration::class])
 @CucumberContextConfiguration
-class InitStepDefs(private val xdStore: TransientEntityStore) : En {
+class InitStepDefs(xdStore: TransientEntityStore) : En {
 
     init {
         // Supprime toutes les données avant tous les scénarios

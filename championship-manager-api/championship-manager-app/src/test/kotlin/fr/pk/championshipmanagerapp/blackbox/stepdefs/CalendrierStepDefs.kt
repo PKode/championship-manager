@@ -41,15 +41,23 @@ class CalendrierStepDefs(private val graphqlTemplate: TestGraphQLTemplate,
             assertThat(actualSaison.journees.size).isEqualTo(nbJournees)
             assertThat(actualSaison.journees.flatMap { it.matchs }.size).isEqualTo(nbMatchs)
         }
+        Then("l'utilisateur affiche le calendrier du championnat {string} pour la saison {int}")
+        { championnatId: String, saison: Int ->
+            val actualSaison: SaisonDto = this.graphqlTemplate.post(getSaisonQuery,
+                    mapOf("saison" to saison.toString(),
+                            "championnatId" to championnatId))
+                    .pluck("saison")
+            scenarioContext.put(ContextKey.LAST_CALENDAR, actualSaison)
+        }
         When("l'utilisateur modifie les matchs suivants") { matchs: DataTable ->
             val currentCalendar = scenarioContext.get(ContextKey.LAST_CALENDAR) as SaisonDto
             matchs.asMaps().forEach { match ->
                 val matchToUpdate = currentCalendar.matchs.findByEquipe(match["domicile"], match["exterieur"])
-                this.graphqlTemplate.post(updateMatchMuation,
-                        mapOf("match" to matchToUpdate.copy(butDomicile = match["butDomicile"]?.toInt(), butExterieur = match["butExterieur"]?.toInt(),
-                                joueurs = jacksonObjectMapper.readValue(scenarioContext.replacePlaceHolders(match["joueurs"]?.content()
-                                        ?: "[]"))))
-                )
+                val matchUpdated = matchToUpdate.copy(
+                        butDomicile = match["butDomicile"]?.toInt(), butExterieur = match["butExterieur"]?.toInt(),
+                        joueurs = jacksonObjectMapper.readValue(scenarioContext.replacePlaceHolders(match["joueurs"]?.content()
+                                ?: "[]")))
+                this.graphqlTemplate.post(updateMatchMuation, mapOf("match" to matchUpdated))
             }
         }
     }

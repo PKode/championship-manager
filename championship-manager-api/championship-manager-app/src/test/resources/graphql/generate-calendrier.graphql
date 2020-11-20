@@ -4,6 +4,7 @@ mutation {
         journees {
             numero
             matchs {
+                id
                 domicile {
                     id
                     nom

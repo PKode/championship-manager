@@ -1,8 +1,7 @@
 package fr.pk.championshipmanagerapp.blackbox
 
-import com.expediagroup.graphql.spring.model.GraphQLRequest
-import com.expediagroup.graphql.spring.model.GraphQLResponse
-import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
+import com.expediagroup.graphql.types.GraphQLRequest
+import com.expediagroup.graphql.types.GraphQLResponse
 import com.fasterxml.jackson.module.kotlin.readValue
 import org.json.JSONObject
 import org.springframework.boot.test.web.client.TestRestTemplate
@@ -19,7 +18,7 @@ import java.net.URL
 class TestGraphQLTemplate(private val restTemplate: TestRestTemplate,
                           private val scenarioContext: ScenarioContext) {
 
-    fun post(query: URL, variables: Map<String, Any> = mapOf()): GraphQLResponse {
+    fun post(query: URL, variables: Map<String, Any> = mapOf()): GraphQLResponse<*> {
         val headers = HttpHeaders().apply { contentType = MediaType.APPLICATION_JSON }
 
         // TODO: maybe see template engine like thymeleaf or velocity ?
@@ -44,6 +43,6 @@ fun Any.serialize(): String {
 }
 
 // TODO: see if and how we want to go more deeper like pluck in rxjs
-inline fun <reified T> GraphQLResponse.pluck(property: String): T {
-    return jacksonObjectMapper().readValue(JSONObject(this.data as Map<*, *>)[property].toString())
+inline fun <reified T> GraphQLResponse<*>.pluck(property: String): T {
+    return jacksonObjectMapper.readValue(JSONObject(this.data as Map<*, *>)[property].toString())
 }

@@ -14,12 +14,12 @@ class ScenarioContext {
 
     fun replacePlaceHolders(variables: MutableMap<String, Any>): Map<String, Any> {
         return variables.map { (key, value) ->
-            if(value.toString().startsWith(VARIABLE_DELIMITER)) key to get(enumValueOf(value.toString().substringAfter(VARIABLE_DELIMITER))).toString()
-            else key to value
+            if (value.toString().startsWith(VARIABLE_DELIMITER)) key to get(enumValueOf(value.toString().substringAfter(VARIABLE_DELIMITER))).toString()
+            else key to if (value is String) replacePlaceHolders(value) else value
         }.toMap()
     }
 
-    fun replacePlaceHolders(payload: String) : String {
+    fun replacePlaceHolders(payload: String): String {
         return payload.replace("\\$[a-zA-Z_]+".toRegex()) {
             get(enumValueOf(it.value.substringAfter(VARIABLE_DELIMITER))).toString()
         }
