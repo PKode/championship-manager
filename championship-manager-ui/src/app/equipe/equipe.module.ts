@@ -19,10 +19,11 @@ import {MatGridListModule} from '@angular/material/grid-list';
 import {MatMenuModule} from '@angular/material/menu';
 import {LayoutModule} from '@angular/cdk/layout';
 import {MatTabsModule} from "@angular/material/tabs";
+import {EquipeMatchsComponent} from './equipe-matchs/equipe-matchs.component';
 
 
 @NgModule({
-  declarations: [EquipeComponent, EquipeListComponent, EquipeFormComponent, EquipeDetailComponent],
+  declarations: [EquipeComponent, EquipeListComponent, EquipeFormComponent, EquipeDetailComponent, EquipeMatchsComponent],
     imports: [
         CommonModule,
         MatTableModule,

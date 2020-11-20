@@ -1,5 +1,13 @@
 import {Injectable} from '@angular/core';
-import {ClassementGQL, ClassementJoueurGQL, MatchDto, MatchGQL, SaisonGQL} from "../generated/graphql";
+import {
+  ClassementGQL,
+  ClassementJoueurGQL,
+  MatchDto,
+  MatchGQL,
+  MatchsByEquipeAndCurrentSaisonGQL,
+  SaisonGQL
+} from "../generated/graphql";
+import {pluck} from "rxjs/operators";
 
 @Injectable({
   providedIn: 'root'
@@ -7,6 +15,7 @@ import {ClassementGQL, ClassementJoueurGQL, MatchDto, MatchGQL, SaisonGQL} from 
 export class MatchService {
 
   constructor(private matchMutation: MatchGQL,
+              private matchByEquipeQuery: MatchsByEquipeAndCurrentSaisonGQL,
               private saisonQuery: SaisonGQL,
               private classementQuery: ClassementGQL,
               private classementJoueurQuery: ClassementJoueurGQL) {
@@ -29,5 +38,9 @@ export class MatchService {
         ]
       }
     ).subscribe();
+  }
+
+  getMatchByEquipe(equipeId: number) {
+    return this.matchByEquipeQuery.watch({equipeId: equipeId}).valueChanges.pipe(pluck('data', 'matchsByEquipeAndCurrentSaison'))
   }
 }

@@ -5,7 +5,7 @@ import fr.pk.championshipmanagerdomain.joueur.Joueur
 data class JoueurDto(
         val id: Int? = null,
         val nom: String,
-        val prenom: String,
+        val prenom: String? = null,
         val poste: String,
         val nationalite: String,
         val dateNaissance: String,

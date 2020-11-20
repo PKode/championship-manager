@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
-import {CalendrierComponent} from "../../championnat/calendrier/calendrier.component";
 import {JoueurListComponent} from "../../joueur/joueur-list/joueur-list.component";
+import {EquipeMatchsComponent} from "../equipe-matchs/equipe-matchs.component";
 
 @Component({
   selector: 'app-equipe-detail',
@@ -11,7 +11,7 @@ export class EquipeDetailComponent {
   /** Based on the screen size, switch from standard to one column per row */
   cards = [
     {title: 'Joueurs', component: JoueurListComponent},
-    {title: 'Calendrier', component: CalendrierComponent}
+    {title: 'Calendrier', component: EquipeMatchsComponent}
   ]
 
   constructor() {

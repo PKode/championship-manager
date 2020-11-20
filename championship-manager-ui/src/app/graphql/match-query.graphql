@@ -1,0 +1,28 @@
+query matchsByEquipeAndCurrentSaison($equipeId: Int!) {
+  matchsByEquipeAndCurrentSaison(equipeId: $equipeId) {
+    id
+    domicile {
+      id
+      nom
+    }
+    exterieur {
+      id
+      nom
+    }
+    butDomicile
+    butExterieur
+    date
+    joueurs {
+      joueur {
+        nom
+        equipe {
+          id
+        }
+      }
+      nbButs
+      nbPasses
+      nbCartonsJaunes
+      nbCartonsRouges
+    }
+  }
+}

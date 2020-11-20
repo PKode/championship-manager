@@ -40,7 +40,7 @@ export class JoueurFormComponent implements OnInit {
               private dialogRef: MatDialogRef<JoueurFormComponent>,
               @Inject(MAT_DIALOG_DATA) public data: JoueurDto) {
     this.joueurForm = this.fb.group({
-      prenom: [data?.prenom ? data.prenom : null, Validators.required],
+      prenom: [data?.prenom ? data.prenom : null],
       nom: [data?.nom ? data.nom : null, Validators.required],
       equipe: [data?.equipe ? data.equipe : null],
       poste: [data?.poste ? data.poste : null, Validators.required],

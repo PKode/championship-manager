@@ -12,7 +12,7 @@ class XdJoueur(entity: Entity) : XdEntity(entity) {
 
     var nom by xdRequiredStringProp()
 
-    var prenom by xdRequiredStringProp()
+    var prenom by xdStringProp()
 
     var poste by xdRequiredStringProp()
 
