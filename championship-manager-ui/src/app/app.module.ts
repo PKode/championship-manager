@@ -24,6 +24,7 @@ import {
   MomentDateAdapter
 } from "@angular/material-moment-adapter";
 import {JoueurModule} from "./joueur/joueur.module";
+import {TransfertModule} from "./transfert/transfert.module";
 
 @NgModule({
   declarations: [
@@ -41,6 +42,7 @@ import {JoueurModule} from "./joueur/joueur.module";
     ChampionnatModule,
     EquipeModule,
     JoueurModule,
+    TransfertModule,
     MatDialogModule,
     MatButtonModule,
     MatSidenavModule,

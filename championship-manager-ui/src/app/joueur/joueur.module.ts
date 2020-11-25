@@ -18,20 +18,23 @@ import {MatIconModule} from "@angular/material/icon";
 
 // @ts-ignore
 @NgModule({
-  declarations: [JoueurComponent, JoueurListComponent, JoueurFormComponent],
-  imports: [
-    CommonModule,
-    MatTableModule,
-    MatPaginatorModule,
-    MatSortModule,
-    MatButtonModule,
-    MatInputModule,
-    MatSelectModule,
-    MatRadioModule,
-    MatCardModule,
-    ReactiveFormsModule,
-    MatDatepickerModule,
-    MatIconModule
-  ]
+    declarations: [JoueurComponent, JoueurListComponent, JoueurFormComponent],
+    exports: [
+        JoueurListComponent
+    ],
+    imports: [
+        CommonModule,
+        MatTableModule,
+        MatPaginatorModule,
+        MatSortModule,
+        MatButtonModule,
+        MatInputModule,
+        MatSelectModule,
+        MatRadioModule,
+        MatCardModule,
+        ReactiveFormsModule,
+        MatDatepickerModule,
+        MatIconModule
+    ]
 })
 export class JoueurModule { }

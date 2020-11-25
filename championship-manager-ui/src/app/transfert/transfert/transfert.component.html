@@ -1,0 +1,48 @@
+<div class="grid-container">
+  <mat-grid-list cols="2" rowHeight="350px">
+    <mat-grid-tile [colspan]="(cards | async)[0].cols" [rowspan]="(cards | async)[0].rows">
+      <mat-card class="dashboard-card">
+        <mat-card-header>
+          <mat-form-field class="full-width" style="flex: 1">
+            <mat-select placeholder="Equipe">
+              <mat-option *ngFor="let equipe of equipes" [value]="equipe">
+                {{ equipe.nom }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <div style="flex: 1">
+            <button class="transfert-button" style="right: 10px" mat-fab color="primary"
+                    aria-label="Example icon button with a delete icon">
+              <mat-icon>east</mat-icon>
+            </button>
+          </div>
+        </mat-card-header>
+        <mat-card-content class="dashboard-card-content">
+          <ng-container *ngComponentOutlet="(cards | async)[0].component"></ng-container>
+        </mat-card-content>
+      </mat-card>
+    </mat-grid-tile>
+    <mat-grid-tile [colspan]="(cards | async)[0].cols" [rowspan]="(cards | async)[0].rows">
+      <mat-card class="dashboard-card">
+        <mat-card-header>
+          <div style="flex: 1">
+            <button class="transfert-button" style="left: 10px" mat-fab color="primary"
+                    aria-label="Example icon button with a delete icon">
+              <mat-icon>west</mat-icon>
+            </button>
+          </div>
+          <mat-form-field style="flex: 1" class="full-width">
+            <mat-select placeholder="Equipe">
+              <mat-option *ngFor="let equipe of equipes" [value]="equipe">
+                {{ equipe.nom }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </mat-card-header>
+        <mat-card-content class="dashboard-card-content">
+          <ng-container *ngComponentOutlet="(cards | async)[0].component"></ng-container>
+        </mat-card-content>
+      </mat-card>
+    </mat-grid-tile>
+  </mat-grid-list>
+</div>

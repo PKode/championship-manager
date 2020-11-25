@@ -5,6 +5,7 @@ import {EquipeComponent} from "./equipe/equipe.component";
 import {ChampionnatDetailComponent} from "./championnat/championnat-detail/championnat-detail.component";
 import {JoueurComponent} from "./joueur/joueur.component";
 import {EquipeDetailComponent} from "./equipe/equipe-detail/equipe-detail.component";
+import {TransfertComponent} from "./transfert/transfert/transfert.component";
 
 
 const routes: Routes = [
@@ -35,6 +36,10 @@ const routes: Routes = [
   {
     path: 'joueur',
     component: JoueurComponent
+  },
+  {
+    path: 'transfert',
+    component: TransfertComponent
   }
 ];
 
