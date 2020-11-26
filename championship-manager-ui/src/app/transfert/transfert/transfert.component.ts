@@ -29,14 +29,23 @@ export class TransfertComponent implements OnInit {
   );
 
   equipes: EquipeDto[] = [];
+  leftEquipe: EquipeDto;
+  rightEquipe: EquipeDto;
 
   constructor(private breakpointObserver: BreakpointObserver,
               private equipeService: EquipeService) {
   }
 
   ngOnInit(): void {
-    this.equipeService.getAllEquipes().subscribe(data =>
-      this.equipes = data.map(e => e as EquipeDto)
+    this.equipeService.getAllEquipes().subscribe(data => {
+        this.equipes = data.map(e => e as EquipeDto);
+        this.leftEquipe = this.equipes[0];
+        this.rightEquipe = this.equipes[1];
+      }
     );
+  }
+
+  equipesEquals(equipe1: EquipeDto, equipe2: EquipeDto) {
+    return equipe1.id == equipe2.id
   }
 }

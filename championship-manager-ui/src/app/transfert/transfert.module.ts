@@ -12,11 +12,17 @@ import {MatSelectModule} from "@angular/material/select";
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatOptionModule} from "@angular/material/core";
 import {JoueurModule} from "../joueur/joueur.module";
+import { TransfertJoueurComponent } from './transfert-joueur/transfert-joueur.component';
+import { MatTableModule } from '@angular/material/table';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatSortModule } from '@angular/material/sort';
+import {MatCheckboxModule} from "@angular/material/checkbox";
+import {FormsModule} from "@angular/forms";
 
 
 
 @NgModule({
-  declarations: [TransfertComponent],
+  declarations: [TransfertComponent, TransfertJoueurComponent],
   imports: [
     CommonModule,
     MatGridListModule,
@@ -29,7 +35,12 @@ import {JoueurModule} from "../joueur/joueur.module";
     MatFormFieldModule,
     MatOptionModule,
     LayoutModule,
-    JoueurModule
+    JoueurModule,
+    MatTableModule,
+    MatPaginatorModule,
+    MatSortModule,
+    MatCheckboxModule,
+    FormsModule
   ]
 })
 export class TransfertModule { }
