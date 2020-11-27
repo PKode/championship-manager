@@ -7,7 +7,7 @@ import {JoueurDto} from "../../generated/graphql";
 import {JoueurService} from "../../joueur/joueur.service";
 
 @Component({
-  selector: 'app-trasnfert-joueur',
+  selector: 'app-transfert-joueur',
   templateUrl: './transfert-joueur.component.html',
   styleUrls: ['./transfert-joueur.component.scss']
 })
@@ -22,6 +22,10 @@ export class TransfertJoueurComponent implements OnInit, OnChanges {
 
   @Input()
   equipeId: number;
+
+  selectedJoueur: JoueurDto[] = []
+
+  allSelected: boolean = false;
 
   constructor(private joueurService: JoueurService) {
   }
@@ -41,5 +45,31 @@ export class TransfertJoueurComponent implements OnInit, OnChanges {
         this.table.dataSource = this.dataSource;
       });
     }
+  }
+
+  selectAll(checked: boolean) {
+    if (checked) {
+      this.selectedJoueur = this.dataSource.data;
+    } else {
+      this.selectedJoueur = [];
+    }
+
+    console.log(this.selectedJoueur);
+  }
+
+  toggleSelection(checked: boolean, joueur: JoueurDto) {
+    if (checked) {
+      this.selectedJoueur.push(joueur);
+    } else {
+      this.selectedJoueur.splice(this.selectedJoueur.indexOf(joueur), 1);
+    }
+
+    this.allSelected = this.selectedJoueur.length == this.dataSource.data.length
+
+    console.log(this.selectedJoueur);
+  }
+
+  isSelected(row: JoueurDto) {
+    return this.selectedJoueur.includes(row);
   }
 }
