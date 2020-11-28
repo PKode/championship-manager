@@ -34,4 +34,13 @@ class JoueurMutation(private val joueurService: JoueurService) : Mutation {
         val deleteJoueur = joueurService.delete(id)
         return JoueurDto(deleteJoueur)
     }
+
+    /**
+     * Transfert all joueurs in new Equipe
+     * @param joueurIds ids of joueur to transfert
+     * @param equipeId id of equipe to move joueur to
+     */
+    fun transfert(joueurIds: List<Int>, equipeId: Int): List<JoueurDto> {
+        return joueurIds.map { JoueurDto(joueurService.transfert(it, equipeId)) }
+    }
 }

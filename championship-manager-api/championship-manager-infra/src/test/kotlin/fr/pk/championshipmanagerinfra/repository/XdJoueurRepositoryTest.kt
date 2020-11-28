@@ -31,6 +31,11 @@ internal class XdJoueurRepositoryTest : XdRepositoryTest() {
                 this.nom = "CACV"
             }
 
+            val RM = XdEquipe.new {
+                this.id = 2
+                this.nom = "Real Madrid"
+            }
+
             XdJoueur.new {
                 this.id = 10
                 this.nom = "Kerirzin"
@@ -83,7 +88,7 @@ internal class XdJoueurRepositoryTest : XdRepositoryTest() {
 
         // Create
         val new = Joueur(nom = "Zidane", prenom = "Zinedine", dateNaissance = LocalDate.of(1972, 6, 23),
-                poste = "MO", taille = 185, poids = 80, nationalite = "Français", equipe = Equipe(1, "Real Madrid"))
+                poste = "MO", taille = 185, poids = 80, nationalite = "Français", equipe = Equipe(1, "CACV"))
 
         val joueur = repository.saveOrUpdate(new)
 
@@ -112,6 +117,18 @@ internal class XdJoueurRepositoryTest : XdRepositoryTest() {
                 .isInstanceOf(NoSuchElementException::class.java)
                 .hasMessageContaining("Aucun XdJoueur matche la condition :: PropertyEqual(id=99)")
 
+    }
+
+    @Test
+    fun `doit changer l equipe d un joueur`() {
+        val new = Joueur(nom = "Zidane", prenom = "Zinedine", dateNaissance = LocalDate.of(1972, 6, 23),
+                poste = "MO", taille = 185, poids = 80, nationalite = "Français", equipe = Equipe(2, "Real Madrid"))
+
+        val joueur = repository.saveOrUpdate(new)
+
+        repository.updateEquipe(joueur.id!!, 1)
+        val joueurNewEquipe = repository.findById(joueur.id!!)
+        assertThat(joueurNewEquipe.equipe).isEqualTo(Equipe(1, "CACV"))
     }
 
     fun joueurs(): List<Joueur> =

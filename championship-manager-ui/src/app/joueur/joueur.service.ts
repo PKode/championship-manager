@@ -1,5 +1,12 @@
 import {Injectable} from '@angular/core';
-import {DeleteJoueurGQL, JoueurDtoInput, JoueurGQL, JoueursByEquipeGQL, JoueursGQL} from "../generated/graphql";
+import {
+  DeleteJoueurGQL,
+  JoueurDtoInput,
+  JoueurGQL,
+  JoueursByEquipeGQL,
+  JoueursGQL,
+  TransfertGQL
+} from "../generated/graphql";
 import {pluck} from "rxjs/operators";
 
 @Injectable({
@@ -10,7 +17,8 @@ export class JoueurService {
   constructor(private joueurQuery: JoueursGQL,
               private joueursByEquipeQuery: JoueursByEquipeGQL,
               private joueurMutation: JoueurGQL,
-              private deleteJoueurMutation: DeleteJoueurGQL) {
+              private deleteJoueurMutation: DeleteJoueurGQL,
+              private transfertMutation: TransfertGQL) {
   }
 
   getAllJoueurs() {
@@ -36,6 +44,21 @@ export class JoueurService {
         refetchQueries: [{
           query: this.joueurQuery.document
         }]
+      }
+    ).subscribe();
+  }
+
+  transfertJoueurs(joueurIds: number[], toEquipeId: number, fromEquipeId: number) {
+    this.transfertMutation.mutate({joueurIds: joueurIds, equipeId: toEquipeId}, {
+        refetchQueries: [{
+          query: this.joueursByEquipeQuery.document,
+          variables: {equipeId: toEquipeId}
+        },
+          {
+            query: this.joueursByEquipeQuery.document,
+            variables: {equipeId: fromEquipeId}
+          }
+        ]
       }
     ).subscribe();
   }

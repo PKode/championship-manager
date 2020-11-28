@@ -18,7 +18,7 @@ export class TransfertJoueurComponent implements OnInit, OnChanges {
   dataSource: TransfertJoueurDatasource;
 
   /** Columns displayed in the table. Columns IDs can be added, removed, or reordered. */
-  displayedColumns = ['nom', 'nationalite', 'dateNaissance', 'selected'];
+  displayedColumns = ['selected', 'nom', 'nationalite', 'dateNaissance'];
 
   @Input()
   equipeId: number;
@@ -53,8 +53,6 @@ export class TransfertJoueurComponent implements OnInit, OnChanges {
     } else {
       this.selectedJoueur = [];
     }
-
-    console.log(this.selectedJoueur);
   }
 
   toggleSelection(checked: boolean, joueur: JoueurDto) {
@@ -65,8 +63,6 @@ export class TransfertJoueurComponent implements OnInit, OnChanges {
     }
 
     this.allSelected = this.selectedJoueur.length == this.dataSource.data.length
-
-    console.log(this.selectedJoueur);
   }
 
   isSelected(row: JoueurDto) {

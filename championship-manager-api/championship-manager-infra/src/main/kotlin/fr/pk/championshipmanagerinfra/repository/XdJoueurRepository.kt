@@ -66,5 +66,16 @@ class XdJoueurRepository(private val xdStore: TransientEntityStore) : JoueurRepo
             XdJoueur.filter { it.equipe?.id eq equipeId }.map { j -> j.toJoueur() }
         }
     }
+
+    override fun updateEquipe(joueurId: Int, toEquipeId: Int): Joueur {
+        return xdStore.transactional {
+            XdJoueur.saveOrUpdateMapped(XdJoueur::id eq joueurId,
+                    ifUpdate = { j ->
+                        j.equipe = XdEquipe.findFirstByMapped(XdEquipe::id eq toEquipeId) { eq -> eq }
+                        j
+                    },
+                    ifNew = { error("Joueur with id $joueurId does not exist") }) { it.toJoueur() }
+        }
+    }
 }
 

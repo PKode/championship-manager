@@ -10,11 +10,11 @@ class ScenarioContext {
         this.context[key] = value
     }
 
-    fun get(key: ContextKey) = context[key]
+    operator fun get(key: ContextKey) = context.getValue(key)
 
     fun replacePlaceHolders(variables: MutableMap<String, Any>): Map<String, Any> {
         return variables.map { (key, value) ->
-            if (value.toString().startsWith(VARIABLE_DELIMITER)) key to get(enumValueOf(value.toString().substringAfter(VARIABLE_DELIMITER))).toString()
+            if (value.toString().startsWith(VARIABLE_DELIMITER)) key to get(enumValueOf(value.toString().substringAfter(VARIABLE_DELIMITER)))
             else key to if (value is String) replacePlaceHolders(value) else value
         }.toMap()
     }

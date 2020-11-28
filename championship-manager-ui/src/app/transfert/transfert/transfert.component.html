@@ -11,14 +11,14 @@
             </mat-select>
           </mat-form-field>
           <div style="flex: 1">
-            <button class="transfert-button" style="right: 10px" mat-fab color="primary"
+            <button class="transfert-button" style="right: 10px" mat-fab color="primary" (click)="transfert(left, rightEquipe, leftEquipe)"
                     aria-label="Example icon button with a delete icon">
               <mat-icon>east</mat-icon>
             </button>
           </div>
         </mat-card-header>
         <mat-card-content class="dashboard-card-content">
-          <app-transfert-joueur [equipeId]="leftEquipe?.id"></app-transfert-joueur>
+          <app-transfert-joueur #left [equipeId]="leftEquipe?.id"></app-transfert-joueur>
         </mat-card-content>
       </mat-card>
     </mat-grid-tile>
@@ -26,7 +26,7 @@
       <mat-card class="dashboard-card">
         <mat-card-header>
           <div style="flex: 1">
-            <button class="transfert-button" style="left: 10px" mat-fab color="primary"
+            <button class="transfert-button" style="left: 10px" mat-fab color="primary" (click)="transfert(right, leftEquipe, rightEquipe)"
                     aria-label="Example icon button with a delete icon">
               <mat-icon>west</mat-icon>
             </button>
@@ -40,7 +40,7 @@
           </mat-form-field>
         </mat-card-header>
         <mat-card-content class="dashboard-card-content">
-          <app-transfert-joueur [equipeId]="rightEquipe?.id"></app-transfert-joueur>
+          <app-transfert-joueur #right [equipeId]="rightEquipe?.id"></app-transfert-joueur>
         </mat-card-content>
       </mat-card>
     </mat-grid-tile>

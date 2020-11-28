@@ -63,6 +63,19 @@ internal class JoueurMutationTest {
             assertThat(joueur).isEqualTo(JoueurDto(RONALDO_WITH_ID))
             verify(joueurService, times(1)).createOrEdit(joueurToCreate)
         }
+
+        @Test
+        fun `doit modifier l equipe d un joueur`() {
+
+            val joueurToTransfert = RONALDO_WITH_ID
+            val joueurNewEquipe = RONALDO_WITH_ID.copy(equipe = Equipe(1, "Juventus"))
+            `when`(joueurService.transfert(joueurToTransfert.id!!, 1)).thenReturn(joueurNewEquipe)
+
+            val joueur = mutation.transfert(listOf(RONALDO_WITH_ID.id!!), 1)
+
+            assertThat(joueur).isEqualTo(listOf(JoueurDto(joueurNewEquipe)))
+            verify(joueurService, times(1)).transfert(joueurToTransfert.id!!, 1)
+        }
     }
 
     @Nested

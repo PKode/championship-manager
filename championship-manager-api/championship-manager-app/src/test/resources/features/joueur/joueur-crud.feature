@@ -80,3 +80,38 @@ Feature: Gestion des joueurs
     Then l'utilisateur ne retrouve aucun des joueurs suivants dans la liste des joueurs
       | nom      |
       | Kerirzin |
+
+
+  Scenario: Transférer un joueur
+    Given l'utilisateur crée le championnat avec les informations suivantes
+      | nom     |
+      | Serie A |
+    And l'utilisateur crée les équipes avec les informations suivantes
+      | nom      | championnatNom | championnatId        |
+      | Juventus | Serie A        | $LAST_CHAMPIONNAT_ID |
+    And l'utilisateur crée le joueur avec les informations suivantes
+      | nom     | prenom    | poste | nationalite | dateNaissance | taille | poids | equipe                                   |
+      | Ronaldo | Cristiano | ATT   | Portugais   | 05/02/1985    | 187    | 84    | {id:$LAST_EQUIPE_ID, nom:"Juventus"}     |
+    And l'utilisateur crée les équipes avec les informations suivantes
+      | nom      | championnatNom | championnatId        |
+      | Milan AC | Serie A        | $LAST_CHAMPIONNAT_ID |
+    When l'utilisateur transfert le joueur '$LAST_JOUEUR_ID' dans l'équipe '$LAST_EQUIPE_ID'
+    Then l'utilisateur affiche les joueurs de l'équipe '$LAST_EQUIPE_ID'
+    """
+    [
+      {
+        "id": "$LAST_JOUEUR_ID",
+        "nom": "Ronaldo",
+        "prenom": "Cristiano",
+        "poste": "ATT",
+        "nationalite": "Portugais",
+        "dateNaissance": "05/02/1985",
+        "taille": 187,
+        "poids": 84,
+        "equipe": {
+          "id": $LAST_EQUIPE_ID,
+          "nom": "Milan AC"
+        }
+      }
+    ]
+    """

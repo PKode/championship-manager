@@ -1,0 +1,6 @@
+mutation {
+    transfert(joueurIds: $joueurIds, equipeId: $equipeId ) {
+        id
+        nom
+    }
+}

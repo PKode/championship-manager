@@ -100,6 +100,17 @@ internal class DomainJoueurServiceTest {
 
             assertThat(joueur).isEqualTo(expectedCreatedJoueur)
         }
+
+        @Test
+        fun `doit modifier l equipe d un joueur`() {
+            val expectedCreatedJoueur = RONALDO.copy(id = 7)
+            val withNewEquipe = expectedCreatedJoueur.copy(equipe = Equipe(1, "Juventus"))
+            `when`(repository.updateEquipe(expectedCreatedJoueur.id!!, 1)).thenReturn(withNewEquipe)
+
+            val joueur = service.transfert(expectedCreatedJoueur.id!!, 1)
+
+            assertThat(joueur).isEqualTo(withNewEquipe)
+        }
     }
 
     @Nested

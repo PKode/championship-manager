@@ -14,6 +14,9 @@ class JoueurStepdefs(private val graphqlTemplate: TestGraphQLTemplate,
     @Value("classpath:graphql/new-joueur.graphql")
     private lateinit var newJoueurMutation: URL
 
+    @Value("classpath:graphql/transfert-joueur.graphql")
+    private lateinit var transfertMutation: URL
+
     @Value("classpath:graphql/get-joueur.graphql")
     private lateinit var getJoueurQuery: URL
 
@@ -58,6 +61,11 @@ class JoueurStepdefs(private val graphqlTemplate: TestGraphQLTemplate,
             expectedJoueur.forEach {
                 Assertions.assertThat(joueurs).doesNotContain(it)
             }
+        }
+
+        When("l'utilisateur transfert le joueur {string} dans l'équipe {string}") { joueurId: String, equipeId: String ->
+            this.graphqlTemplate.post(transfertMutation,
+                    mapOf("joueurIds" to listOf(scenarioContext[enumValueOf(joueurId.substringAfter("$"))]), "equipeId" to equipeId))
         }
     }
 

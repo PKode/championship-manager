@@ -67,7 +67,7 @@ export type JoueurDto = {
   nom: Scalars['String'];
   poids: Scalars['Int'];
   poste: Scalars['String'];
-  prenom: Scalars['String'];
+  prenom: Maybe<Scalars['String']>;
   taille: Scalars['Int'];
 };
 
@@ -79,7 +79,7 @@ export type JoueurDtoInput = {
   nom: Scalars['String'];
   poids: Scalars['Int'];
   poste: Scalars['String'];
-  prenom: Scalars['String'];
+  prenom: Maybe<Scalars['String']>;
   taille: Scalars['Int'];
 };
 
@@ -137,6 +137,7 @@ export type Mutation = {
   equipe: EquipeDto;
   deleteJoueur: JoueurDto;
   joueur: JoueurDto;
+  transfert: Array<JoueurDto>;
   match: MatchDto;
 };
 
@@ -174,6 +175,12 @@ export type MutationDeleteJoueurArgs = {
 
 export type MutationJoueurArgs = {
   joueur: JoueurDtoInput;
+};
+
+
+export type MutationTransfertArgs = {
+  joueurIds: Array<Scalars['Int']>;
+  equipeId: Scalars['Int'];
 };
 
 
@@ -406,6 +413,14 @@ export type DeleteJoueurMutationVariables = {
 
 
 export type DeleteJoueurMutation = { deleteJoueur: Pick<JoueurDto, 'id' | 'nom'> };
+
+export type TransfertMutationVariables = {
+  joueurIds: Array<Scalars['Int']>;
+  equipeId: Scalars['Int'];
+};
+
+
+export type TransfertMutation = { transfert: Array<Pick<JoueurDto, 'id' | 'nom'>> };
 
 export type JoueursQueryVariables = {};
 
@@ -799,6 +814,22 @@ export const DeleteJoueurDocument = gql`
   })
   export class DeleteJoueurGQL extends Apollo.Mutation<DeleteJoueurMutation, DeleteJoueurMutationVariables> {
     document = DeleteJoueurDocument;
+    
+  }
+export const TransfertDocument = gql`
+    mutation transfert($joueurIds: [Int!]!, $equipeId: Int!) {
+  transfert(joueurIds: $joueurIds, equipeId: $equipeId) {
+    id
+    nom
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class TransfertGQL extends Apollo.Mutation<TransfertMutation, TransfertMutationVariables> {
+    document = TransfertDocument;
     
   }
 export const JoueursDocument = gql`

@@ -33,4 +33,11 @@ interface JoueurRepository {
      * @return la liste des joueurs de l'équipe correspondant à l'id.
      */
     fun findAllJoueursByEquipe(equipeId: Int): List<Joueur>
+
+    /**
+     * Change l'équipe du joueur
+     * @param joueurId
+     * @param toEquipeId
+     */
+    fun updateEquipe(joueurId: Int, toEquipeId: Int): Joueur
 }
