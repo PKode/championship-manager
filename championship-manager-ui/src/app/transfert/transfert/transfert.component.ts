@@ -38,6 +38,8 @@ export class TransfertComponent implements OnInit {
   leftEquipe: EquipeDto;
   rightEquipe: EquipeDto;
 
+  sansClubEquipe = {nom: 'Sans Club'} as EquipeDto;
+
   constructor(private breakpointObserver: BreakpointObserver,
               private equipeService: EquipeService,
               private joueurService: JoueurService) {
@@ -45,9 +47,9 @@ export class TransfertComponent implements OnInit {
 
   ngOnInit(): void {
     this.equipeService.getAllEquipes().subscribe(data => {
-        this.equipes = data.map(e => e as EquipeDto);
-        this.leftEquipe = this.equipes[0];
-        this.rightEquipe = this.equipes[1];
+        this.equipes = [this.sansClubEquipe, ...data.map(e => e as EquipeDto)];
+        this.leftEquipe = this.equipes[1];
+        this.rightEquipe = this.equipes[2];
       }
     );
   }

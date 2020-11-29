@@ -180,7 +180,7 @@ export type MutationJoueurArgs = {
 
 export type MutationTransfertArgs = {
   joueurIds: Array<Scalars['Int']>;
-  equipeId: Scalars['Int'];
+  equipeId: Maybe<Scalars['Int']>;
 };
 
 
@@ -243,7 +243,7 @@ export type QueryJoueurArgs = {
 
 
 export type QueryJoueursByEquipeArgs = {
-  equipeId: Scalars['Int'];
+  equipeId: Maybe<Scalars['Int']>;
 };
 
 
@@ -416,7 +416,7 @@ export type DeleteJoueurMutation = { deleteJoueur: Pick<JoueurDto, 'id' | 'nom'>
 
 export type TransfertMutationVariables = {
   joueurIds: Array<Scalars['Int']>;
-  equipeId: Scalars['Int'];
+  equipeId: Maybe<Scalars['Int']>;
 };
 
 
@@ -431,7 +431,7 @@ export type JoueursQuery = { joueurs: Array<(
   )> };
 
 export type JoueursByEquipeQueryVariables = {
-  equipeId: Scalars['Int'];
+  equipeId: Maybe<Scalars['Int']>;
 };
 
 
@@ -817,7 +817,7 @@ export const DeleteJoueurDocument = gql`
     
   }
 export const TransfertDocument = gql`
-    mutation transfert($joueurIds: [Int!]!, $equipeId: Int!) {
+    mutation transfert($joueurIds: [Int!]!, $equipeId: Int) {
   transfert(joueurIds: $joueurIds, equipeId: $equipeId) {
     id
     nom
@@ -859,7 +859,7 @@ export const JoueursDocument = gql`
     
   }
 export const JoueursByEquipeDocument = gql`
-    query joueursByEquipe($equipeId: Int!) {
+    query joueursByEquipe($equipeId: Int) {
   joueursByEquipe(equipeId: $equipeId) {
     ...JoueurWithoutEquipe
   }

@@ -15,7 +15,7 @@ query joueurs {
   }
 }
 
-query joueursByEquipe($equipeId: Int!) {
+query joueursByEquipe($equipeId: Int) {
   joueursByEquipe(equipeId: $equipeId) {
     ...JoueurWithoutEquipe
   }

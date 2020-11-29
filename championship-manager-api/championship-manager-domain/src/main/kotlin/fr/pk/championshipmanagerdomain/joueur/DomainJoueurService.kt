@@ -20,11 +20,11 @@ class DomainJoueurService(private val joueurRepository: JoueurRepository) : Joue
         return joueurRepository.remove(id)
     }
 
-    override fun getJoueursByEquipe(equipeId: Int): List<Joueur> {
+    override fun getJoueursByEquipe(equipeId: Int?): List<Joueur> {
         return joueurRepository.findAllJoueursByEquipe(equipeId)
     }
 
-    override fun transfert(joueurId: Int, toEquipeId: Int): Joueur {
+    override fun transfert(joueurId: Int, toEquipeId: Int?): Joueur {
         return joueurRepository.updateEquipe(joueurId, toEquipeId)
     }
 

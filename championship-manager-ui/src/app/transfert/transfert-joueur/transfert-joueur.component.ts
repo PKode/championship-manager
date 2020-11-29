@@ -36,15 +36,13 @@ export class TransfertJoueurComponent implements OnInit, OnChanges {
 
   ngOnChanges(changes: SimpleChanges) {
     this.equipeId = changes['equipeId'].currentValue;
-    if (this.equipeId != null) {
-      this.joueurService.getAllJoueursByEquipe(this.equipeId).subscribe(data => {
-        let joueurs = data.map(d => d as JoueurDto);
-        this.dataSource = new TransfertJoueurDatasource(joueurs);
-        this.dataSource.sort = this.sort;
-        this.dataSource.paginator = this.paginator;
-        this.table.dataSource = this.dataSource;
-      });
-    }
+    this.joueurService.getAllJoueursByEquipe(this.equipeId).subscribe(data => {
+      let joueurs = data.map(d => d as JoueurDto);
+      this.dataSource = new TransfertJoueurDatasource(joueurs);
+      this.dataSource.sort = this.sort;
+      this.dataSource.paginator = this.paginator;
+      this.table.dataSource = this.dataSource;
+    });
   }
 
   selectAll(checked: boolean) {

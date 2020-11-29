@@ -12,7 +12,7 @@ mutation deleteJoueur($id: Int!){
   }
 }
 
-mutation transfert($joueurIds: [Int!]!, $equipeId: Int!) {
+mutation transfert($joueurIds: [Int!]!, $equipeId: Int) {
   transfert(joueurIds: $joueurIds, equipeId: $equipeId ) {
     id
     nom

@@ -84,6 +84,14 @@ internal class XdJoueurRepositoryTest : XdRepositoryTest() {
     }
 
     @Test
+    fun `doit retourner tous les joueurs sans equipe`() {
+
+        val joueurs = repository.findAllJoueursByEquipe(null)
+
+        assertThat(joueurs).containsExactlyInAnyOrderElementsOf(joueurs().filter { it.nom == "Ronaldo" })
+    }
+
+    @Test
     fun `doit creer un joueur, le modifier et le supprimer`() {
 
         // Create
