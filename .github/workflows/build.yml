@@ -6,8 +6,12 @@ name: Java CI with Maven
 on:
   push:
     branches: [ master ]
+    paths: 
+      - 'championship-manager-api/**' 
   pull_request:
     branches: [ master ]
+    paths:
+      - 'championship-manager-api/**'
 
 jobs:
   build:
