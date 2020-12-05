@@ -1,0 +1,18 @@
+{
+  "name": "championship-manager",
+  "version": "1.0.0",
+  "description": "Manage a championship",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "electron:windows" : "electron-builder build -w",
+    "electron:mac" : "electron-builder build -m"
+  },
+  "repository": "https://github.com/PKode/championship-manager",
+  "keywords": [],
+  "author": "PKode",
+  "devDependencies": {
+    "electron": "^11.0.3",
+    "electron-builder": "^22.9.1"
+  }
+}
