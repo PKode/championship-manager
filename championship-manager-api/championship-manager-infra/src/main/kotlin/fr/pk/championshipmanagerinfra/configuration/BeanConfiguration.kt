@@ -55,7 +55,7 @@ class BeanConfiguration {
 
     @Bean
     fun xodusStore(): TransientEntityStore {
-        XdModel.scanJavaClasspath()
+        XdModel.scanPackages(arrayOf("fr.pk.championshipmanagerinfra.entities"))
 
         // Initialize Xodus persistent storage
         val xodusStore = StaticStoreContainer.init(
