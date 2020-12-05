@@ -1,0 +1,41 @@
+{
+  "productName": "championship-manager",
+  "directories": {
+    "output": "release/"
+  },
+    "files": [
+        "**/*",
+        "!**/*.ts",
+        "!*.code-workspace",
+        "!LICENSE.md",
+        "!package.json",
+        "!package-lock.json",
+        "!src/",
+        "!e2e/",
+        "!hooks/",
+        "!angular.json",
+        "!_config.yml",
+        "!karma.conf.js",
+        "!tsconfig.json",
+        "!tslint.json"
+    ],
+  "extraResources":{
+    "from": "championship-manager-app-0.0.1.jar",
+    "to": "championship-manager.jar"
+  },
+  "win": {
+    "target": [
+      "portable"
+    ]
+  },
+  "mac": {
+    "target": [
+      "dmg"
+    ]
+  },
+  "linux": {
+    "target": [
+      "AppImage"
+    ]
+  }
+}
