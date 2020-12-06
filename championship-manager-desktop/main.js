@@ -43,7 +43,6 @@ app.whenReady().then(() => {
     } else {
         jarApiFileName = path.join(path.dirname(path.resolve(__dirname)), 'championship-manager.jar')
     }
-    console.log('JAR:: ' + jarApiFileName)
     jarProcess = child_process.spawn('java', ['-jar', jarApiFileName], {detached: true});
     createWindow()
 

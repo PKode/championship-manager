@@ -20,7 +20,7 @@
         "!tslint.json"
     ],
   "extraResources":{
-    "from": "championship-manager-app-0.0.1.jar",
+    "from": "championship-manager.jar",
     "to": "championship-manager.jar"
   },
   "win": {
