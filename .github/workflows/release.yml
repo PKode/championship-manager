@@ -45,7 +45,9 @@ jobs:
           
       - name: build ui for electron
         working-directory: championship-manager-ui
-        run: npm run buildElectron
+        run: |
+          npm install
+          npm run buildElectron
       
       - name: download api jar in championship-manager-desktop
         uses: actions/download-artifact@v2.0.6
@@ -57,5 +59,7 @@ jobs:
   
       - name: build desktop app
         working-directory: championship-manager-desktop
-        run: npm run electron:mac                
+        run: |
+          npm install
+          npm run electron:mac                
   
