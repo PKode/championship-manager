@@ -1,11 +1,12 @@
 {
   "name": "championship-manager-ui",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "scripts": {
     "ng": "ng",
     "start": "ng serve --proxy-config proxy.conf.json",
     "build": "ng build",
-    "buildElectron": "ng build --base-href ./ --outputPath ../championship-manager-desktop/dist/ --configuration=electron",
+    "buildElectronLocal": "ng build --base-href ./ --outputPath ../championship-manager-desktop/dist/ --configuration=electron",
+    "buildElectron": "ng build --base-href ./ --outputPath electron/ --configuration=electron",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
