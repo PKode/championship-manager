@@ -55,11 +55,12 @@ jobs:
           # Artifact name
           name: championship-manager.jar
           # Destination path
-          path: championship-manager-desktop/
+          path: championship-manager-desktop/championship-manager.jar
   
       - name: build desktop app
         working-directory: championship-manager-desktop
         run: |
+          ls -la
           npm install
           npm run electron:mac                
   
