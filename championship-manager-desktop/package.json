@@ -6,7 +6,7 @@
   "scripts": {
     "start": "electron .",
     "electron:windows" : "electron-builder build -w",
-    "electron:mac" : "electron-builder build -m"
+    "electron:mac" : "electron-builder build -m -c.mac.identity=null"
   },
   "repository": "https://github.com/PKode/championship-manager",
   "keywords": [],
