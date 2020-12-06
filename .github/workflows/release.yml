@@ -32,21 +32,21 @@ jobs:
 
   build-ui:
     runs-on: ubuntu-latest
-      steps:
-      - uses: actions/checkout@v2
-      - name: build ui for electron
-          working-directory: championship-manager-ui
-          run: |
-            npm install
-            npm run buildElectron
-      - name: Upload ui sources
-          uses: actions/upload-artifact@v2.2.1
-          with:
-            # Artifact name
-            name: ui-sources
-            # A file, directory or wildcard pattern that describes what to upload
-            path: championship-manager-ui/electron/
-            if-no-files-found: error
+    steps:
+    - uses: actions/checkout@v2
+    - name: build ui for electron
+        working-directory: championship-manager-ui
+        run: |
+          npm install
+          npm run buildElectron
+    - name: Upload ui sources
+        uses: actions/upload-artifact@v2.2.1
+        with:
+          # Artifact name
+          name: ui-sources
+          # A file, directory or wildcard pattern that describes what to upload
+          path: championship-manager-ui/electron/
+          if-no-files-found: error
   release:
     env:
       GH_TOKEN: 29e111517e1b27a642ed2ef955a44bafa2f4fc33
