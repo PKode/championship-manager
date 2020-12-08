@@ -52,7 +52,7 @@ jobs:
 
   release:
     env:
-      GH_TOKEN: 29e111517e1b27a642ed2ef955a44bafa2f4fc33
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     
     needs: [build-api, build-ui]
     # The type of runner that the job will run on
