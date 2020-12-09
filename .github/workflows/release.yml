@@ -103,6 +103,7 @@ jobs:
       - name: build desktop app
         working-directory: championship-manager-desktop
         run: |
+          ls -la
           npm install
           npm run electron:mac                
   
