@@ -19,10 +19,7 @@
         "!tsconfig.json",
         "!tslint.json"
     ],
-  "extraResources":{
-    "from": "championship-manager.jar",
-    "to": "championship-manager.jar"
-  },
+  "extraResources": "championship-manager.jar",
   "win": {
     "target": [
       "portable"
