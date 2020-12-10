@@ -39,9 +39,9 @@ app.whenReady().then(() => {
     let jarApiFileName;
 
     if (process.platform === 'darwin') {
-        jarApiFileName = path.join(path.dirname(path.resolve(__dirname)), 'championship-manager.jar')
+        jarApiFileName = path.join(path.dirname(path.resolve(__dirname)), 'lib', 'championship-manager-app.jar')
     } else {
-        jarApiFileName = path.join(path.dirname(path.resolve(__dirname)), 'championship-manager.jar')
+        jarApiFileName = path.join(path.dirname(path.resolve(__dirname)), 'lib', 'championship-manager-app.jar')
     }
     jarProcess = child_process.spawn('java', ['-jar', jarApiFileName], {detached: true});
     createWindow()

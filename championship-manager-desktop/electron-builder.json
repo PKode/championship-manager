@@ -20,8 +20,8 @@
         "!tslint.json"
     ],
   "extraResources":{
-    "from": "lib/championship-manager.jar",
-    "to": "championship-manager.jar"
+    "from": "lib/championship-manager-app.jar",
+    "to": "lib/championship-manager-app.jar"
   },
   "win": {
     "target": [

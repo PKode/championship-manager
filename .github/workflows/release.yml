@@ -47,10 +47,11 @@ jobs:
       uses: actions/upload-artifact@v2.2.1
       with:
         # Artifact name
-        name: championship-manager.jar
+        name: apiJar
         # A file, directory or wildcard pattern that describes what to upload
-        path: championship-manager-api/championship-manager-app/target/championship-manager*.jar
+        path: championship-manager-api/championship-manager-app/target/championship-manager-app.jar
         if-no-files-found: error
+        retention-days: 1
 
   build-ui:
     runs-on: ubuntu-latest
@@ -88,7 +89,7 @@ jobs:
         uses: actions/download-artifact@v2.0.6
         with:
           # Artifact name
-          name: championship-manager.jar
+          name: apiJar
           # Destination path
           path: championship-manager-desktop/lib/
 
@@ -99,6 +100,7 @@ jobs:
           name: ui-sources
           # Destination path
           path: championship-manager-desktop/dist/
+
   
       - name: build desktop app
         working-directory: championship-manager-desktop
