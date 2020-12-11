@@ -38,11 +38,11 @@ jobs:
       uses: actions/setup-java@v1
       with:
         java-version: 1.11
-       
+
     - name: Build with Maven
       working-directory: championship-manager-api
       run: mvn -B package --file pom.xml
-      
+
     - name: Upload jar
       uses: actions/upload-artifact@v2.2.1
       with:
@@ -74,17 +74,19 @@ jobs:
   release:
     env:
       GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-    
+
     needs: [build-api, build-ui, create-draft-release]
     # The type of runner that the job will run on
-    runs-on: macos-latest
-
+    runs-on: ${{ matrix.os )}
+    strategy:
+      matrix:
+        os: [macos-latest, windows-latest]
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - name: Check out repository
         uses: actions/checkout@v2
-      
+
       - name: download api jar in championship-manager-desktop
         uses: actions/download-artifact@v2.0.6
         with:
@@ -101,11 +103,18 @@ jobs:
           # Destination path
           path: championship-manager-desktop/dist/
 
-  
-      - name: build desktop app
+
+      - name: build desktop app on for mac
+        if: ${{matrix.os == 'macos-latest'}}
         working-directory: championship-manager-desktop
         run: |
-          ls -la
           npm install
-          npm run electron:mac                
+          npm run electron:mac
+
+      - name: build desktop app for windows
+        if: ${{matrix.os == 'windows-latest'}}
+        working-directory: championship-manager-desktop
+        run: |
+          npm install
+          npm run electron:windows
   
