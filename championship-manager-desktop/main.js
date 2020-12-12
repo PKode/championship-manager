@@ -1,5 +1,3 @@
-// Modules to control application life and create native browser window
-
 const {app, screen, BrowserWindow} = require('electron')
 const path = require('path')
 const url = require('url')
@@ -36,13 +34,7 @@ function createWindow() {
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 app.whenReady().then(() => {
-    let jarApiFileName;
-
-    if (process.platform === 'darwin') {
-        jarApiFileName = path.join(path.dirname(path.resolve(__dirname)), 'lib', 'championship-manager-app.jar')
-    } else {
-        jarApiFileName = path.join(path.dirname(path.resolve(__dirname)), 'lib', 'championship-manager-app.jar')
-    }
+    let jarApiFileName = path.join(path.dirname(path.resolve(__dirname)), 'lib', 'championship-manager-app.jar');
     jarProcess = child_process.spawn('java', ['-jar', jarApiFileName], {detached: true});
     createWindow()
 
