@@ -11,7 +11,7 @@
 
     <groupId>fr.pk</groupId>
     <artifactId>championship-manager-api</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>1.0.0-SNAPSHOT</version>
     <name>championship-manager-api</name>
     <description>Root Api of ChampionshipManager project</description>
     <packaging>pom</packaging>
@@ -25,8 +25,8 @@
     <properties>
         <java.version>11</java.version>
         <kotlin.version>1.4.10</kotlin.version>
-        <domain.version>0.0.1-SNAPSHOT</domain.version>
-        <infra.version>0.0.1-SNAPSHOT</infra.version>
-        <application.version>0.0.1-SNAPSHOT</application.version>
+        <domain.version>${project.version}</domain.version>
+        <infra.version>${project.version}</infra.version>
+        <application.version>${project.version}</application.version>
     </properties>
 </project>
