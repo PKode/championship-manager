@@ -42,6 +42,7 @@ jobs:
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name $GITHUB_ACTOR
+          git add **/pom.xml
           git add **/**/pom.xml
           git add **/package.json
           git commit -m "chore: Release version"
