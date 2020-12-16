@@ -35,8 +35,8 @@ jobs:
         run: |
           newVersion=`node -pe "require('./package.json').version" | sed 's/-SNAPSHOT//'`
           npm version $newVersion
-          ::set-output name=releaseVersion::$newVersion
-
+          echo "::set-output name=releaseVersion::$newVersion"
+    
       - name: commit and push tags release version
         run: |
           git add **/**/pom.xml
