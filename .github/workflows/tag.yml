@@ -1,0 +1,46 @@
+# This workflow tag the current version to prepare for release
+# tag based on desktop version because that's what user sees
+# Get current version of api/ui/desktop (in SNAPSHOT), change it to release version
+# push tag v<current_version> (will trigger release workflow)
+name: Tag
+
+# Manually trigger
+on:
+  workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  release-versions:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up JDK 1.11
+        uses: actions/setup-java@v1
+        with:
+          java-version: 1.11
+
+      - name: release api version
+        working-directory: championship-manager-api
+        run: mvn versions:set -DremoveSnapshot
+
+      - name: release ui version
+        working-directory: championship-manager-ui
+        run: |
+          newVersion=`node -pe "require('./package.json').version" | sed 's/-SNAPSHOT//'`
+          npm version $newVersion
+
+      - name: release desktop version
+        id: releaseAppVersion
+        working-directory: championship-manager-desktop
+        run: |
+          newVersion=`node -pe "require('./package.json').version" | sed 's/-SNAPSHOT//'`
+          npm version $newVersion
+          ::set-output name=releaseVersion::$newVersion
+
+      - name: commit and push tags release version
+        run: |
+          git add **/**/pom.xml
+          git add **/package.json
+          git commit -m "chore: Release version"
+          git tag -a v${{ steps.releaseAppVersion.outputs.releaseVersion }} -m "Release version ${{ steps.releaseAppVersion.outputs.releaseVersion }}"
+          git push origin --tags
