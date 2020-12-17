@@ -6,7 +6,7 @@ name: Release
 on:
   push:
     tags:
-      - v*.*
+      - v*.*.*
   workflow_dispatch:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
@@ -24,10 +24,6 @@ jobs:
         with:
           tag_name: ${{ github.ref }}
           release_name: Release ${{ github.ref }}
-          body: |
-            Changes in this Release
-            - First Change
-            - Second Change
           draft: true
           prerelease: false
   build-api:

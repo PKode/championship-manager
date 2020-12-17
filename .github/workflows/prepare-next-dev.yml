@@ -1,0 +1,53 @@
+# This workflow prepare projects to next development version
+# It will bump version of pom and package.json to the SNAPSHOT version specified in input
+name: Tag
+
+# Manually trigger
+on:
+  workflow_dispatch:
+    inputs:
+      appVersion:
+        description: New version of the app (version of desktop project)
+        required: true
+      apiVersion:
+        description: New version of the api
+        required: true
+      uiVersion:
+        description: New version of the ui
+        required: true
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  bump-versions:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        
+      - name: Set up JDK 1.11
+        uses: actions/setup-java@v1
+        with:
+          java-version: 1.11
+
+      - name: bump api version with version ${{ github.event.inputs.apiVersion }}
+        working-directory: championship-manager-api
+        run: mvn versions:set -DgenerateBackupPoms=false -DnewVersion=${{ github.event.inputs.apiVersion }}
+
+      - name: bump ui version with version ${{ github.event.inputs.uiVersion }}
+        working-directory: championship-manager-ui
+        run: |
+          npm version ${{ github.event.inputs.uiVersion }}
+
+      - name: bump desktop version with version ${{ github.event.inputs.appVersion }}
+        working-directory: championship-manager-desktop
+        run: |
+          npm version ${{ github.event.inputs.appVersion }}
+
+      - name: commit and push new versions
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name $GITHUB_ACTOR
+          git add **/pom.xml
+          git add **/**/pom.xml
+          git add **/package.json
+          git commit -m "chore: Prepare for next development version ${{ github.event.inputs.appVersion }}"
+          git push origin
