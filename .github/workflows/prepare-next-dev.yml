@@ -1,6 +1,6 @@
 # This workflow prepare projects to next development version
 # It will bump version of pom and package.json to the SNAPSHOT version specified in input
-name: Tag
+name: Prepare next version
 
 # Manually trigger
 on:
