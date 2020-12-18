@@ -5,8 +5,8 @@
   "main": "main.js",
   "scripts": {
     "start": "electron .",
-    "electron:windows" : "electron-builder build -w",
-    "electron:mac" : "electron-builder build -m"
+    "electron:windows": "electron-builder build -w",
+    "electron:mac": "electron-builder build -m"
   },
   "repository": "https://github.com/PKode/championship-manager",
   "keywords": [],
