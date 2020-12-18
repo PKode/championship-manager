@@ -9,12 +9,15 @@ on:
       appVersion:
         description: New version of the app (version of desktop project)
         required: true
+        default: 1.0.0-SNAPSHOT
       apiVersion:
         description: New version of the api
         required: true
+        default: 1.0.0-SNAPSHOT
       uiVersion:
         description: New version of the ui
         required: true
+        default: 1.0.0-SNAPSHOT
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
