@@ -8,6 +8,7 @@ import {
   TransfertGQL
 } from "../generated/graphql";
 import {pluck} from "rxjs/operators";
+import {PureQueryOptions} from "apollo-client";
 
 @Injectable({
   providedIn: 'root'
@@ -30,10 +31,17 @@ export class JoueurService {
   }
 
   createOrUpdateJoueur(joueur: JoueurDtoInput) {
+    let refetchQueries: PureQueryOptions[] = [{query: this.joueurQuery.document} as PureQueryOptions]
+    if (joueur.equipe != null) {
+      refetchQueries.push(
+        {
+          query: this.joueursByEquipeQuery.document,
+          variables: {equipeId: joueur.equipe?.id}
+        } as PureQueryOptions
+      )
+    }
     this.joueurMutation.mutate({joueur: joueur}, {
-        refetchQueries: [{
-          query: this.joueurQuery.document
-        }]
+        refetchQueries: refetchQueries
       }
     ).subscribe();
   }
