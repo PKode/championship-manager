@@ -23,7 +23,7 @@ export class ChampionnatListComponent implements OnInit {
   dataSource: ChampionnatListDataSource;
 
   /** Columns displayed in the table. Columns IDs can be added, removed, or reordered. */
-  displayedColumns = ['id', 'nom', 'actions'];
+  displayedColumns = ['nom', 'actions'];
 
   constructor(private championnatService: ChampionnatService,
               private dialog: MatDialog,

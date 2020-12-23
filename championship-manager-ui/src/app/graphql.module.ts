@@ -9,11 +9,20 @@ import {RetryLink} from "apollo-link-retry";
 const uri = environment.graphqlUri; // <-- add the URL of the GraphQL server here
 export function createApollo(httpLink: HttpLink) {
   return {
-    link: ApolloLink.from([retryLink, httpLink.create({uri: uri})]),
+    link: ApolloLink.from([typenameMiddleware, retryLink, httpLink.create({uri: uri})]),
     cache: new InMemoryCache(),
   };
 }
+const typenameMiddleware = new ApolloLink((operation, forward) => {
+  if (operation.variables) {
+    operation.variables = JSON.parse(JSON.stringify(operation.variables), omitTypename);
+  }
+  return forward(operation);
+});
 
+function omitTypename(key, value) {
+  return key === '__typename' ? undefined : value;
+}
 const retryLink = new RetryLink({
   delay: {
     initial: 1000,

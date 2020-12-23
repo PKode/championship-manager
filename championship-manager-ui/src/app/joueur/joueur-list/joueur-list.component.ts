@@ -24,7 +24,7 @@ export class JoueurListComponent implements OnInit {
   dataSource: JoueurListDataSource;
 
   /** Columns displayed in the table. Columns IDs can be added, removed, or reordered. */
-  displayedColumns = ['id', 'nom', 'poste', 'equipe', 'nationalite', 'dateNaissance', 'taille', 'poids', 'actions'];
+  displayedColumns = ['nom', 'poste', 'equipe', 'nationalite', 'dateNaissance', 'taille', 'poids', 'actions'];
   displayedColumnsForEquipe = ['nom', 'poste', 'nationalite', 'dateNaissance', 'actions'];
 
   constructor(private joueurService: JoueurService,

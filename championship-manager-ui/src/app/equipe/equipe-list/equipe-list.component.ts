@@ -26,7 +26,7 @@ export class EquipeListComponent implements OnInit {
   dataSource: EquipeListDataSource;
 
   /** Columns displayed in the table. Columns IDs can be added, removed, or reordered. */
-  displayedColumns = ['id', 'nom', 'championnat', 'actions'];
+  displayedColumns = ['nom', 'championnat', 'actions'];
 
   constructor(private equipeService: EquipeService,
               private dialog: MatDialog,
