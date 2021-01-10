@@ -1,7 +1,7 @@
 [
   {
     "joueur": {
-      "id": $LAST_JOUEUR_ID,
+      "id": ${LAST_JOUEUR_ID},
       "nom": "Ronaldo",
       "prenom": "Cristiano",
       "dateNaissance": "02/05/1985",

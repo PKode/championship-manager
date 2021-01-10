@@ -31,7 +31,7 @@ internal class XdJoueurRepositoryTest : XdRepositoryTest() {
                 this.nom = "CACV"
             }
 
-            val RM = XdEquipe.new {
+            XdEquipe.new {
                 this.id = 2
                 this.nom = "Real Madrid"
             }

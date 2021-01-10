@@ -1,31 +1,28 @@
 package fr.pk.championshipmanagerapp.blackbox
 
 import org.springframework.stereotype.Component
+import org.springframework.util.PropertyPlaceholderHelper
 
 @Component
 class ScenarioContext {
     val context: HashMap<ContextKey, Any> = hashMapOf()
+    private val propertyPlaceholderHelper = PropertyPlaceholderHelper("\${", "}")
+
+    operator fun get(key: ContextKey) = context.getValue(key)
 
     fun put(key: ContextKey, value: Any) {
         this.context[key] = value
     }
 
-    operator fun get(key: ContextKey) = context.getValue(key)
-
-    fun replacePlaceHolders(variables: MutableMap<String, Any>): Map<String, Any> {
-        return variables.map { (key, value) ->
-            if (value.toString().startsWith(VARIABLE_DELIMITER)) key to get(enumValueOf(value.toString().substringAfter(VARIABLE_DELIMITER)))
-            else key to if (value is String) replacePlaceHolders(value) else value
-        }.toMap()
-    }
-
-    fun replacePlaceHolders(payload: String): String {
-        return payload.replace("\\$[a-zA-Z_]+".toRegex()) {
-            get(enumValueOf(it.value.substringAfter(VARIABLE_DELIMITER))).toString()
+    fun replace(payload: String): String {
+        return propertyPlaceholderHelper.replacePlaceholders(payload) {
+            this[enumValueOf(it)].toString()
         }
     }
 
-    private val VARIABLE_DELIMITER = "$"
+    fun replace(payload: Map<String, String>): Map<String, String> {
+        return payload.mapValues { replace(it.value) }
+    }
 }
 
 enum class ContextKey {

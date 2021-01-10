@@ -5,6 +5,7 @@ import fr.pk.championshipmanagerapplication.dto.ChampionnatDto
 import fr.pk.championshipmanagerapplication.dto.SaisonDto
 import fr.pk.championshipmanagerdomain.championnat.Championnat
 import fr.pk.championshipmanagerdomain.championnat.port.ChampionnatService
+import graphql.schema.GraphQLScalarType
 import org.springframework.stereotype.Component
 
 @Component

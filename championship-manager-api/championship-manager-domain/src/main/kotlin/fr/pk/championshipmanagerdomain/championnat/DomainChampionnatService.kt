@@ -130,7 +130,7 @@ private fun String.toLocalDate(): LocalDate {
 
 private fun MutableList<Equipe>.equalize(bottom: MutableList<Equipe>) {
     listOf(this, bottom).takeIf { this.size != bottom.size }
-            ?.minBy { it.size }
+            ?.minByOrNull { it.size }
             ?.add(Equipe(nom = "Exempt"))
 }
 

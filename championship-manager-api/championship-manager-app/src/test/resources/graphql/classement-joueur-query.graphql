@@ -1,4 +1,4 @@
-query {
+query classementJoueur($championnatId: Int!, $saison: Int!){
     classementJoueur(championnatId: $championnatId, saison: $saison) {
         joueur {
             id

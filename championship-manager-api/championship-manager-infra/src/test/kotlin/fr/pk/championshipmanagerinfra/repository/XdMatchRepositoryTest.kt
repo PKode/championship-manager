@@ -70,7 +70,7 @@ internal class XdMatchRepositoryTest : XdRepositoryTest() {
         val createdMatch = repository.saveOrUpdate(match)
 
         assertThat(repository.findAll().size).isEqualTo(1)
-        assertThat(createdMatch).isEqualToIgnoringGivenFields(match, "id")
+        assertThat(createdMatch).usingRecursiveComparison().ignoringFields("id").isEqualTo(match)
 
         val matchWithScore = match.copy(id = createdMatch.id, butDomicile = 3, butExterieur = 0, joueurs = listOf(JoueurStat(RONALDO, 3)))
 

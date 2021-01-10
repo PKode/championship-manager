@@ -1,4 +1,4 @@
-mutation {
+mutation match($match: MatchDtoInput!){
     match(match: $match) {
         date
         domicile {

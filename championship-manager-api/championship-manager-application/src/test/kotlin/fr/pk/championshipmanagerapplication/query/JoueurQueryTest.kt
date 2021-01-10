@@ -46,7 +46,6 @@ internal class JoueurQueryTest {
         @Test
         fun `doit retourner le joueur correspondant a id`() {
             // Given
-            val domainJoueur = RONALDO
 
             // When
             `when`(joueurService.getById(1)).thenReturn(RONALDO)
@@ -63,7 +62,6 @@ internal class JoueurQueryTest {
         @Test
         fun `doit retourner le joueur d une equipe`() {
             // Given
-            val domainJoueur = RONALDO
 
             // When
             `when`(joueurService.getJoueursByEquipe(1)).thenReturn(listOf(RONALDO))

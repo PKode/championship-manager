@@ -1,4 +1,4 @@
-mutation {
+mutation transfert($joueurIds: [Int!]!, $equipeId: Int!){
     transfert(joueurIds: $joueurIds, equipeId: $equipeId ) {
         id
         nom

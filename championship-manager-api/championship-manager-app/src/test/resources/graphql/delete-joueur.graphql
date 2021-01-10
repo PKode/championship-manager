@@ -1,6 +1,0 @@
-mutation {
-    deleteJoueur(id: $id) {
-        id
-        nom
-    }
-}

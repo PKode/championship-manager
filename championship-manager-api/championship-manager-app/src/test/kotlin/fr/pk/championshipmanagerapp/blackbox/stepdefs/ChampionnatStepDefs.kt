@@ -1,78 +1,81 @@
 package fr.pk.championshipmanagerapp.blackbox.stepdefs
 
+import fr.pk.championshipmanagerapp.blackbox.*
 import fr.pk.championshipmanagerapp.blackbox.ContextKey.LAST_CHAMPIONNAT_ID
-import fr.pk.championshipmanagerapp.blackbox.ScenarioContext
-import fr.pk.championshipmanagerapp.blackbox.TestGraphQLTemplate
-import fr.pk.championshipmanagerapp.blackbox.extractExpected
-import fr.pk.championshipmanagerapp.blackbox.pluck
 import fr.pk.championshipmanagerapplication.dto.ChampionnatDto
 import fr.pk.championshipmanagerapplication.dto.ClassementDto
 import fr.pk.championshipmanagerapplication.dto.ClassementJoueurDto
 import io.cucumber.datatable.DataTable
-import io.cucumber.java8.En
+import io.cucumber.java.en.Then
+import io.cucumber.java.en.When
+import io.ktor.util.*
 import org.assertj.core.api.Assertions.assertThat
 import org.springframework.beans.factory.annotation.Value
 import java.net.URL
 
-class ChampionnatStepDefs(private val graphqlTemplate: TestGraphQLTemplate,
-                          private val scenarioContext: ScenarioContext) : En {
+@KtorExperimentalAPI
+class ChampionnatStepDefs(private val graphqlClientTest: GraphqlClientTest,
+                          private val scenarioContext: ScenarioContext) {
 
-    @Value("classpath:graphql/new-championnat.graphql")
-    private lateinit var newChampionnatMutation: URL
+    @Value("classpath:graphql/championnat-mutation.graphql")
+    private lateinit var championnatMutation: URL
 
-    @Value("classpath:graphql/get-championnat.graphql")
-    private lateinit var getChampionnatQuery: URL
+    @Value("classpath:graphql/championnat-query.graphql")
+    private lateinit var championnatQuery: URL
 
-    @Value("classpath:graphql/delete-championnat.graphql")
-    private lateinit var deleteChampionnatMutation: URL
+    @Value("classpath:graphql/classement-query.graphql")
+    private lateinit var classementQuery: URL
 
-    @Value("classpath:graphql/get-classement.graphql")
-    private lateinit var getClassementQuery: URL
+    @Value("classpath:graphql/classement-joueur-query.graphql")
+    private lateinit var classementJoueurQuery: URL
 
-    @Value("classpath:graphql/get-classement-joueur.graphql")
-    private lateinit var getClassementJoueurQuery: URL
-
-    init {
-        When("l'utilisateur crée/modifie le(s) championnat(s) avec les informations suivantes") { data: DataTable ->
-            data.asMaps().forEach {
-                val result: ChampionnatDto = this.graphqlTemplate.post(newChampionnatMutation, it).pluck("championnat")
-                scenarioContext.put(LAST_CHAMPIONNAT_ID, result.id!!)
-            }
+    @When("l'utilisateur crée/modifie le(s) championnat(s) avec les informations suivantes")
+    fun `creer modifier un ou des championnats`(data: List<ChampionnatDto>) {
+        data.forEach {
+            val result: ChampionnatDto = this.graphqlClientTest
+                    .execute(championnatMutation, "championnat", mapOf("championnat" to it))
+                    .pluck("championnat")
+            scenarioContext.put(LAST_CHAMPIONNAT_ID, result.id!!)
         }
+    }
 
-        When("l'utilisateur supprime le championnat avec l'id {string}") { championnatId: String ->
-            this.graphqlTemplate.post(deleteChampionnatMutation, mapOf("id" to championnatId))
-        }
+    @When("l'utilisateur supprime le championnat avec l'id {string}")
+    fun `supprimer un championnat avec id`(championnatId: String) {
+        this.graphqlClientTest.execute(championnatMutation, "deleteChampionnat", mapOf("id" to scenarioContext.replace(championnatId)))
+    }
 
-        Then("l'utilisateur retrouve les championnats suivants dans la liste des championnats") { expectedChampionnatPayload: String ->
-            val championnats: List<ChampionnatDto> = this.graphqlTemplate.post(getChampionnatQuery).pluck("championnats")
+    @Then("l'utilisateur retrouve les championnats suivants dans la liste des championnats")
+    fun `recuperer les championnats expected`(expectedChampionnatPayload: String) {
+        val championnats: List<ChampionnatDto> = graphqlClientTest.execute(championnatQuery, "championnats").pluck("championnats")
+        val expectedChampionnat: List<ChampionnatDto> = expectedChampionnatPayload.extractExpected(scenarioContext::replace)
+        assertThat(championnats).containsAll(expectedChampionnat)
+    }
 
-            val expectedChampionnat: List<ChampionnatDto> = expectedChampionnatPayload.extractExpected(scenarioContext::replacePlaceHolders)
+    @Then("l'utilisateur ne retrouve aucun des championnats suivants dans la liste des championnats")
+    fun `aucun championnat expected n exsite`(data: DataTable) {
+        val championnats: List<ChampionnatDto> = this.graphqlClientTest.execute(championnatQuery,"championnats").pluck("championnats")
 
-            assertThat(championnats).containsAll(expectedChampionnat)
-        }
+        val expectedChampionnatName = data.asList()
+        assertThat(championnats.find { it.nom in expectedChampionnatName }).isNull()
+    }
 
-        Then("l'utilisateur ne retrouve aucun des championnats suivants dans la liste des championnats") { data: DataTable ->
-            val championnats: List<ChampionnatDto> = this.graphqlTemplate.post(getChampionnatQuery).pluck("championnats")
+    @Then("l'utilisateur affiche le classement de la saison {int} du championnat {string}")
+    fun `afficher le classement de la saison dun championnat`(saison: Int, championnatId: String, expectedClassementPayload: String) {
+        val classement: List<ClassementDto> = this.graphqlClientTest.execute(classementQuery,"classement",
+                mapOf("saison" to saison, "championnatId" to scenarioContext.replace(championnatId))).pluck("classement")
 
-            val expectedChampionnatName = data.asList()
-            assertThat(championnats.find { it.nom in expectedChampionnatName }).isNull()
-        }
+        val expectedClassement: List<ClassementDto> = expectedClassementPayload.extractExpected(scenarioContext::replace)
 
-        Then("l'utilisateur affiche le classement de la saison {int} du championnat {string}") { saison: Int, championnatId: String, expectedClassementPayload: String ->
-            val classement: List<ClassementDto> = this.graphqlTemplate.post(getClassementQuery, mapOf("saison" to saison, "championnatId" to championnatId)).pluck("classement")
+        assertThat(classement).containsAll(expectedClassement)
+    }
 
-            val expectedClassement: List<ClassementDto> = expectedClassementPayload.extractExpected(scenarioContext::replacePlaceHolders)
+    @Then("l'utilisateur affiche le classement des joueurs de la saison {int} du championnat {string}")
+    fun `afficher le classement des joueurs dune saison dun championnat`(saison: Int, championnatId: String, expectedClassementPayload: String) {
+        val classement: List<ClassementJoueurDto> = this.graphqlClientTest.execute(classementJoueurQuery,"classementJoueur",
+                mapOf("saison" to saison, "championnatId" to scenarioContext.replace(championnatId))).pluck("classementJoueur")
 
-            assertThat(classement).containsAll(expectedClassement)
-        }
+        val expectedClassement: List<ClassementJoueurDto> = expectedClassementPayload.extractExpected(scenarioContext::replace)
 
-        Then("l'utilisateur affiche le classement des joueurs de la saison {int} du championnat {string}") { saison: Int, championnatId: String, expectedClassementPayload: String ->
-            val classement: List<ClassementJoueurDto> = this.graphqlTemplate.post(getClassementJoueurQuery, mapOf("saison" to saison, "championnatId" to championnatId)).pluck("classementJoueur")
-
-            val expectedClassement: List<ClassementJoueurDto> = expectedClassementPayload.extractExpected(scenarioContext::replacePlaceHolders)
-
-            assertThat(classement).containsAll(expectedClassement)
-        }
+        assertThat(classement).containsAll(expectedClassement)
     }
 }

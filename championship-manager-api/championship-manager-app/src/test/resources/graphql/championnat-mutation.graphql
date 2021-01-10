@@ -1,0 +1,13 @@
+mutation championnat($championnat: ChampionnatDtoInput!){
+    championnat(championnat: $championnat) {
+        id
+        nom
+    }
+}
+
+mutation deleteChampionnat($id: Int!){
+    deleteChampionnat(id: $id) {
+        id
+        nom
+    }
+}

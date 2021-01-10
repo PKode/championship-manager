@@ -1,0 +1,13 @@
+mutation equipe($nom: String!, $championnatNom: String!, $championnatId: Int!){
+    equipe(equipe: { nom: $nom, id: null, championnat: {nom: $championnatNom, id: $championnatId} }) {
+        id
+        nom
+    }
+}
+
+mutation deleteEquipe($id: Int!){
+    deleteEquipe(id: $id) {
+        id
+        nom
+    }
+}

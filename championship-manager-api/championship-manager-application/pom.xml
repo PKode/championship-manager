@@ -12,10 +12,6 @@
     <name>championship-manager-application</name>
     <description>Application of Championship Manager Project</description>
 
-    <properties>
-        <graphql.version>3.6.7</graphql.version>
-    </properties>
-
     <dependencies>
         <dependency>
             <groupId>fr.pk</groupId>

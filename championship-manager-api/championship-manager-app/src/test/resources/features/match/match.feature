@@ -6,11 +6,11 @@ Feature: Matchs
       | Ligue 1 |
     And l'utilisateur crée les équipes avec les informations suivantes
       | nom  | championnatNom | championnatId        |
-      | PSG  | Ligue 1        | $LAST_CHAMPIONNAT_ID |
-      | OM   | Ligue 1        | $LAST_CHAMPIONNAT_ID |
-      | OL   | Ligue 1        | $LAST_CHAMPIONNAT_ID |
-      | ASSE | Ligue 1        | $LAST_CHAMPIONNAT_ID |
-    When l'utilisateur génère le calendrier du championnat '$LAST_CHAMPIONNAT_ID' commençant le '01/09/2020'
+      | PSG  | Ligue 1        | ${LAST_CHAMPIONNAT_ID} |
+      | OM   | Ligue 1        | ${LAST_CHAMPIONNAT_ID} |
+      | OL   | Ligue 1        | ${LAST_CHAMPIONNAT_ID} |
+      | ASSE | Ligue 1        | ${LAST_CHAMPIONNAT_ID} |
+    When l'utilisateur génère le calendrier du championnat '${LAST_CHAMPIONNAT_ID}' commençant le '01/09/2020'
     And l'utilisateur modifie les matchs suivants
       | domicile | butDomicile | butExterieur | exterieur |
       | PSG      | 3           | 0            | OM        |
@@ -25,12 +25,12 @@ Feature: Matchs
       | ASSE     | 0           | 3            | PSG       |
       | ASSE     | 0           | 0            | OM        |
       | ASSE     | 3           | 3            | OL        |
-    And l'utilisateur génère le calendrier du championnat '$LAST_CHAMPIONNAT_ID' commençant le '01/09/2021'
-    And l'utilisateur affiche le calendrier du championnat '$LAST_CHAMPIONNAT_ID' pour la saison 2020
+    And l'utilisateur génère le calendrier du championnat '${LAST_CHAMPIONNAT_ID}' commençant le '01/09/2021'
+    And l'utilisateur affiche le calendrier du championnat '${LAST_CHAMPIONNAT_ID}' pour la saison 2020
     And l'utilisateur modifie les matchs suivants
       | domicile | butDomicile | butExterieur | exterieur |
       | PSG      | 2           | 0            | OM        |
-    And l'utilisateur affiche le calendrier du championnat '$LAST_CHAMPIONNAT_ID' pour la saison 2020
+    And l'utilisateur affiche le calendrier du championnat '${LAST_CHAMPIONNAT_ID}' pour la saison 2020
     Then l'utilisateur affiche les matchs de l'équipe 'PSG' pour la saison en cours
       | domicile | butDomicile | butExterieur | exterieur |
       | PSG      | 2           | 0            | OM        |

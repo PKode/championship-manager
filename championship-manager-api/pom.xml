@@ -24,9 +24,10 @@
     </modules>
     <properties>
         <java.version>11</java.version>
-        <kotlin.version>1.4.10</kotlin.version>
+        <kotlin.version>1.4.21</kotlin.version>
         <domain.version>${project.version}</domain.version>
         <infra.version>${project.version}</infra.version>
         <application.version>${project.version}</application.version>
+        <graphql.version>3.6.7</graphql.version>
     </properties>
 </project>

@@ -1,6 +1,0 @@
-mutation {
-    equipe(equipe: { nom: "$nom", id: null, championnat: {nom: "$championnatNom", id: $championnatId} }) {
-        id
-        nom
-    }
-}
