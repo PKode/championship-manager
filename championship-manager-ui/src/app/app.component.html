@@ -1,1 +1,2 @@
-<app-sidenav></app-sidenav>
+<app-sidenav *ngIf="!loading"></app-sidenav>
+<app-loading-screen *ngIf="loading"></app-loading-screen>

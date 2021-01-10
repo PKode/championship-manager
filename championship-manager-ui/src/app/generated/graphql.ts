@@ -2,6 +2,9 @@ import gql from 'graphql-tag';
 import { Injectable } from '@angular/core';
 import * as Apollo from 'apollo-angular';
 export type Maybe<T> = T | null;
+export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
+export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
+export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
   ID: string;
@@ -201,6 +204,7 @@ export type Query = {
   joueurs: Array<JoueurDto>;
   joueursByEquipe: Array<JoueurDto>;
   matchsByEquipeAndCurrentSaison: Array<MatchDto>;
+  up: Scalars['String'];
 };
 
 
@@ -263,24 +267,24 @@ export type SaisonDtoInput = {
   matchs: Array<MatchDtoInput>;
 };
 
-export type ChampionnatMutationVariables = {
+export type ChampionnatMutationVariables = Exact<{
   championnat: ChampionnatDtoInput;
-};
+}>;
 
 
 export type ChampionnatMutation = { championnat: Pick<ChampionnatDto, 'id' | 'nom'> };
 
-export type DeleteChampionnatMutationVariables = {
+export type DeleteChampionnatMutationVariables = Exact<{
   id: Scalars['Int'];
-};
+}>;
 
 
 export type DeleteChampionnatMutation = { deleteChampionnat: Pick<ChampionnatDto, 'id' | 'nom'> };
 
-export type CalendrierMutationVariables = {
+export type CalendrierMutationVariables = Exact<{
   championnatId: Scalars['Int'];
   dateDebut: Scalars['String'];
-};
+}>;
 
 
 export type CalendrierMutation = { calendrier: (
@@ -294,7 +298,7 @@ export type CalendrierMutation = { calendrier: (
     )> }
   ) };
 
-export type ChampionnatsQueryVariables = {};
+export type ChampionnatsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type ChampionnatsQuery = { championnats: Array<(
@@ -302,9 +306,9 @@ export type ChampionnatsQuery = { championnats: Array<(
     & { saisons: Maybe<Array<Pick<SaisonDto, 'annee'>>> }
   )> };
 
-export type ChampionnatByIdQueryVariables = {
+export type ChampionnatByIdQueryVariables = Exact<{
   id: Scalars['Int'];
-};
+}>;
 
 
 export type ChampionnatByIdQuery = { championnat: (
@@ -318,17 +322,17 @@ export type ChampionnatByIdQuery = { championnat: (
     )>> }
   ) };
 
-export type SaisonsQueryVariables = {
+export type SaisonsQueryVariables = Exact<{
   championnatId: Scalars['Int'];
-};
+}>;
 
 
 export type SaisonsQuery = { championnat: { saisons: Maybe<Array<Pick<SaisonDto, 'annee'>>> } };
 
-export type SaisonQueryVariables = {
+export type SaisonQueryVariables = Exact<{
   championnatId: Scalars['Int'];
   saison: Scalars['Int'];
-};
+}>;
 
 
 export type SaisonQuery = { saison: (
@@ -342,10 +346,10 @@ export type SaisonQuery = { saison: (
       )> }> }
   ) };
 
-export type ClassementQueryVariables = {
+export type ClassementQueryVariables = Exact<{
   championnatId: Scalars['Int'];
   saison: Scalars['Int'];
-};
+}>;
 
 
 export type ClassementQuery = { classement: Array<(
@@ -353,10 +357,10 @@ export type ClassementQuery = { classement: Array<(
     & { equipe: Pick<EquipeDto, 'id' | 'nom'> }
   )> };
 
-export type ClassementJoueurQueryVariables = {
+export type ClassementJoueurQueryVariables = Exact<{
   championnatId: Scalars['Int'];
   saison: Scalars['Int'];
-};
+}>;
 
 
 export type ClassementJoueurQuery = { classementJoueur: Array<(
@@ -364,21 +368,21 @@ export type ClassementJoueurQuery = { classementJoueur: Array<(
     & { joueur: Pick<JoueurDto, 'id' | 'nom' | 'prenom'> }
   )> };
 
-export type EquipeMutationVariables = {
+export type EquipeMutationVariables = Exact<{
   equipe: EquipeDtoInput;
-};
+}>;
 
 
 export type EquipeMutation = { equipe: Pick<EquipeDto, 'id' | 'nom'> };
 
-export type DeleteEquipeMutationVariables = {
+export type DeleteEquipeMutationVariables = Exact<{
   id: Scalars['Int'];
-};
+}>;
 
 
 export type DeleteEquipeMutation = { deleteEquipe: Pick<EquipeDto, 'id' | 'nom'> };
 
-export type EquipesQueryVariables = {};
+export type EquipesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type EquipesQuery = { equipes: Array<(
@@ -386,9 +390,9 @@ export type EquipesQuery = { equipes: Array<(
     & { championnat: Maybe<Pick<ChampionnatDto, 'id' | 'nom'>> }
   )> };
 
-export type EquipesOfChampionnatQueryVariables = {
+export type EquipesOfChampionnatQueryVariables = Exact<{
   championnatId: Scalars['Int'];
-};
+}>;
 
 
 export type EquipesOfChampionnatQuery = { equipesOfChampionnat: Array<Pick<EquipeDto, 'id' | 'nom'>> };
@@ -400,29 +404,29 @@ export type JoueurFragment = (
   & { equipe: Maybe<Pick<EquipeDto, 'id' | 'nom'>> }
 );
 
-export type JoueurMutationVariables = {
+export type JoueurMutationVariables = Exact<{
   joueur: JoueurDtoInput;
-};
+}>;
 
 
 export type JoueurMutation = { joueur: Pick<JoueurDto, 'id' | 'nom'> };
 
-export type DeleteJoueurMutationVariables = {
+export type DeleteJoueurMutationVariables = Exact<{
   id: Scalars['Int'];
-};
+}>;
 
 
 export type DeleteJoueurMutation = { deleteJoueur: Pick<JoueurDto, 'id' | 'nom'> };
 
-export type TransfertMutationVariables = {
+export type TransfertMutationVariables = Exact<{
   joueurIds: Array<Scalars['Int']>;
   equipeId: Maybe<Scalars['Int']>;
-};
+}>;
 
 
 export type TransfertMutation = { transfert: Array<Pick<JoueurDto, 'id' | 'nom'>> };
 
-export type JoueursQueryVariables = {};
+export type JoueursQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type JoueursQuery = { joueurs: Array<(
@@ -430,16 +434,16 @@ export type JoueursQuery = { joueurs: Array<(
     & { equipe: Maybe<Pick<EquipeDto, 'id' | 'nom'>> }
   )> };
 
-export type JoueursByEquipeQueryVariables = {
+export type JoueursByEquipeQueryVariables = Exact<{
   equipeId: Maybe<Scalars['Int']>;
-};
+}>;
 
 
 export type JoueursByEquipeQuery = { joueursByEquipe: Array<JoueurWithoutEquipeFragment> };
 
-export type MatchMutationVariables = {
+export type MatchMutationVariables = Exact<{
   match: MatchDtoInput;
-};
+}>;
 
 
 export type MatchMutation = { match: (
@@ -447,9 +451,9 @@ export type MatchMutation = { match: (
     & { domicile: Pick<EquipeDto, 'id' | 'nom'>, exterieur: Pick<EquipeDto, 'id' | 'nom'> }
   ) };
 
-export type MatchsByEquipeAndCurrentSaisonQueryVariables = {
+export type MatchsByEquipeAndCurrentSaisonQueryVariables = Exact<{
   equipeId: Scalars['Int'];
-};
+}>;
 
 
 export type MatchsByEquipeAndCurrentSaisonQuery = { matchsByEquipeAndCurrentSaison: Array<(
@@ -462,6 +466,11 @@ export type MatchsByEquipeAndCurrentSaisonQuery = { matchsByEquipeAndCurrentSais
       ) }
     )> }
   )> };
+
+export type UpQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type UpQuery = Pick<Query, 'up'>;
 
 export const JoueurWithoutEquipeFragmentDoc = gql`
     fragment JoueurWithoutEquipe on JoueurDto {
@@ -935,5 +944,18 @@ export const MatchsByEquipeAndCurrentSaisonDocument = gql`
   })
   export class MatchsByEquipeAndCurrentSaisonGQL extends Apollo.Query<MatchsByEquipeAndCurrentSaisonQuery, MatchsByEquipeAndCurrentSaisonQueryVariables> {
     document = MatchsByEquipeAndCurrentSaisonDocument;
+    
+  }
+export const UpDocument = gql`
+    query up {
+  up
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class UpGQL extends Apollo.Query<UpQuery, UpQueryVariables> {
+    document = UpDocument;
     
   }

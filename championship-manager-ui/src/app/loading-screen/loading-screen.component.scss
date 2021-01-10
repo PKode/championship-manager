@@ -1,0 +1,10 @@
+.div-loading-logo {
+  width: 100%;
+}
+
+.img-loading-logo {
+  position: fixed; /* or absolute */
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}

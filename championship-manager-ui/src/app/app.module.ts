@@ -25,6 +25,7 @@ import {
 } from "@angular/material-moment-adapter";
 import {JoueurModule} from "./joueur/joueur.module";
 import {TransfertModule} from "./transfert/transfert.module";
+import {LoadingScreenModule} from "./loading-screen/loading-screen.module";
 
 @NgModule({
   declarations: [
@@ -32,24 +33,25 @@ import {TransfertModule} from "./transfert/transfert.module";
     SidenavComponent,
     ConfirmDialogComponent
   ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    BrowserAnimationsModule,
-    LayoutModule,
-    GraphQLModule,
-    HttpClientModule,
-    ChampionnatModule,
-    EquipeModule,
-    JoueurModule,
-    TransfertModule,
-    MatDialogModule,
-    MatButtonModule,
-    MatSidenavModule,
-    MatToolbarModule,
-    MatListModule,
-    MatIconModule
-  ],
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        BrowserAnimationsModule,
+        LayoutModule,
+        GraphQLModule,
+        HttpClientModule,
+        ChampionnatModule,
+        EquipeModule,
+        JoueurModule,
+        TransfertModule,
+        MatDialogModule,
+        MatButtonModule,
+        MatSidenavModule,
+        MatToolbarModule,
+        MatListModule,
+        MatIconModule,
+        LoadingScreenModule
+    ],
   providers: [{provide: MAT_DATE_LOCALE, useValue: 'fr'},
 
     // `MomentDateAdapter` and `MAT_MOMENT_DATE_FORMATS` can be automatically provided by importing
