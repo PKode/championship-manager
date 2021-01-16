@@ -29,5 +29,6 @@
         <infra.version>${project.version}</infra.version>
         <application.version>${project.version}</application.version>
         <graphql.version>3.6.7</graphql.version>
+        <poi.version>4.1.2</poi.version>
     </properties>
 </project>

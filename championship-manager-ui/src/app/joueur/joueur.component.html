@@ -1,4 +1,9 @@
 <div class="add-button-row">
-  <button mat-raised-button color="primary" (click)="add()"> + Ajouter</button>
+  <div>
+    <button mat-raised-button color="primary" (click)="add()" style="margin-right: 1%"> + Ajouter</button>
+    <input #fileInput hidden="true" type="file" onclick="this.value=null" (change)="upload($event)"/>
+    <button mat-flat-button color="primary" (click)="fileInput.click()">Import joueurs</button>
+  </div>
 </div>
+
 <app-joueur-list></app-joueur-list>

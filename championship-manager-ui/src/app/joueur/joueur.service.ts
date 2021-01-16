@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {
-  DeleteJoueurGQL,
+  DeleteJoueurGQL, JoueurDto,
   JoueurDtoInput,
   JoueurGQL,
   JoueursByEquipeGQL,
@@ -9,6 +9,8 @@ import {
 } from "../generated/graphql";
 import {pluck} from "rxjs/operators";
 import {PureQueryOptions} from "apollo-client";
+import {HttpClient} from "@angular/common/http";
+import {environment} from "../../environments/environment";
 
 @Injectable({
   providedIn: 'root'
@@ -19,7 +21,8 @@ export class JoueurService {
               private joueursByEquipeQuery: JoueursByEquipeGQL,
               private joueurMutation: JoueurGQL,
               private deleteJoueurMutation: DeleteJoueurGQL,
-              private transfertMutation: TransfertGQL) {
+              private transfertMutation: TransfertGQL,
+              private http: HttpClient) {
   }
 
   getAllJoueurs() {
@@ -69,5 +72,11 @@ export class JoueurService {
         ]
       }
     ).subscribe();
+  }
+
+  upload(file: File) {
+    let data = new FormData()
+    data.append('file', file, file.name)
+    return this.http.post<JoueurDto>(environment.uploadUri + '/joueur', data)
   }
 }
