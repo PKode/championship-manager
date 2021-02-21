@@ -12,7 +12,7 @@ internal class ExcelFileParserTest {
     private val parser = ExcelFileParser()
 
     @Test
-    fun `doit mapper un file part en une liste de championnat`() {
+    fun `doit mapper un file part en une liste de joueurs`() {
         val expected = listOf(
                 Joueur(null, "Abardonado", "Jacques", "D", "France", LocalDate.of(1978, 5, 27), 183, 76),
                 Joueur(null, "Abdessadki", "Yacine", "M", "France", LocalDate.of(1981, 1, 1), 178, 71),
@@ -22,7 +22,22 @@ internal class ExcelFileParserTest {
 
         val extractChampionnat = parser.parseToJoueur(file.inputStream())
 
-        Assertions.assertThat(extractChampionnat).usingRecursiveComparison()
+        Assertions.assertThat(extractChampionnat.right()).usingRecursiveComparison()
+                .isEqualTo(expected)
+    }
+
+    @Test
+    fun `doit parser le fichier et remonter la liste des erreurs de parsing presentes`() {
+        val expected = listOf(
+                Joueur(null, "Abardonado", "Jacques", "D", "France", LocalDate.of(1978, 5, 27), 183, 76),
+                Joueur(null, "Abdessadki", "Yacine", "M", "France", LocalDate.of(1981, 1, 1), 178, 71),
+                Joueur(null, "Abidal", "Eric", "D", "France", LocalDate.of(1979, 9, 11), 187, 80)
+        )
+        val file = File("src/test/resources/Pros.xls")
+
+        val extractChampionnat = parser.parseToJoueur(file.inputStream())
+
+        Assertions.assertThat(extractChampionnat.right()).usingRecursiveComparison()
                 .isEqualTo(expected)
     }
 }

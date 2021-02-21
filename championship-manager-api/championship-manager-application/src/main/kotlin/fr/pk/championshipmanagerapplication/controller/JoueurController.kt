@@ -1,7 +1,11 @@
 package fr.pk.championshipmanagerapplication.controller
 
+import fr.pk.championshipmanagerapplication.Either
 import fr.pk.championshipmanagerapplication.dto.JoueurDto
+import fr.pk.championshipmanagerapplication.flatMap
+import fr.pk.championshipmanagerapplication.parser.ApplicationError
 import fr.pk.championshipmanagerapplication.parser.FileParser
+import fr.pk.championshipmanagerapplication.right
 import fr.pk.championshipmanagerdomain.joueur.port.JoueurService
 import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
@@ -11,7 +15,9 @@ import org.springframework.web.bind.annotation.RequestPart
 import org.springframework.web.bind.annotation.ResponseStatus
 import org.springframework.web.bind.annotation.RestController
 import reactor.core.publisher.Flux
+import reactor.core.publisher.Mono
 import reactor.kotlin.core.publisher.toFlux
+import reactor.kotlin.core.publisher.toMono
 
 
 @RestController
@@ -22,13 +28,12 @@ class JoueurController(private val joueurService: JoueurService,
             consumes = [MediaType.MULTIPART_FORM_DATA_VALUE],
             produces = [MediaType.APPLICATION_JSON_VALUE])
     @ResponseStatus(value = HttpStatus.OK)
-    fun upload(@RequestPart("file") file: FilePart): Flux<List<JoueurDto>> {
+    fun upload(@RequestPart("file") file: FilePart): Mono<List<Either<ApplicationError, JoueurDto>>> {
         return file.content()
                 .map { data ->
                     filesParser[file.filename()].parseToJoueur(data.asInputStream())
-                            .map { joueurService.createOrEdit(it) }
-                            .map { JoueurDto(it) }
-                }.toFlux()
+                            .flatMap { joueur -> JoueurDto(joueurService.createOrEdit(joueur)).right() }
+                }.toMono()
     }
 }
 

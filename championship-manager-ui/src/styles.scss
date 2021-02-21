@@ -251,3 +251,22 @@ $altTheme: mat-dark-theme($theme-primary, $theme-accent, $theme-warn);
 .add-button-row {
   margin: 1%;
 }
+
+.green-snackbar {
+  background: $primary-color;
+  color: white;
+}
+.green-snackbar button {
+  background-color: $primary-color;
+  color: white;
+  border: none;
+}
+.red-snackbar {
+  background: #ff0000;
+  color: white;
+}
+.red-snackbar button {
+  background-color: #ff0000;
+  color: white !important;
+  border: none;
+}

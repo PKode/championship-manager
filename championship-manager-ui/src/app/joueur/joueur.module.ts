@@ -14,27 +14,30 @@ import {MatCardModule} from '@angular/material/card';
 import {ReactiveFormsModule} from '@angular/forms';
 import {MatDatepickerModule} from "@angular/material/datepicker";
 import {MatIconModule} from "@angular/material/icon";
+import {MatSnackBarModule} from "@angular/material/snack-bar";
 
 
 // @ts-ignore
 @NgModule({
-    declarations: [JoueurComponent, JoueurListComponent, JoueurFormComponent],
-    exports: [
-        JoueurListComponent
-    ],
-    imports: [
-        CommonModule,
-        MatTableModule,
-        MatPaginatorModule,
-        MatSortModule,
-        MatButtonModule,
-        MatInputModule,
-        MatSelectModule,
-        MatRadioModule,
-        MatCardModule,
-        ReactiveFormsModule,
-        MatDatepickerModule,
-        MatIconModule
-    ]
+  declarations: [JoueurComponent, JoueurListComponent, JoueurFormComponent],
+  exports: [
+    JoueurListComponent
+  ],
+  imports: [
+    CommonModule,
+    MatTableModule,
+    MatPaginatorModule,
+    MatSortModule,
+    MatButtonModule,
+    MatInputModule,
+    MatSelectModule,
+    MatRadioModule,
+    MatCardModule,
+    ReactiveFormsModule,
+    MatDatepickerModule,
+    MatIconModule,
+    MatSnackBarModule
+  ]
 })
-export class JoueurModule { }
+export class JoueurModule {
+}

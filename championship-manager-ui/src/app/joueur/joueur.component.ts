@@ -2,7 +2,8 @@ import {Component, OnInit} from '@angular/core';
 import {JoueurFormComponent} from "./joueur-form/joueur-form.component";
 import {MatDialog} from "@angular/material/dialog";
 import {JoueurService} from "./joueur.service";
-import {JoueursGQL, JoueursQuery} from "../generated/graphql";
+import {JoueursGQL} from "../generated/graphql";
+import {MatSnackBar} from "@angular/material/snack-bar";
 
 @Component({
   selector: 'app-joueur',
@@ -13,7 +14,8 @@ export class JoueurComponent implements OnInit {
 
   constructor(private dialog: MatDialog,
               private joueurService: JoueurService,
-              private joueurQuery: JoueursGQL) {
+              private joueurQuery: JoueursGQL,
+              private snackBar: MatSnackBar) {
   }
 
   ngOnInit(): void {
@@ -30,6 +32,33 @@ export class JoueurComponent implements OnInit {
   }
 
   upload($event: any) {
-    this.joueurService.upload($event.target.files[0]).subscribe(data => this.joueurQuery.watch().refetch())
+    this.joueurService.upload($event.target.files[0]).subscribe(data => {
+        let errors = data.filter(e => e.left !== undefined)
+          .map(e => e.left);
+        if (errors.length > 0) {
+          this.openErroSnackBar(errors)
+        } else {
+          this.openSuccessSnackBar(data.length);
+          this.joueurQuery.watch().refetch();
+        }
+      }
+    )
+  }
+
+  private openErroSnackBar(errors: Error[]) {
+    this.snackBar.open("Error lors de l'import des joueurs", "Plus d'infos", {
+      duration: 2000,
+      verticalPosition: 'top',
+      panelClass: ['red-snackbar']
+    })
+  }
+
+  private openSuccessSnackBar(nbImports: number) {
+    this.snackBar.open(nbImports + " joueurs importés", "OK", {
+      duration: 2000,
+      verticalPosition: 'top',
+      politeness: 'assertive',
+      panelClass: ['green-snackbar']
+    })
   }
 }
