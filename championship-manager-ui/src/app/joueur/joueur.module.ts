@@ -1,6 +1,6 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {JoueurComponent} from './joueur.component';
+import {ErrorViewerBottomSheet, JoueurComponent} from './joueur.component';
 import {MatTableModule} from '@angular/material/table';
 import {MatPaginatorModule} from '@angular/material/paginator';
 import {MatSortModule} from '@angular/material/sort';
@@ -15,11 +15,13 @@ import {ReactiveFormsModule} from '@angular/forms';
 import {MatDatepickerModule} from "@angular/material/datepicker";
 import {MatIconModule} from "@angular/material/icon";
 import {MatSnackBarModule} from "@angular/material/snack-bar";
+import {MatBottomSheetModule} from "@angular/material/bottom-sheet";
+import {MatListModule} from "@angular/material/list";
 
 
 // @ts-ignore
 @NgModule({
-  declarations: [JoueurComponent, JoueurListComponent, JoueurFormComponent],
+  declarations: [JoueurComponent, JoueurListComponent, JoueurFormComponent, ErrorViewerBottomSheet],
   exports: [
     JoueurListComponent
   ],
@@ -36,7 +38,9 @@ import {MatSnackBarModule} from "@angular/material/snack-bar";
     ReactiveFormsModule,
     MatDatepickerModule,
     MatIconModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    MatBottomSheetModule,
+    MatListModule
   ]
 })
 export class JoueurModule {
